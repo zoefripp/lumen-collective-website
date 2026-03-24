@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/zoefripp/**)",
+      "Bash(npx create-next-app@14 lumen-temp --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3001/)",
+      "Bash(curl -s -o /dev/null -w \" %{http_code}\" http://localhost:3001/favicon.ico)",
+      "Bash(curl -s -o /dev/null -w \" %{http_code}\" \"http://localhost:3001/Logo%20-%20Variant.png\")",
+      "Bash(kill %1)",
+      "Bash(npx tsc:*)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}
