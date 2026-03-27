@@ -13,7 +13,7 @@ const team = [
     title: "Support Coordinator",
     email: "ashlee.fripp@lumencollective.com.au",
     initial: "A",
-    bio: "Ashlee is our admin extraordinaire, always ten steps ahead and the kind of organised that makes the rest of us look like we're winging it (we are). With a background in medical administration and nursing, Ashlee found her calling in Support Coordination because she genuinely loves walking alongside participants across every stage of their journey. She supports participants across the Greater Sydney region and offers remote Support Coordination across NSW, QLD, and VIC, with deep expertise in complex medical needs, hospital discharges, and working across the full lifespan. Whether it's maximising every dollar of your plan, navigating a reassessment, coordinating a multidisciplinary team, or connecting you with the right providers, Ashlee has it handled.",
+    bio: "Ashlee is our admin extraordinaire, always ten steps ahead and the kind of organised that makes the rest of us look like we're winging it. With a background in medical administration and nursing, Ashlee found her calling in Support Coordination because she genuinely loves walking alongside participants across every stage of their journey. Whether it's maximising every dollar of your plan, navigating a reassessment, coordinating a multidisciplinary team, or connecting you with the right providers, Ashlee has it handled. She has deep expertise in complex medical needs, hospital discharges, and working across the full lifespan. Ashlee supports participants across the Greater Sydney region and offers remote Support Coordination across NSW, QLD, and VIC.",
   },
   {
     name: "Zoe Fripp",
