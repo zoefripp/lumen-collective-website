@@ -1,0 +1,72 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "pass.com.lumencollective.businesscard",
+  "serialNumber": "ZF-BC-001",
+  "teamIdentifier": "YOUR_TEAM_ID",
+  "organizationName": "Lumen Collective",
+  "description": "Zoe Fripp — Business Card",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "backgroundColor": "rgb(42, 122, 112)",
+  "labelColor": "rgb(178, 220, 215)",
+  "generic": {
+    "headerFields": [],
+    "primaryFields": [
+      {
+        "key": "name",
+        "value": "Zoe Fripp"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "title",
+        "label": "",
+        "value": "Specialist Support Coordinator\nYouth Development Specialist"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "phone",
+        "label": "PHONE",
+        "value": "0452 278 055"
+      },
+      {
+        "key": "email",
+        "label": "EMAIL",
+        "value": "zoe.fripp@lumencollective.com.au"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "phone_back",
+        "label": "MOBILE",
+        "value": "0452 278 055",
+        "attributedValue": "<a href='tel:+61452278055'>0452 278 055</a>"
+      },
+      {
+        "key": "email_back",
+        "label": "EMAIL",
+        "value": "zoe.fripp@lumencollective.com.au",
+        "attributedValue": "<a href='mailto:zoe.fripp@lumencollective.com.au'>zoe.fripp@lumencollective.com.au</a>"
+      },
+      {
+        "key": "website",
+        "label": "WEBSITE",
+        "value": "lumencollective.com.au",
+        "attributedValue": "<a href='https://lumencollective.com.au'>lumencollective.com.au</a>"
+      },
+      {
+        "key": "instructions",
+        "label": "SAVE CONTACT",
+        "value": "Scan the QR code to add Zoe's details directly to your contacts."
+      }
+    ]
+  },
+  "barcodes": [
+    {
+      "message": "BEGIN:VCARD\nVERSION:3.0\nFN:Zoe Fripp\nN:Fripp;Zoe;;;\nORG:Lumen Collective\nTITLE:Specialist Support Coordinator / Youth Development Specialist\nTEL;TYPE=CELL:+61452278055\nEMAIL:zoe.fripp@lumencollective.com.au\nURL:https://lumencollective.com.au\nEND:VCARD",
+      "format": "PKBarcodeFormatQR",
+      "messageEncoding": "iso-8859-1",
+      "altText": "Scan to save contact"
+    }
+  ]
+}

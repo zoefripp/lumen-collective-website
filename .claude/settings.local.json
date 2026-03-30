@@ -10,7 +10,12 @@
       "Bash(curl -s -o /dev/null -w \" %{http_code}\" \"http://localhost:3001/Logo%20-%20Variant.png\")",
       "Bash(kill %1)",
       "Bash(npx tsc:*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(node generate-pass.js)",
+      "Bash(python3 -c \"import zipfile, json; z=zipfile.ZipFile\\(''zoe-fripp.pkpass''\\); print\\(''Files:'', z.namelist\\(\\)\\); p=json.loads\\(z.read\\(''pass.json''\\)\\); print\\(''Name:'', p[''generic''][''primaryFields''][0][''value'']\\); print\\(''BG:'', p[''backgroundColor'']\\)\")"
     ]
   }
 }

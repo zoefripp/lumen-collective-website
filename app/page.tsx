@@ -6,6 +6,56 @@ export const metadata: Metadata = {
   title: "Lumen Collective | NDIS Support Coordination Sydney",
   description:
     "Expert NDIS Support Coordination for participants across Sydney and remotely throughout NSW, QLD and VIC. Level 2, Level 3, and Psychosocial Recovery Coaching.",
+  alternates: {
+    canonical: "https://www.lumencollective.com.au",
+  },
+};
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Lumen Collective",
+  description:
+    "NDIS Support Coordination collective providing Level 2, Level 3 and Psychosocial Recovery Coaching across Sydney, the Sutherland Shire and the Illawarra.",
+  url: "https://www.lumencollective.com.au",
+  telephone: "0452278055",
+  email: "admin@lumencollective.com.au",
+  areaServed: [
+    { "@type": "City", name: "Sydney" },
+    { "@type": "AdministrativeArea", name: "Sutherland Shire" },
+    { "@type": "AdministrativeArea", name: "Illawarra" },
+    { "@type": "State", name: "New South Wales" },
+    { "@type": "State", name: "Queensland" },
+    { "@type": "State", name: "Victoria" },
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "NDIS Support Services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Support Coordination Level 2",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Specialist Support Coordination Level 3",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Psychosocial Recovery Coaching",
+        },
+      },
+    ],
+  },
+  sameAs: ["https://www.facebook.com/LumenCollective/"],
 };
 
 const services = [
@@ -101,6 +151,11 @@ const values = [
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+
       {/* Hero */}
       <section className="bg-offwhite py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,7 +164,7 @@ export default function Home() {
             <div className="bg-[#1a6b6b] rounded-2xl px-10 py-6">
               <Image
                 src="/logo-trimmed.png"
-                alt="Lumen Collective"
+                alt="Lumen Collective logo"
                 width={678}
                 height={174}
                 className="h-14 w-auto"
@@ -178,6 +233,73 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Areas We Service */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-semibold text-charcoal mb-4 text-center">
+            Areas We Service
+          </h2>
+          <p className="text-muted text-center max-w-2xl mx-auto mb-10 leading-relaxed">
+            Lumen Collective provides in-person NDIS Support Coordination across
+            Sydney, the Sutherland Shire and the Illawarra. We also offer remote
+            Support Coordination to participants throughout NSW, QLD and VIC.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Link
+              href="/blog/support-coordination-sydney"
+              className="group bg-offwhite rounded-xl p-6 border border-gray-100 hover:border-[#1a6b6b] transition-colors duration-150"
+            >
+              <div className="w-10 h-10 rounded-full bg-[#1a6b6b]/10 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-[#1a6b6b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-charcoal mb-1 group-hover:text-[#1a6b6b] transition-colors">Sydney</h3>
+              <p className="text-sm text-muted leading-relaxed">In-person across Greater Sydney</p>
+            </Link>
+
+            <Link
+              href="/ndis-support-coordination-sutherland-shire"
+              className="group bg-offwhite rounded-xl p-6 border border-gray-100 hover:border-[#1a6b6b] transition-colors duration-150"
+            >
+              <div className="w-10 h-10 rounded-full bg-[#1a6b6b]/10 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-[#1a6b6b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-charcoal mb-1 group-hover:text-[#1a6b6b] transition-colors">Sutherland Shire</h3>
+              <p className="text-sm text-muted leading-relaxed">In-person across Cronulla, Miranda, Caringbah and surrounds</p>
+            </Link>
+
+            <Link
+              href="/ndis-support-coordination-illawarra"
+              className="group bg-offwhite rounded-xl p-6 border border-gray-100 hover:border-[#1a6b6b] transition-colors duration-150"
+            >
+              <div className="w-10 h-10 rounded-full bg-[#1a6b6b]/10 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-[#1a6b6b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-charcoal mb-1 group-hover:text-[#1a6b6b] transition-colors">Illawarra</h3>
+              <p className="text-sm text-muted leading-relaxed">In-person across Wollongong, Shellharbour, Kiama and surrounds</p>
+            </Link>
+
+            <div className="bg-offwhite rounded-xl p-6 border border-gray-100">
+              <div className="w-10 h-10 rounded-full bg-[#1a6b6b]/10 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-[#1a6b6b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-charcoal mb-1">Remote</h3>
+              <p className="text-sm text-muted leading-relaxed">NSW, QLD and VIC</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Bottom CTA */}
       <section className="bg-[#1a6b6b] py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -185,7 +307,7 @@ export default function Home() {
           <div className="flex justify-center mb-8">
             <Image
               src="/logo-trimmed.png"
-              alt="Lumen Collective"
+              alt="Lumen Collective logo"
               width={678}
               height={174}
               className="h-10 w-auto"

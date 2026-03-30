@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Meet the Team",
+  title: "Meet Our NDIS Support Coordination Team",
   description:
-    "Meet the Lumen Collective team — a small group of Support Coordinators and admin staff supporting NDIS participants across Sydney, NSW, QLD and VIC.",
+    "Meet the Lumen Collective team — NDIS Support Coordinators supporting participants across Sydney, Sutherland Shire and Illawarra.",
+  alternates: {
+    canonical: "https://www.lumencollective.com.au/our-team",
+  },
 };
 
 const team = [

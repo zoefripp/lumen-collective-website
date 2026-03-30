@@ -1,0 +1,17 @@
+{
+  "name": "lumen-wallet-card",
+  "version": "1.0.0",
+  "description": "Apple Wallet digital business card for Zoe Fripp — Lumen Collective",
+  "scripts": {
+    "setup": "node create-placeholders.js",
+    "generate": "node generate-pass.js",
+    "serve": "node server.js",
+    "build": "npm run setup && npm run generate"
+  },
+  "dependencies": {
+    "archiver": "^6.0.1",
+    "express": "^4.18.2",
+    "node-forge": "^1.3.1",
+    "sharp": "^0.33.1"
+  }
+}

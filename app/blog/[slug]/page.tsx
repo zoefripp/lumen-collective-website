@@ -12,8 +12,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug);
   if (!post) return {};
   return {
-    title: `${post.title} | Lumen Collective`,
+    // Task 1: title only — layout template appends "| Lumen Collective" once
+    title: post.title,
     description: post.excerpt,
+    alternates: {
+      canonical: `https://www.lumencollective.com.au/blog/${params.slug}`,
+    },
   };
 }
 
@@ -31,6 +35,8 @@ function formatDate(dateString: string) {
   });
 }
 
+const BASE_URL = "https://www.lumencollective.com.au";
+
 export default function BlogPostPage({ params }: Props) {
   const post = getPostBySlug(params.slug);
 
@@ -38,8 +44,27 @@ export default function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    author: { "@type": "Organization", name: "Lumen Collective" },
+    publisher: {
+      "@type": "Organization",
+      name: "Lumen Collective",
+      url: BASE_URL,
+    },
+    datePublished: post.date,
+    url: `${BASE_URL}/blog/${params.slug}`,
+  };
+
   return (
     <div className="bg-offwhite min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <div className="max-w-[700px] mx-auto px-6 py-12 md:py-16">
 
         {/* Back link */}

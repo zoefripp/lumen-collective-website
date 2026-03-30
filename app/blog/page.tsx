@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Blog | NDIS Insights & Guides",
   description:
     "Practical guides and insights about the NDIS, support coordination, and navigating disability services from the team at Lumen Collective.",
+  alternates: {
+    canonical: "https://www.lumencollective.com.au/blog",
+  },
 };
 
 function formatDate(dateString: string) {

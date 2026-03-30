@@ -19,6 +19,12 @@ export default function Footer() {
               About
             </Link>
             <Link
+              href="/our-team"
+              className="text-sm text-gray-300 hover:text-white transition-colors duration-150"
+            >
+              Team
+            </Link>
+            <Link
               href="/blog"
               className="text-sm text-gray-300 hover:text-white transition-colors duration-150"
             >
@@ -30,13 +36,26 @@ export default function Footer() {
             >
               Contact
             </Link>
+            <Link
+              href="/ndis-support-coordination-sutherland-shire"
+              className="text-sm text-gray-300 hover:text-white transition-colors duration-150"
+            >
+              Sutherland Shire
+            </Link>
+            <Link
+              href="/ndis-support-coordination-illawarra"
+              className="text-sm text-gray-300 hover:text-white transition-colors duration-150"
+            >
+              Illawarra
+            </Link>
           </div>
         </div>
 
         <div className="mt-6 pt-6 border-t border-gray-700">
           <p className="text-xs text-gray-500">
             Lumen Collective is a registered NDIS provider. Supporting
-            participants across Sydney, NSW, QLD and VIC.
+            participants across Sydney, the Sutherland Shire, the Illawarra,
+            NSW, QLD and VIC.
           </p>
         </div>
       </div>
