@@ -53,9 +53,9 @@ export default function Footer() {
 
         <div className="mt-6 pt-6 border-t border-gray-700">
           <p className="text-xs text-gray-500">
-            Lumen Collective is a registered NDIS provider. Supporting
-            participants across Sydney, the Sutherland Shire, the Illawarra,
-            NSW, QLD and VIC.
+            Lumen Collective provides NDIS Support Coordination services.
+            Supporting participants across Sydney, the Sutherland Shire, the
+            Illawarra, NSW, QLD and VIC.
           </p>
         </div>
       </div>
