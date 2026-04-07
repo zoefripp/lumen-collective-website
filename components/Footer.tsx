@@ -48,6 +48,12 @@ export default function Footer() {
             >
               Illawarra
             </Link>
+            <Link
+              href="/support-in-a-crisis"
+              className="text-sm text-gray-300 hover:text-white transition-colors duration-150"
+            >
+              Crisis Support
+            </Link>
           </div>
         </div>
 
