@@ -30,7 +30,7 @@ const team = [
     title: "Support Coordinator",
     email: "lorry.clark@lumencollective.com.au",
     initial: "L",
-    bio: "Lorry is our superstar when it comes to navigating the sometimes-overwhelming world of community and mainstream supports, and she makes it look effortless. With expansive knowledge of non-government organisations and a real talent for building strong, consistent support networks, Lorry's strengths shine in coordinating multidisciplinary teams across NDIS-funded, community, and mainstream services. She loves nothing more than getting out and about, offering in-person Support Coordination across the Illawarra and Newcastle regions, with remote SC available across NSW, VIC, and QLD.",
+    bio: "Lorry is our superstar when it comes to navigating the sometimes-overwhelming world of community and mainstream supports, and she makes it look effortless. With expansive knowledge of non-government organisations and a real talent for building strong, consistent support networks, Lorry's strengths shine in coordinating multidisciplinary teams across NDIS-funded, community, and mainstream services. She loves nothing more than getting out and about, offering in-person Support Coordination across the Illawarra and Southern Highlands, with remote SC available across NSW, VIC, and QLD.",
   },
 ];
 
