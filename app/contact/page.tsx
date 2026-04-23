@@ -17,7 +17,7 @@ export default function ContactPage() {
       <section className="py-16 md:py-20 bg-white border-b border-gray-100">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl md:text-4xl font-semibold text-charcoal mb-4">
-            Get in Touch
+            Contact Our NDIS Support Coordinators in Sydney
           </h1>
           <p className="text-lg text-muted">
             Whether you&apos;re ready to get started or just have questions,

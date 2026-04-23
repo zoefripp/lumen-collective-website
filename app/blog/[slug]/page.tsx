@@ -16,7 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.excerpt,
     alternates: {
-      canonical: `https://www.lumencollective.com.au/blog/${params.slug}`,
+      // Use frontmatter canonical if set (e.g. to point to a location page to avoid duplicate content)
+      canonical: post.canonical ?? `https://www.lumencollective.com.au/blog/${params.slug}`,
     },
   };
 }

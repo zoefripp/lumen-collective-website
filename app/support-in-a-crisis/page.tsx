@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Support in a Crisis",
+  title: "Crisis Support Resources for NDIS Participants",
   description:
     "A directory of crisis support services in Australia — including mental health, disability, family violence, and emergency contacts. Available to NDIS participants, carers, and families.",
   alternates: {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -32,6 +33,15 @@ export const metadata: Metadata = {
     siteName: "Lumen Collective",
     type: "website",
     locale: "en_AU",
+    // TODO: Replace og-image.jpg with a real branded 1200×630px image in /public
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Lumen Collective — NDIS Support Coordination",
+      },
+    ],
   },
 };
 
@@ -43,6 +53,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.variable}>
       <body className="font-poppins antialiased bg-offwhite text-charcoal">
+        {/* Google Analytics 4 — Replace G-XXXXXXXXXX with your real GA4 Measurement ID from analytics.google.com */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XXXXXXXXXX');
+          `}
+        </Script>
         <Navbar />
         <main>{children}</main>
         <Footer />

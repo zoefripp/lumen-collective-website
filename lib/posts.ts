@@ -9,6 +9,7 @@ export interface PostMeta {
   title: string;
   date: string;
   excerpt: string;
+  canonical?: string;
 }
 
 export interface Post extends PostMeta {
@@ -34,6 +35,7 @@ export function getAllPosts(): PostMeta[] {
         title: data.title as string,
         date: data.date as string,
         excerpt: data.excerpt as string,
+        ...(data.canonical ? { canonical: data.canonical as string } : {}),
       };
     });
 
@@ -59,6 +61,7 @@ export function getPostBySlug(slug: string): Post | null {
     date: data.date as string,
     excerpt: data.excerpt as string,
     content,
+    ...(data.canonical ? { canonical: data.canonical as string } : {}),
   };
 }
 

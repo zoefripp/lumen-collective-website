@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About Us | NDIS Support Coordination",
+  title: "About Lumen Collective | NDIS Support Coordinators Sydney",
   description:
     "Lumen Collective is a small, independent NDIS Support Coordination collective supporting participants across Sydney and remotely throughout NSW, QLD, and VIC.",
   alternates: {
