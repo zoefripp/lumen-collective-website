@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Meet Our NDIS Support Coordination Team",
+  title: "Meet Zoe Fripp | Specialist Support Coordinator | Lumen Collective",
   description:
-    "Meet the Lumen Collective team — NDIS Support Coordinators supporting participants across Sydney, Sutherland Shire and Illawarra.",
+    "Meet Zoe Fripp, Specialist Support Coordinator at Lumen Collective — supporting NDIS participants across Sydney, Sutherland Shire and Illawarra.",
   alternates: {
     canonical: "https://www.lumencollective.com.au/our-team",
   },
@@ -12,25 +12,11 @@ export const metadata: Metadata = {
 
 const team = [
   {
-    name: "Ashlee Fripp",
-    title: "Support Coordinator",
-    email: "ashlee.fripp@lumencollective.com.au",
-    initial: "A",
-    bio: "Ashlee is our admin extraordinaire, always ten steps ahead and the kind of organised that makes the rest of us look like we're winging it. With a background in medical administration and nursing, Ashlee found her calling in Support Coordination because she genuinely loves walking alongside participants across every stage of their journey. Whether it's maximising every dollar of your plan, navigating a reassessment, coordinating a multidisciplinary team, or connecting you with the right providers, Ashlee has it handled. She has deep expertise in complex medical needs, hospital discharges, and working across the full lifespan. Ashlee supports participants across the Greater Sydney region and offers remote Support Coordination across NSW, QLD, and VIC.",
-  },
-  {
     name: "Zoe Fripp",
-    title: "Admin & People Connector",
-    email: "admin@lumencollective.com.au",
+    title: "Specialist Support Coordinator",
+    email: "zoe.fripp@lumencollective.com.au",
     initial: "Z",
-    bio: "Zoe is the warm and welcoming first point of contact at Lumen Collective — she's the one who makes sure you land with the right Support Coordinator from the very start. As the face of our admin team, all your service agreements and documents flow through Zoe, and she has a genuine knack for making the paperwork side of things feel a whole lot less daunting. With a background in youth and community services, Zoe has a particular passion for working with children and young people. She brings a solid industry network and a real drive to connect participants with supports that actually mean something to them.",
-  },
-  {
-    name: "Lorry Clark",
-    title: "Support Coordinator",
-    email: "lorry.clark@lumencollective.com.au",
-    initial: "L",
-    bio: "Lorry is our superstar when it comes to navigating the sometimes-overwhelming world of community and mainstream supports, and she makes it look effortless. With expansive knowledge of non-government organisations and a real talent for building strong, consistent support networks, Lorry's strengths shine in coordinating multidisciplinary teams across NDIS-funded, community, and mainstream services. She loves nothing more than getting out and about, offering in-person Support Coordination across the Illawarra and Southern Highlands, with remote SC available across NSW, VIC, and QLD.",
+    bio: "Zoe brings warmth, genuine care, and a real talent for making people feel at ease from the very first conversation. With a background in youth and community services, she has a deep understanding of how overwhelming it can feel to navigate complex systems — and a genuine drive to make that experience simpler, clearer, and less daunting for the people she works with. As a Specialist Support Coordinator, Zoe's strengths lie in coordinating multidisciplinary teams across NDIS-funded, community, and mainstream services. With expansive knowledge of local non-government organisations, she is able to connect participants with supports that go well beyond their NDIS plan. Whether it's maximising every dollar of your funding, navigating a reassessment, or building a strong and consistent support network around you — Zoe has it handled. She is meticulous about the detail that matters without ever losing sight of the person at the centre of it all. Zoe supports participants across Sydney and remotely throughout NSW, QLD and VIC.",
   },
 ];
 
@@ -50,10 +36,10 @@ export default function OurTeamPage() {
         </div>
       </section>
 
-      {/* Team cards */}
+      {/* Team card */}
       <section className="py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 max-w-lg mx-auto gap-8">
             {team.map((member) => (
               <div
                 key={member.email}
