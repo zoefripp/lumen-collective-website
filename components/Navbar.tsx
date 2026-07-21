@@ -8,6 +8,7 @@ const navLinks = [
   { href: "/our-team", label: "Team" },
   { href: "/blog", label: "Blog" },
   { href: "/support-in-a-crisis", label: "Crisis Support" },
+  { href: "/referral", label: "Make a Referral", cta: true },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -53,20 +54,30 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors duration-150 ${
-                  pathname === link.href
-                    ? "text-white underline underline-offset-4"
-                    : "text-white/80 hover:text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center space-x-6">
+            {navLinks.map((link) =>
+              link.cta ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="bg-white text-[#1a6b6b] px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-white/90 transition-colors duration-150"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors duration-150 ${
+                    pathname === link.href
+                      ? "text-white underline underline-offset-4"
+                      : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </div>
 
           {/* Mobile hamburger */}
@@ -92,20 +103,31 @@ export default function Navbar() {
         {menuOpen && (
           <div className="md:hidden py-3 border-t border-white/20">
             <div className="flex flex-col space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={`px-2 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
-                    pathname === link.href
-                      ? "text-white bg-white/20"
-                      : "text-white/80 hover:text-white hover:bg-white/10"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) =>
+                link.cta ? (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="px-2 py-2 text-sm font-semibold rounded-md bg-white text-[#1a6b6b] hover:bg-white/90 transition-colors duration-150"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`px-2 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
+                      pathname === link.href
+                        ? "text-white bg-white/20"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
             </div>
           </div>
         )}
