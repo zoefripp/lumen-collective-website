@@ -144,13 +144,25 @@ export const smartGrow: FormDef = {
           id: "about_grow",
           type: "note",
           label: "What is the GROW model?",
-          text: `GROW is a simple four-step way to plan how you'll reach your goal:\n\n${lines(GROW_MEANING)}\n\nYour Goal (G) is the SMART goal you set in Part 1. Now we'll work through Reality, Options and Way forward.`,
+          text: `GROW is a simple four-step way to plan how you'll reach your goal:\n\n${lines(GROW_MEANING)}\n\nWe start with G: your Goal is the SMART goal you set in Part 1. Then we work through Reality, Options and Way forward.`,
           print: true,
         },
+      ],
+    },
+    {
+      title: "G: Goal",
+      intro: "Your goal is the SMART goal you wrote in Part 1. Read it out loud together before moving on.",
+      fields: [
         prompt(
           "p_grow",
-          "Read the SMART goal back to them before starting Part 2. If it shifts while you work through GROW, go back and update it in Part 1."
+          "Read their SMART goal back to them word for word. If it needs a change, scroll up and update it in Part 1 now, so the plan matches the goal."
         ),
+        {
+          id: "goal_check",
+          type: "choice",
+          label: "Reading your SMART goal back, does it still feel right?",
+          options: ["Yes, it feels right", "I've updated it in Part 1"],
+        },
       ],
     },
     {
