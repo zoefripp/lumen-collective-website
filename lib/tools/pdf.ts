@@ -1,6 +1,7 @@
 import { PDFDocument, PDFFont, PDFPage, StandardFonts, rgb } from "pdf-lib";
 import type { Answers, Details, FormDef, ScoreResult, Signatures } from "./types";
 import { formatDate } from "./scoring";
+import { wheelPng } from "./wheel";
 
 // Builds the completed-form PDF entirely in the browser.
 
@@ -191,6 +192,41 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     heading(section.title);
     for (const field of section.fields) {
       if (field.type === "note") continue; // on-screen prompts only
+
+      if (field.type === "wheel") {
+        const values = field.areas.map((area) => {
+          const value = answers[area.id];
+          return typeof value === "number" ? value : undefined;
+        });
+        const dataUrl = wheelPng(field.areas, values, field.max);
+        if (dataUrl) {
+          const image = await doc.embedPng(dataUrl);
+          const side = Math.min(CONTENT_WIDTH, 380);
+          ensureSpace(side + 8);
+          page.drawImage(image, { x: MARGIN + (CONTENT_WIDTH - side) / 2, y: y - side, width: side, height: side });
+          y -= side + 8;
+        }
+        for (let index = 0; index < field.areas.length; index++) {
+          const area = field.areas[index];
+          const value = values[index];
+          const size = 10.5;
+          ensureSpace(size * 1.4 + 3);
+          const top = y;
+          drawText(area.label, { size, width: CONTENT_WIDTH - 60 });
+          const text = value === undefined ? "Not marked" : `${value} / ${field.max}`;
+          const font = value === undefined ? regular : bold;
+          page.drawText(text, {
+            x: PAGE_WIDTH - MARGIN - font.widthOfTextAtSize(text, size),
+            y: top - size * 1.4 + size * 0.3,
+            size,
+            font,
+            color: value === undefined ? MUTED : CHARCOAL,
+          });
+          y -= 3;
+        }
+        y -= 6;
+        continue;
+      }
       const value = answers[field.id];
       let answer = "Not answered";
       if (field.type === "scale" && typeof value === "number") {

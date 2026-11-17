@@ -5,6 +5,12 @@ function scaleFields(form: FormDef): Record<string, ScaleField> {
   for (const section of form.sections) {
     for (const field of section.fields) {
       if (field.type === "scale") map[field.id] = field;
+      // Each wheel area behaves like its own 1..max rating.
+      if (field.type === "wheel") {
+        for (const area of field.areas) {
+          map[area.id] = { id: area.id, type: "scale", label: area.label, min: 1, max: field.max };
+        }
+      }
     }
   }
   return map;

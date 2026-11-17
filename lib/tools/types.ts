@@ -46,7 +46,16 @@ export type NoteField = {
   text: string;
 };
 
-export type Field = TextField | ChoiceField | MultiField | ScaleField | NoteField;
+export type WheelField = {
+  id: string;
+  type: "wheel"; // Wheel of Life: each area is marked 1..max and stored under its own id
+  label: string;
+  help?: string;
+  areas: { id: string; label: string }[];
+  max: number;
+};
+
+export type Field = TextField | ChoiceField | MultiField | ScaleField | NoteField | WheelField;
 
 export type Section = {
   title: string;
