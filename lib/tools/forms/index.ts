@@ -3,6 +3,7 @@ import { checkIn } from "./check-in";
 import { checkOut } from "./check-out";
 import { goalsActionPlan } from "./goals-action-plan";
 import { headsAssessment } from "./heads-assessment";
+import { lifeAuditValues } from "./life-audit-values";
 import { safetyWellnessPlan } from "./safety-wellness-plan";
 import { smartGrow } from "./smart-grow";
 import { thoughtRecord } from "./thought-record";
@@ -16,6 +17,7 @@ export const forms: FormDef[] = [
   checkOut,
   wheelOfLife,
   valuesBullseye,
+  lifeAuditValues,
   goalsActionPlan,
   smartGrow,
   safetyWellnessPlan,

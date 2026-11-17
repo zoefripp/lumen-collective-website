@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import SignaturePad from "./SignaturePad";
 import WheelInput from "./WheelInput";
+import ValuesPicker from "./ValuesPicker";
+import PairsInput from "./PairsInput";
 import { getForm } from "@/lib/tools/forms";
 import { computeScores, todayIso } from "@/lib/tools/scoring";
 import { buildPdf, pdfFilename, toBase64 } from "@/lib/tools/pdf";
@@ -322,6 +324,10 @@ export default function FormRunner({ slug }: { slug: string }) {
               >
                 {field.type === "wheel" ? (
                   <WheelInput field={field} answers={answers} onChange={setAnswer} />
+                ) : field.type === "values" ? (
+                  <ValuesPicker field={field} answers={answers} onChange={setAnswer} />
+                ) : field.type === "pairs" ? (
+                  <PairsInput field={field} answers={answers} onChange={setAnswer} />
                 ) : (
                   <FieldInput field={field} value={answers[field.id]} onChange={(value) => setAnswer(field.id, value)} />
                 )}
@@ -518,6 +524,8 @@ function FieldInput({
     }
     case "note":
     case "wheel":
+    case "values":
+    case "pairs":
       return null;
     case "scale": {
       const steps = Array.from({ length: field.max - field.min + 1 }, (_, index) => field.min + index);

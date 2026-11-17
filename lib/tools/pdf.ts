@@ -2,6 +2,7 @@ import { PDFDocument, PDFFont, PDFPage, StandardFonts, rgb } from "pdf-lib";
 import type { Answers, Details, FormDef, ScoreResult, Signatures } from "./types";
 import { formatDate } from "./scoring";
 import { wheelPng } from "./wheel";
+import { segmentCounts, valuesWheelPng } from "./values-wheel";
 
 // Builds the completed-form PDF entirely in the browser.
 
@@ -479,11 +480,31 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     await drawGoalMap();
   } else {
   // ---- Answers -----------------------------------------------------------
+  const pairKey = (id: string, row: number, column: number) => `${id}_${row + 1}_${column}`;
+  const isAnswered = (field: FormDef["sections"][number]["fields"][number]): boolean => {
+    if (field.type === "note") return Boolean(field.print);
+    if (field.type === "wheel") return field.areas.some((area) => typeof answers[area.id] === "number");
+    if (field.type === "pairs") {
+      return Array.from({ length: field.rows }, (_, row) => row).some((row) =>
+        [0, 1].some((column) => {
+          const value = answers[pairKey(field.id, row, column)];
+          return typeof value === "string" && value.trim() !== "";
+        })
+      );
+    }
+    const value = answers[field.id];
+    if (Array.isArray(value)) return value.length > 0;
+    if (typeof value === "number") return true;
+    return typeof value === "string" && value.trim() !== "";
+  };
+
   for (const section of form.sections) {
-    const printable = section.fields.filter((field) => field.type !== "note" || field.print);
-    if (!printable.length) continue; // a section of coach prompts only
-    heading(section.title, printable[0].type === "wheel" ? 440 : 60);
-    for (const field of section.fields) {
+    const printable = section.fields.filter((field) =>
+      form.hideEmpty ? isAnswered(field) : field.type !== "note" || field.print
+    );
+    if (!printable.length) continue; // a section of coach prompts only, or nothing answered
+    heading(section.title, printable[0].type === "wheel" || printable[0].type === "values" ? 440 : 60);
+    for (const field of printable) {
       if (field.type === "note") {
         if (!field.print) continue; // coach prompts stay on screen only
         const lines = wrap(field.text, regular, 10, CONTENT_WIDTH - 24);
@@ -532,6 +553,81 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
         y -= 6;
         continue;
       }
+      if (field.type === "values") {
+        const chosenList = Array.isArray(answers[field.id]) ? (answers[field.id] as string[]) : [];
+        const chosen = new Set(chosenList);
+        const dataUrl = valuesWheelPng(field, chosen);
+        if (dataUrl) {
+          const image = await doc.embedPng(dataUrl);
+          const side = Math.min(CONTENT_WIDTH, 400);
+          ensureSpace(side + 8);
+          page.drawImage(image, { x: MARGIN + (CONTENT_WIDTH - side) / 2, y: y - side, width: side, height: side });
+          y -= side + 12;
+        }
+        if (!chosenList.length) {
+          drawText("No values chosen.", { color: MUTED, gap: 6 });
+          continue;
+        }
+        const counts = segmentCounts(field, chosen);
+        drawText(`${chosenList.length} values chosen`, { font: bold, size: 10.5, color: TEAL, gap: 4 });
+        field.segments.forEach((segment, index) => {
+          const picked = field.categories
+            .filter((category) => category.segment === index)
+            .flatMap((category) => category.values)
+            .filter((value, position, all) => chosen.has(value) && all.indexOf(value) === position);
+          if (!picked.length) return;
+          ensureSpace(36);
+          drawText(`${segment.label} (${counts[index].chosen} of ${counts[index].total})`, {
+            font: bold,
+            size: 9.5,
+            color: MUTED,
+          });
+          drawText(picked.join(", "), { size: 10.5, gap: 6 });
+        });
+        y -= 4;
+        continue;
+      }
+
+      if (field.type === "pairs") {
+        const rows = Array.from({ length: field.rows }, (_, row) => {
+          const cell = (column: number) => {
+            const value = answers[pairKey(field.id, row, column)];
+            return typeof value === "string" ? value.trim() : "";
+          };
+          return [cell(0), cell(1)] as const;
+        }).filter(([a, b]) => a || b);
+        ensureSpace(48);
+        drawText(field.label, { font: bold, size: 9.5, color: MUTED, gap: 4 });
+        if (!rows.length) {
+          drawText("Not answered", { color: MUTED, gap: 7 });
+          continue;
+        }
+        const leftWidth = CONTENT_WIDTH * 0.36;
+        const rightX = MARGIN + leftWidth + 12;
+        const rightWidth = CONTENT_WIDTH - leftWidth - 12;
+        ensureSpace(20);
+        page.drawText(clean(field.columns[0].toUpperCase()), { x: MARGIN, y: y - 11, size: 8, font: bold, color: TEAL });
+        page.drawText(clean(field.columns[1].toUpperCase()), { x: rightX, y: y - 11, size: 8, font: bold, color: TEAL });
+        y -= 16;
+        for (const [left, right] of rows) {
+          const leftLines = wrap(left || "-", bold, 10.5, leftWidth - 6);
+          const rightLines = wrap(right || "-", regular, 10.5, rightWidth);
+          const rowHeight = Math.max(leftLines.length, rightLines.length) * 14.7 + 10;
+          ensureSpace(rowHeight + 2);
+          page.drawLine({ start: { x: MARGIN, y }, end: { x: PAGE_WIDTH - MARGIN, y }, thickness: 0.5, color: RULE });
+          leftLines.forEach((line, index) => {
+            page.drawText(line, { x: MARGIN, y: y - 15 - index * 14.7, size: 10.5, font: bold, color: CHARCOAL });
+          });
+          rightLines.forEach((line, index) => {
+            page.drawText(line, { x: rightX, y: y - 15 - index * 14.7, size: 10.5, font: regular, color: CHARCOAL });
+          });
+          y -= rowHeight;
+        }
+        page.drawLine({ start: { x: MARGIN, y }, end: { x: PAGE_WIDTH - MARGIN, y }, thickness: 0.5, color: RULE });
+        y -= 10;
+        continue;
+      }
+
       const value = answers[field.id];
       let answer = "Not answered";
       if (field.type === "scale" && typeof value === "number") {

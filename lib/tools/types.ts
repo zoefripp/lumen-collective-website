@@ -63,7 +63,34 @@ export type WheelField = {
   maxLabel?: string; // meaning of the highest value
 };
 
-export type Field = TextField | ChoiceField | MultiField | ScaleField | NoteField | WheelField;
+export type ValuesField = {
+  id: string;
+  type: "values"; // tap values from lists; a wheel of values fills in as they go
+  label: string;
+  help?: string;
+  groups: { label: string }[];
+  segments: { label: string; group: number }[];
+  categories: { name: string; goal: string; phrase?: string; values: string[]; segment: number }[];
+};
+
+export type PairsField = {
+  id: string;
+  type: "pairs"; // a two-column table, e.g. "My value" and "Why I value it"
+  label: string;
+  help?: string;
+  columns: [string, string];
+  rows: number;
+};
+
+export type Field =
+  | TextField
+  | ChoiceField
+  | MultiField
+  | ScaleField
+  | NoteField
+  | WheelField
+  | ValuesField
+  | PairsField;
 
 export type Section = {
   title: string;
@@ -126,6 +153,9 @@ export type FormDef = {
   // PDF layout. "goalMap" is a designed, participant-ready page for the
   // SMART and GROW form instead of the question-and-answer list.
   layout?: "standard" | "goalMap";
+  // Leave unanswered questions out of the PDF (for worksheets the
+  // participant keeps).
+  hideEmpty?: boolean;
 };
 
 // Details collected at the top of every form.
