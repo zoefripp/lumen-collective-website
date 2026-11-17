@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { TOOLS_COOKIE, TOOLS_COOKIE_MAX_AGE, passcodeToken } from "@/lib/tools/auth";
 
 export async function POST(request: Request) {
-  const expected = process.env.TOOLS_PASSCODE;
+  // Ignore stray spaces at either end, in the saved value or what was typed.
+  const expected = process.env.TOOLS_PASSCODE?.trim();
   if (!expected) {
     return NextResponse.json({ error: "not_configured" }, { status: 503 });
   }
@@ -10,7 +11,7 @@ export async function POST(request: Request) {
   let passcode = "";
   try {
     const body = await request.json();
-    passcode = typeof body?.passcode === "string" ? body.passcode : "";
+    passcode = typeof body?.passcode === "string" ? body.passcode.trim() : "";
   } catch {
     // fall through with an empty passcode
   }

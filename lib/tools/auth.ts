@@ -14,7 +14,7 @@ export async function passcodeToken(passcode: string): Promise<string> {
 }
 
 export async function isValidToolsCookie(value: string | undefined): Promise<boolean> {
-  const passcode = process.env.TOOLS_PASSCODE;
+  const passcode = process.env.TOOLS_PASSCODE?.trim();
   if (!passcode || !value) return false;
   return value === (await passcodeToken(passcode));
 }
