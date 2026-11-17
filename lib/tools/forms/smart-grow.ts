@@ -9,6 +9,28 @@ import { formatDate } from "../scoring";
 
 const STEPS = 3;
 
+// Plain-language meaning of each letter. Used on screen and in the PDF.
+export const SMART_MEANING: Record<string, string> = {
+  S: "Specific: clear about exactly what you'll do, where and with whom.",
+  M: "Measurable: you can see or count your progress, so you'll know when you've got there.",
+  A: "Achievable: realistic for you right now, with the time, energy and support you have.",
+  R: "Relevant: it matters to you and fits with your values and the life you want.",
+  T: "Time-bound: it has a date, which helps you plan and check in along the way.",
+};
+
+export const GROW_MEANING: Record<string, string> = {
+  G: "Goal: what you want to achieve.",
+  R: "Reality: where things are now, what has helped and what gets in the way.",
+  O: "Options: all the different ways you could move forward.",
+  W: "Way forward: the steps you'll take, when, and who can help.",
+};
+
+// "G – Goal: what you want to achieve." one per line, letter first.
+const lines = (meanings: Record<string, string>) =>
+  Object.entries(meanings)
+    .map(([letter, text]) => `${letter} – ${text}`)
+    .join("\n");
+
 const lifeAreas = [
   "Home and living",
   "Health and wellbeing",
@@ -30,29 +52,37 @@ export const smartGrow: FormDef = {
   slug: "smart-grow",
   title: "SMART Goal and GROW Plan",
   description:
-    "Shape one goal with SMART, then plan it with GROW. Allow a good part of the session. The PDF is a goal map you can share with the participant.",
+    "Part 1 sets a SMART goal; Part 2 plans it with GROW. Allow a good part of the session. The PDF is a goal map you can share with the participant.",
   layout: "goalMap",
   sections: [
+    // ---- Part 1: SMART goal ----------------------------------------------
     {
-      title: "Getting started",
+      title: "Part 1: Set your SMART goal",
       fields: [
         prompt(
           "p_start",
-          "Allow 30 to 40 minutes. This is their goal, in their words: your job is to ask, reflect back and help shape it. The PDF is written to be shared with them, so keep wording respectful and in their voice. Work on one goal at a time."
+          "Allow 30 to 40 minutes for both parts. Read the panel below together first. This is their goal, in their words: your job is to ask, reflect back and help shape it. The PDF is written to be shared with them, so keep wording respectful and in their voice. Work on one goal at a time."
         ),
+        {
+          id: "about_smart",
+          type: "note",
+          label: "What is a SMART goal?",
+          text: `A SMART goal is a goal written so clearly that you know exactly what to do and when you've done it. SMART stands for:\n\n${lines(SMART_MEANING)}`,
+          print: true,
+        },
         {
           id: "goal_raw",
           type: "textarea",
           label: "What would you like to work towards?",
-          help: "In your own words. It can be big or vague for now.",
+          help: "Start in your own words. It can be big or vague for now; we'll shape it next.",
           required: true,
         },
         { id: "area", type: "choice", label: "Which part of life is this about?", options: lifeAreas },
       ],
     },
     {
-      title: "Making it SMART",
-      intro: "Now let's shape it into a goal you can act on.",
+      title: "Making your goal SMART",
+      intro: "Now let's shape your goal so it's clear enough to act on, one letter at a time.",
       fields: [
         prompt(
           "p_smart",
@@ -61,20 +91,20 @@ export const smartGrow: FormDef = {
         {
           id: "specific",
           type: "textarea",
-          label: "Specific: what exactly will you do?",
-          help: "What, where, and with whom.",
+          label: "S – Specific: what exactly will you do?",
+          help: SMART_MEANING.S,
         },
         {
           id: "measurable",
           type: "textarea",
-          label: "Measurable: how will you know you've done it?",
-          help: "Something you could see, count or tick off.",
+          label: "M – Measurable: how will you know you've done it?",
+          help: SMART_MEANING.M,
         },
         {
           id: "achievable",
           type: "textarea",
-          label: "Achievable: what makes this doable for you right now?",
-          help: "Your strengths, time, energy and supports.",
+          label: "A – Achievable: what makes this doable for you right now?",
+          help: SMART_MEANING.A,
         },
         {
           id: "achievable_rating",
@@ -88,10 +118,10 @@ export const smartGrow: FormDef = {
         {
           id: "relevant",
           type: "textarea",
-          label: "Relevant: why does this matter to you?",
-          help: "How it connects to what you value or want for your life.",
+          label: "R – Relevant: why does this matter to you?",
+          help: SMART_MEANING.R,
         },
-        { id: "target_date", type: "date", label: "Time-bound: by when?" },
+        { id: "target_date", type: "date", label: "T – Time-bound: by when?", help: SMART_MEANING.T },
         prompt(
           "p_smart_goal",
           "Pull it together and read it back to them. A useful shape: \"I will [what] by [when], so that [why it matters].\" Check it sounds like them."
@@ -100,12 +130,32 @@ export const smartGrow: FormDef = {
           id: "smart_goal",
           type: "textarea",
           label: "My SMART goal, in one sentence",
+          help: "This is the goal you'll plan for in Part 2.",
           required: true,
         },
       ],
     },
+
+    // ---- Part 2: GROW plan -----------------------------------------------
     {
-      title: "Reality: where are things now?",
+      title: "Part 2: Plan it with GROW",
+      fields: [
+        {
+          id: "about_grow",
+          type: "note",
+          label: "What is the GROW model?",
+          text: `GROW is a simple four-step way to plan how you'll reach your goal:\n\n${lines(GROW_MEANING)}\n\nYour Goal (G) is the SMART goal you set in Part 1. Now we'll work through Reality, Options and Way forward.`,
+          print: true,
+        },
+        prompt(
+          "p_grow",
+          "Read the SMART goal back to them before starting Part 2. If it shifts while you work through GROW, go back and update it in Part 1."
+        ),
+      ],
+    },
+    {
+      title: "R: Reality",
+      intro: "Where are things now? Look honestly at where you're starting from, including what's already working.",
       fields: [
         prompt(
           "p_reality",
@@ -126,7 +176,8 @@ export const smartGrow: FormDef = {
       ],
     },
     {
-      title: "Options: what could you do?",
+      title: "O: Options",
+      intro: "What could you do? Get every idea down first, big or small, before choosing one.",
       fields: [
         prompt(
           "p_options",
@@ -142,7 +193,8 @@ export const smartGrow: FormDef = {
       ],
     },
     {
-      title: "Way forward: your action plan",
+      title: "W: Way forward",
+      intro: "Your action plan: the steps you'll take, by when, and who can help.",
       fields: [
         prompt(
           "p_way",

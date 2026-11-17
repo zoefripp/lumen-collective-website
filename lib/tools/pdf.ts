@@ -3,6 +3,7 @@ import type { Answers, Details, FormDef, ScoreResult, Signatures } from "./types
 import { formatDate } from "./scoring";
 import { wheelPng } from "./wheel";
 import { segmentCounts, valuesWheelPng } from "./values-wheel";
+import { GROW_MEANING, SMART_MEANING } from "./forms/smart-grow";
 
 // Builds the completed-form PDF entirely in the browser.
 
@@ -259,7 +260,11 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     };
 
     // A lettered block: badge, title and body text indented beside it.
-    const lettered = (letter: string, title: string, body: string[], extra?: () => void) => {
+    const meaning = (text: string) => {
+      const rest = text.slice(text.indexOf(":") + 1).trim();
+      return rest.charAt(0).toUpperCase() + rest.slice(1);
+    };
+    const lettered = (letter: string, title: string, body: string[], extra?: () => void, caption?: string) => {
       const parts = body.filter(Boolean);
       if (!parts.length && !extra) return;
       const needed = 34 + parts.reduce((total, part) => total + estimate(part) + 4, 0);
@@ -270,9 +275,28 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       badge(letter, top);
       page.drawText(clean(title), { x: MARGIN + indent, y: top - 15, size: 11, font: bold, color: TEAL });
       y = top - 20;
+      if (caption) drawText(caption, { x: MARGIN + indent, width: textWidth, size: 9, color: MUTED, gap: 3 });
       for (const part of parts) drawText(part, { x: MARGIN + indent, width: textWidth, gap: 4 });
       if (extra) extra();
-      y = (page === startPage ? Math.min(y, top - 30) : y) - 10;
+      y = (page === startPage ? Math.min(y, top - 30) : y) - 7;
+    };
+
+    // A key strip: each letter in a circle with its word beside it.
+    const legend = (meanings: Record<string, string>) => {
+      const entries = Object.entries(meanings).map(([letter, text]) => [letter, text.slice(0, text.indexOf(":"))]);
+      const cell = CONTENT_WIDTH / entries.length;
+      const height = 30;
+      ensureSpace(height + 8);
+      page.drawRectangle({ x: MARGIN, y: y - height, width: CONTENT_WIDTH, height, color: PANEL });
+      entries.forEach(([letter, word], index) => {
+        const x = MARGIN + index * cell + 10;
+        const cy = y - height / 2;
+        page.drawCircle({ x: x + 9, y: cy, size: 9, color: TEAL });
+        const w = bold.widthOfTextAtSize(letter, 10);
+        page.drawText(letter, { x: x + 9 - w / 2, y: cy - 3.5, size: 10, font: bold, color: rgb(1, 1, 1) });
+        page.drawText(clean(word), { x: x + 23, y: cy - 3.5, size: 10, font: bold, color: CHARCOAL });
+      });
+      y -= height + 12;
     };
 
     const labelled = (label: string, value: string) => {
@@ -303,6 +327,14 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       y -= 22;
     };
 
+    // ---- Part 1: SMART goal.
+    heading("Part 1: My SMART goal", 160);
+    drawText(
+      "A SMART goal is clear enough to act on and to know when you've done it.",
+      { size: 9.5, color: MUTED, gap: 6 }
+    );
+    legend(SMART_MEANING);
+
     // The goal, large, in a panel.
     const goal = str("smart_goal") || str("goal_raw");
     if (goal) {
@@ -313,7 +345,11 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       ]
         .filter(Boolean)
         .join("   |   ");
-      const height = 34 + goalLines.length * 21 + (meta ? 22 : 0) + 12;
+      const firstPut =
+        str("smart_goal") && str("goal_raw") && str("goal_raw") !== str("smart_goal")
+          ? wrap(`How I first put it: ${str("goal_raw")}`, regular, 9.5, CONTENT_WIDTH - 36)
+          : [];
+      const height = 34 + goalLines.length * 21 + (meta ? 22 : 0) + firstPut.length * 13 + (firstPut.length ? 6 : 0) + 12;
       ensureSpace(height + 14);
       page.drawRectangle({ x: MARGIN, y: y - height, width: CONTENT_WIDTH, height, color: PANEL });
       page.drawRectangle({ x: MARGIN, y: y - height, width: 4, height, color: TEAL });
@@ -336,6 +372,15 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
           color: MUTED,
         });
       }
+      firstPut.forEach((line, index) => {
+        page.drawText(line, {
+          x: MARGIN + 18,
+          y: y - 46 - goalLines.length * 21 - (meta ? 22 : 4) - 6 - index * 13,
+          size: 9.5,
+          font: regular,
+          color: MUTED,
+        });
+      });
       y -= height + 16;
     }
 
@@ -355,14 +400,12 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       ["T", "Time-bound", str("target_date") ? `By ${formatDate(str("target_date"))}` : ""],
     ];
     if (smartRows.some(([, , text]) => text)) {
-      heading("Making it SMART", 90);
-      y -= 4;
-      for (const [letter, title, text] of smartRows) lettered(letter, title, [text]);
+      y -= 2;
+      for (const [letter, title, text] of smartRows) {
+        lettered(letter, title, [text], undefined, meaning(SMART_MEANING[letter]));
+      }
     }
 
-    // Signed under the goal, so page 1 reads as the agreed goal.
-    y -= 6;
-    await drawSignatures("Agreed together");
 
     // GROW.
     const steps = Array.from({ length: 3 }, (_, index) => ({
@@ -375,30 +418,35 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       .map((line) => line.replace(/^[-*•\s]+/, "").trim())
       .filter(Boolean);
 
-    // Start the GROW plan on a fresh page unless most of it fits here.
-    if (y - (MARGIN + FOOTER_SPACE) < 420) newPage();
-    heading("My GROW plan", 90);
-    y -= 4;
-    lettered("G", "Goal: what I want", [str("goal_raw")]);
+    // Part 2 always starts on a fresh page.
+    if (y < PAGE_HEIGHT - MARGIN - 1) newPage();
+    heading("Part 2: My GROW plan", 90);
+    drawText(
+      "GROW is a four-step way to plan how to reach the goal.",
+      { size: 9.5, color: MUTED, gap: 6 }
+    );
+    legend(GROW_MEANING);
+    lettered("G", "Goal", [goal], undefined, meaning(GROW_MEANING.G) + " This is my SMART goal from Part 1.");
     lettered(
       "R",
-      "Reality: where things are now",
+      "Reality",
       [],
       () => {
         labelled("What's happening now", str("reality_now"));
         labelled("What I've tried, and what helped", str("reality_tried"));
         labelled("What gets in the way", str("reality_barriers"));
         bar("Where I am now with this goal", num("reality_rating"));
-      }
+      },
+      meaning(GROW_MEANING.R)
     );
-    lettered("O", "Options: what I could do", [], () => {
+    lettered("O", "Options", [], () => {
       for (const option of options) {
         drawText(`•  ${option}`, { x: MARGIN + indent, width: textWidth, gap: 2 });
       }
       if (options.length) y -= 4;
       labelled("Starting with", str("option_choice"));
-    });
-    lettered("W", "Way forward: my action plan", [], () => {
+    }, meaning(GROW_MEANING.O));
+    lettered("W", "Way forward", [], () => {
       if (steps.length) {
         // Steps table.
         const colNumber = 18;
@@ -458,7 +506,7 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       labelled("If it gets hard, I will", str("if_hard"));
       labelled("People and supports who can help me", str("supports"));
       bar("How confident I feel about the first step", num("confidence"));
-    });
+    }, meaning(GROW_MEANING.W));
 
     const review = str("review_date");
     if (review) {
@@ -474,6 +522,9 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       });
       y -= height + 8;
     }
+  
+    y -= 4;
+    await drawSignatures("Agreed together");
   };
 
   if (form.layout === "goalMap") {
