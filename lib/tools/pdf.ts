@@ -190,6 +190,7 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
   for (const section of form.sections) {
     heading(section.title);
     for (const field of section.fields) {
+      if (field.type === "note") continue; // on-screen prompts only
       const value = answers[field.id];
       let answer = "Not answered";
       if (field.type === "scale" && typeof value === "number") {
@@ -245,7 +246,9 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       });
       const valueText =
         score.value === null
-          ? `Incomplete (${score.answered} of ${score.total} rated)`
+          ? score.answered === 0
+            ? "Not rated"
+            : `Incomplete (${score.answered} of ${score.total} rated)`
           : `${score.value} / ${score.outOf}`;
       page.drawText(clean(score.label), {
         x: MARGIN + 12,
@@ -254,8 +257,12 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
         font: bold,
         color: CHARCOAL,
       });
-      if (score.band) {
-        page.drawText(clean(score.band), {
+      const partial =
+        score.value !== null && score.answered < score.total
+          ? ` (based on ${score.answered} of ${score.total})`
+          : "";
+      if (score.band || partial) {
+        page.drawText(clean(`${score.band ?? ""}${partial}`.trim()), {
           x: MARGIN + 12,
           y: y - 31,
           size: 9.5,

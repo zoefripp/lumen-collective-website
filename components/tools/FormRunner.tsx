@@ -29,6 +29,7 @@ export default function FormRunner({ slug }: { slug: string }) {
   const [status, setStatus] = useState<Status>("editing");
   const [failure, setFailure] = useState("");
   const [run, setRun] = useState(0); // bumps to reset the signature pads
+  const [showPrompts, setShowPrompts] = useState(true);
   const pdf = useRef<{ bytes: Uint8Array; filename: string } | null>(null);
   const dirty = useRef(false);
 
@@ -36,6 +37,26 @@ export default function FormRunner({ slug }: { slug: string }) {
   useEffect(() => {
     setDetails((current) => (current.date ? current : { ...current, date: todayIso() }));
   }, []);
+
+  // Coach prompts can be hidden while the participant is looking at the
+  // screen. The choice is remembered on this device.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("lc_tools_prompts") === "hidden") setShowPrompts(false);
+    } catch {
+      // storage unavailable: prompts stay visible
+    }
+  }, []);
+  const togglePrompts = () => {
+    setShowPrompts((current) => {
+      try {
+        localStorage.setItem("lc_tools_prompts", current ? "hidden" : "shown");
+      } catch {
+        // ignore
+      }
+      return !current;
+    });
+  };
 
   // Warn before closing or reloading a part-completed form.
   useEffect(() => {
@@ -222,7 +243,19 @@ export default function FormRunner({ slug }: { slug: string }) {
 
   return (
     <div className="max-w-3xl mx-auto px-5 pt-8 pb-24">
-      <h1 className="text-3xl font-semibold text-charcoal mb-2">{form.title}</h1>
+      <div className="mb-2 flex items-start justify-between gap-4">
+        <h1 className="text-3xl font-semibold text-charcoal">{form.title}</h1>
+        {form.sections.some((section) => section.fields.some((field) => field.type === "note")) && (
+          <button
+            type="button"
+            onClick={togglePrompts}
+            aria-pressed={showPrompts}
+            className="mt-1 shrink-0 rounded-full border-2 border-teal px-4 py-2 text-sm font-medium text-teal"
+          >
+            {showPrompts ? "Hide coach prompts" : "Show coach prompts"}
+          </button>
+        )}
+      </div>
       <p className="text-muted mb-8">{form.description}</p>
 
       <Card title="Details">
@@ -257,7 +290,15 @@ export default function FormRunner({ slug }: { slug: string }) {
       {form.sections.map((section) => (
         <Card key={section.title} title={section.title} intro={section.intro}>
           <div className="flex flex-col gap-7">
-            {section.fields.map((field) => (
+            {section.fields.map((field) =>
+              field.type === "note" ? (
+                !showPrompts ? null : (
+                <div key={field.id} className="rounded-xl border-l-4 border-teal bg-teal/5 px-5 py-4">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-teal">{field.label}</div>
+                  <p className="mt-1 whitespace-pre-line text-charcoal">{field.text}</p>
+                </div>
+                )
+              ) : (
               <Labelled
                 key={field.id}
                 id={`q_${field.id}`}
@@ -267,13 +308,17 @@ export default function FormRunner({ slug }: { slug: string }) {
               >
                 <FieldInput field={field} value={answers[field.id]} onChange={(value) => setAnswer(field.id, value)} />
               </Labelled>
-            ))}
+              )
+            )}
           </div>
         </Card>
       ))}
 
       {(form.scores?.length || form.summary) && (
-        <Card title="Score and summary" intro="Worked out automatically from the answers above.">
+        <Card
+          title={form.scores?.length ? "Score and summary" : "Summary"}
+          intro="Worked out automatically from the answers above."
+        >
           <div className="flex flex-col gap-3">
             {(form.scores ?? []).map((def) => {
               const score = scores[def.id];
@@ -284,7 +329,9 @@ export default function FormRunner({ slug }: { slug: string }) {
                     <div className="text-sm text-muted">
                       {score.value === null
                         ? `${score.answered} of ${score.total} rated so far`
-                        : score.band}
+                        : [score.band, score.answered < score.total ? `based on ${score.answered} of ${score.total}` : ""]
+                            .filter(Boolean)
+                            .join(" · ")}
                     </div>
                   </div>
                   <div className="text-2xl font-semibold text-teal whitespace-nowrap">
@@ -450,6 +497,8 @@ function FieldInput({
         </div>
       );
     }
+    case "note":
+      return null;
     case "scale": {
       const steps = Array.from({ length: field.max - field.min + 1 }, (_, index) => field.min + index);
       return (
@@ -466,7 +515,7 @@ function FieldInput({
                 type="button"
                 role="radio"
                 aria-checked={value === step}
-                onClick={() => onChange(step)}
+                onClick={() => onChange(value === step ? undefined : step)}
                 className={`h-14 rounded-xl border-2 text-lg font-semibold transition-colors ${
                   value === step
                     ? "border-teal bg-teal text-white"

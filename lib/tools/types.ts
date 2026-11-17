@@ -39,7 +39,14 @@ export type ScaleField = {
   required?: boolean;
 };
 
-export type Field = TextField | ChoiceField | MultiField | ScaleField;
+export type NoteField = {
+  id: string;
+  type: "note"; // coaching prompt shown on screen only, never in the PDF
+  label: string;
+  text: string;
+};
+
+export type Field = TextField | ChoiceField | MultiField | ScaleField | NoteField;
 
 export type Section = {
   title: string;
@@ -58,6 +65,9 @@ export type ScoreDef = {
   label: string;
   fieldIds: string[]; // scale fields that feed this score
   method: "sum" | "average";
+  // Average whatever has been answered instead of waiting for every item,
+  // so skipped questions don't block the score.
+  allowPartial?: boolean;
   bands?: Band[];
 };
 

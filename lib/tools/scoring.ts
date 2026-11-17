@@ -26,9 +26,10 @@ export function computeScores(form: FormDef, answers: Answers): Record<string, S
 
     let value: number | null = null;
     let outOf = maxSum;
+    const usable = complete || (def.allowPartial && values.length > 0);
     if (def.method === "average") {
       outOf = fields.length ? Math.max(...fields.map((field) => field.max)) : 0;
-      if (complete) value = Math.round((sum / fields.length) * 10) / 10;
+      if (usable) value = Math.round((sum / values.length) * 10) / 10;
     } else if (complete) {
       value = sum;
     }

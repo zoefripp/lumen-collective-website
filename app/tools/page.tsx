@@ -5,7 +5,7 @@ export default function ToolsMenu() {
   return (
     <div className="max-w-3xl mx-auto px-5 py-10">
       <h1 className="text-3xl font-semibold text-charcoal mb-2">Recovery Coaching forms</h1>
-      <p className="text-muted mb-8">Choose a form to complete together.</p>
+      <p className="text-muted mb-8">Choose a form to start.</p>
       <div className="grid gap-4">
         {forms.map((form) => (
           <Link
