@@ -5,6 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/tools", "/api/"],
     },
     sitemap: "https://www.lumencollective.com.au/sitemap.xml",
   };

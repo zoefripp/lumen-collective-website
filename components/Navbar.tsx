@@ -33,6 +33,9 @@ export default function Navbar() {
     img.src = LOGO_SRC;
   }, []);
 
+  // The hidden staff tools section has its own header.
+  if (pathname.startsWith("/tools")) return null;
+
   return (
     <nav className="bg-[#1a6b6b] sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

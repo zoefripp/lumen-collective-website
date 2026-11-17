@@ -1,6 +1,12 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  // The hidden staff tools section has no public footer.
+  const pathname = usePathname();
+  if (pathname.startsWith("/tools")) return null;
+
   return (
     <footer className="bg-white border-t border-gray-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
