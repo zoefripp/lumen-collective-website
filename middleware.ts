@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { TOOLS_COOKIE, isValidToolsCookie } from "@/lib/tools/auth";
+import { TOOLS_COOKIE, TOOLS_GATE_ENABLED, isValidToolsCookie } from "@/lib/tools/auth";
 
 // Everything under /tools and /api/tools needs the passcode cookie,
 // except the login page and the login endpoint themselves.
 export async function middleware(request: NextRequest) {
+  if (!TOOLS_GATE_ENABLED) return NextResponse.next();
+
   const { pathname } = request.nextUrl;
   if (pathname === "/tools/login" || pathname === "/api/tools/login") {
     return NextResponse.next();

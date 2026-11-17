@@ -2,6 +2,11 @@
 // The passcode lives in the TOOLS_PASSCODE environment variable (never in code).
 // After a correct passcode, the browser holds a cookie containing a hash of it.
 
+// Passcode gate switch. Turned off at the owner's request while the section
+// holds only blank forms and automatic email is not connected. Turn back on
+// (or replace with another lock) before the email route is configured.
+export const TOOLS_GATE_ENABLED = false;
+
 export const TOOLS_COOKIE = "lc_tools";
 export const TOOLS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // one year
 
