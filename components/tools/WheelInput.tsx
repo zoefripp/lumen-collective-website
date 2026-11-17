@@ -2,6 +2,10 @@
 import { useRef } from "react";
 import {
   WHEEL_COLOURS,
+  bullseyeTint,
+  markerPoint,
+  ringToValue,
+  valueToRing,
   WHEEL_SIZE,
   cellPath,
   geometry,
@@ -26,6 +30,7 @@ export default function WheelInput({ field, answers, onChange }: Props) {
   const g = geometry();
   const count = field.areas.length;
   const max = field.max;
+  const variant = field.variant ?? "wheel";
 
   const valueOf = (index: number) => {
     const value = answers[field.areas[index].id];
@@ -38,7 +43,7 @@ export default function WheelInput({ field, answers, onChange }: Props) {
     const rect = svg.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * WHEEL_SIZE;
     const y = ((event.clientY - rect.top) / rect.height) * WHEEL_SIZE;
-    return hitTest(g, count, max, x, y);
+    return hitTest(g, count, max, x, y, variant);
   };
 
   const down = (event: React.PointerEvent<SVGSVGElement>) => {
@@ -84,34 +89,64 @@ export default function WheelInput({ field, answers, onChange }: Props) {
           const value = valueOf(index) ?? 0;
           return (
             <g key={area.id}>
-              {Array.from({ length: max }, (_, ring) => (
-                <path
-                  key={ring}
-                  d={cellPath(g, index, count, ring + 1, max)}
-                  fill={colour}
-                  fillOpacity={ring + 1 <= value ? 0.9 : 0.07}
-                  stroke="rgba(0,0,0,0.12)"
-                  strokeWidth={1}
-                />
-              ))}
+              {Array.from({ length: max }, (_, ring) => {
+                const chosen = variant === "bullseye" && value > 0 && ring + 1 === valueToRing(value, max, variant);
+                return (
+                  <path
+                    key={ring}
+                    d={cellPath(g, index, count, ring + 1, max)}
+                    fill={variant === "bullseye" && !chosen ? "#1a6b6b" : colour}
+                    fillOpacity={
+                      variant === "bullseye"
+                        ? chosen
+                          ? 0.55
+                          : bullseyeTint(ring + 1, max)
+                        : ring + 1 <= value
+                          ? 0.9
+                          : 0.07
+                    }
+                    stroke="rgba(0,0,0,0.12)"
+                    strokeWidth={1}
+                  />
+                );
+              })}
             </g>
           );
         })}
         <circle cx={g.c} cy={g.c} r={g.R} fill="none" stroke="rgba(0,0,0,0.35)" strokeWidth={1.5} />
-        {[2, 4, 6, 8, 10]
-          .filter((ring) => ring <= max)
-          .map((ring) => (
-            <text
-              key={ring}
-              x={g.c + 4}
-              y={g.c - ringRadius(g, ring, max) + 13}
-              fontSize={11}
-              fill="rgba(0,0,0,0.45)"
-              style={{ pointerEvents: "none" }}
-            >
-              {ring}
-            </text>
-          ))}
+        {variant === "bullseye" &&
+          field.areas.map((area, index) => {
+            const value = valueOf(index);
+            if (!value) return null;
+            const [x, y] = markerPoint(index, count, value, max);
+            return (
+              <circle
+                key={area.id}
+                cx={x}
+                cy={y}
+                r={13}
+                fill={WHEEL_COLOURS[index % WHEEL_COLOURS.length]}
+                stroke="#ffffff"
+                strokeWidth={3}
+                style={{ pointerEvents: "none" }}
+              />
+            );
+          })}
+        {(variant === "bullseye"
+          ? Array.from({ length: max }, (_, index) => index + 1)
+          : [2, 4, 6, 8, 10].filter((ring) => ring <= max)
+        ).map((ring) => (
+          <text
+            key={ring}
+            x={g.c + 4}
+            y={g.c - ringRadius(g, ring, max) + 13}
+            fontSize={11}
+            fill="rgba(0,0,0,0.5)"
+            style={{ pointerEvents: "none" }}
+          >
+            {variant === "bullseye" ? ringToValue(ring, max, variant) : ring}
+          </text>
+        ))}
         {field.areas.map((area, index) => {
           const place = labelPlacement(g, index, count);
           const value = valueOf(index);
@@ -152,6 +187,13 @@ export default function WheelInput({ field, answers, onChange }: Props) {
         })}
       </svg>
 
+      {(field.minLabel || field.maxLabel) && (
+        <p className="mt-2 text-center text-sm text-muted">
+          {[field.minLabel && `1 = ${field.minLabel}`, field.maxLabel && `${max} = ${field.maxLabel}`]
+            .filter(Boolean)
+            .join(" · ")}
+        </p>
+      )}
       <div className="mt-6 grid gap-2 lg:grid-cols-2">
         {field.areas.map((area, index) => {
           const value = valueOf(index);

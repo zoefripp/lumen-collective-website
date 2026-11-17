@@ -18,6 +18,38 @@ export const WHEEL_COLOURS = [
 
 export const WHEEL_SIZE = 640; // view box units
 
+export type WheelVariant = "wheel" | "bullseye";
+
+// Ring 1 is the innermost. On a wheel the score is the ring reached; on a
+// bullseye the centre ring is the top score.
+export function valueToRing(value: number, max: number, variant: WheelVariant = "wheel"): number {
+  return variant === "bullseye" ? max + 1 - value : value;
+}
+
+export function ringToValue(ring: number, max: number, variant: WheelVariant = "wheel"): number {
+  return variant === "bullseye" ? max + 1 - ring : ring;
+}
+
+// Background tint for a bullseye ring, strongest at the centre.
+export function bullseyeTint(ring: number, max: number): number {
+  if (ring === 1) return 0.32;
+  return (max - ring) % 2 === 0 ? 0.05 : 0.14;
+}
+
+export function markerPoint(
+  index: number,
+  count: number,
+  value: number,
+  max: number,
+  size = WHEEL_SIZE
+): [number, number] {
+  const g = geometry(size);
+  const [a0, a1] = sliceAngles(index, count);
+  const ring = valueToRing(value, max, "bullseye");
+  const radius = ringRadius(g, ring - 0.5, max);
+  return point(g, radius, (a0 + a1) / 2);
+}
+
 type Geometry = { c: number; R: number; r0: number };
 
 export function geometry(size = WHEEL_SIZE): Geometry {
@@ -107,13 +139,15 @@ export function hitTest(
   count: number,
   max: number,
   x: number,
-  y: number
+  y: number,
+  variant: WheelVariant = "wheel"
 ): { index: number; value: number } | null {
   const dx = x - g.c;
   const dy = y - g.c;
   const distance = Math.hypot(dx, dy);
   if (distance > g.R * 1.1) return null;
-  const value = Math.min(max, Math.max(1, Math.ceil(((distance - g.r0) / (g.R - g.r0)) * max)));
+  const ring = Math.min(max, Math.max(1, Math.ceil(((distance - g.r0) / (g.R - g.r0)) * max)));
+  const value = ringToValue(ring, max, variant);
   let angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90; // 0 at the top, clockwise
   if (angle < 0) angle += 360;
   const index = Math.min(count - 1, Math.floor(angle / (360 / count)));
@@ -126,7 +160,8 @@ export function paintWheel(
   size: number,
   areas: WheelArea[],
   values: (number | undefined)[],
-  max: number
+  max: number,
+  variant: WheelVariant = "wheel"
 ) {
   const g = geometry(size);
   const count = areas.length;
@@ -138,8 +173,14 @@ export function paintWheel(
     const value = values[index] ?? 0;
     for (let ring = 1; ring <= max; ring++) {
       const path = new Path2D(cellPath(g, index, count, ring, max));
-      context.globalAlpha = ring <= value ? 0.9 : 0.07;
-      context.fillStyle = colour;
+      if (variant === "bullseye") {
+        const chosen = value > 0 && ring === valueToRing(value, max, variant);
+        context.globalAlpha = chosen ? 0.55 : bullseyeTint(ring, max);
+        context.fillStyle = chosen ? colour : "#1a6b6b";
+      } else {
+        context.globalAlpha = ring <= value ? 0.9 : 0.07;
+        context.fillStyle = colour;
+      }
       context.fill(path);
       context.globalAlpha = 1;
       context.strokeStyle = "rgba(0,0,0,0.12)";
@@ -147,6 +188,21 @@ export function paintWheel(
       context.stroke(path);
     }
   });
+
+  if (variant === "bullseye") {
+    areas.forEach((_, index) => {
+      const value = values[index];
+      if (!value) return;
+      const [x, y] = markerPoint(index, count, value, max, size);
+      context.beginPath();
+      context.arc(x, y, size * 0.022, 0, Math.PI * 2);
+      context.fillStyle = WHEEL_COLOURS[index % WHEEL_COLOURS.length];
+      context.fill();
+      context.lineWidth = size / 250;
+      context.strokeStyle = "#ffffff";
+      context.stroke();
+    });
+  }
 
   // Outer outline.
   context.beginPath();
@@ -180,12 +236,18 @@ export function paintWheel(
   });
 }
 
-export function wheelPng(areas: WheelArea[], values: (number | undefined)[], max: number, size = 1200): string {
+export function wheelPng(
+  areas: WheelArea[],
+  values: (number | undefined)[],
+  max: number,
+  variant: WheelVariant = "wheel",
+  size = 1200
+): string {
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
   const context = canvas.getContext("2d");
   if (!context) return "";
-  paintWheel(context, size, areas, values, max);
+  paintWheel(context, size, areas, values, max, variant);
   return canvas.toDataURL("image/png");
 }

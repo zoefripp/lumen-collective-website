@@ -246,7 +246,7 @@ export default function FormRunner({ slug }: { slug: string }) {
     <div className="max-w-3xl mx-auto px-5 pt-8 pb-24">
       <div className="mb-2 flex items-start justify-between gap-4">
         <h1 className="text-3xl font-semibold text-charcoal">{form.title}</h1>
-        {form.sections.some((section) => section.fields.some((field) => field.type === "note")) && (
+        {form.sections.some((section) => section.fields.some((field) => field.type === "note" && !field.print)) && (
           <button
             type="button"
             onClick={togglePrompts}
@@ -293,7 +293,12 @@ export default function FormRunner({ slug }: { slug: string }) {
           <div className="flex flex-col gap-7">
             {section.fields.map((field) =>
               field.type === "note" ? (
-                !showPrompts ? null : (
+                field.print ? (
+                  <div key={field.id} className="rounded-xl border border-gray-200 bg-offwhite px-5 py-4">
+                    <div className="font-semibold text-teal">{field.label}</div>
+                    <p className="mt-1 whitespace-pre-line text-charcoal">{field.text}</p>
+                  </div>
+                ) : !showPrompts ? null : (
                 <div key={field.id} className="rounded-xl border-l-4 border-teal bg-teal/5 px-5 py-4">
                   <div className="text-xs font-semibold uppercase tracking-wide text-teal">{field.label}</div>
                   <p className="mt-1 whitespace-pre-line text-charcoal">{field.text}</p>

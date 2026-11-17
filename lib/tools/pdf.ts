@@ -107,8 +107,10 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     y -= options.gap ?? 0;
   };
 
-  const heading = (text: string) => {
-    ensureSpace(60);
+  // `keepWith` is the space the first item under the heading needs, so a
+  // heading is never stranded at the bottom of a page.
+  const heading = (text: string, keepWith = 60) => {
+    ensureSpace(keepWith);
     y -= 14;
     drawText(text, { font: bold, size: 12.5, color: TEAL });
     y -= 4;
@@ -189,16 +191,30 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
 
   // ---- Answers -----------------------------------------------------------
   for (const section of form.sections) {
-    heading(section.title);
+    const printable = section.fields.filter((field) => field.type !== "note" || field.print);
+    if (!printable.length) continue; // a section of coach prompts only
+    heading(section.title, printable[0].type === "wheel" ? 440 : 60);
     for (const field of section.fields) {
-      if (field.type === "note") continue; // on-screen prompts only
+      if (field.type === "note") {
+        if (!field.print) continue; // coach prompts stay on screen only
+        const lines = wrap(field.text, regular, 10, CONTENT_WIDTH - 24);
+        const height = 22 + 12 + lines.length * 14;
+        ensureSpace(height + 8);
+        page.drawRectangle({ x: MARGIN, y: y - height, width: CONTENT_WIDTH, height, color: PANEL });
+        page.drawText(clean(field.label), { x: MARGIN + 12, y: y - 18, size: 10.5, font: bold, color: TEAL });
+        lines.forEach((line, index) => {
+          page.drawText(line, { x: MARGIN + 12, y: y - 36 - index * 14, size: 10, font: regular, color: CHARCOAL });
+        });
+        y -= height + 10;
+        continue;
+      }
 
       if (field.type === "wheel") {
         const values = field.areas.map((area) => {
           const value = answers[area.id];
           return typeof value === "number" ? value : undefined;
         });
-        const dataUrl = wheelPng(field.areas, values, field.max);
+        const dataUrl = wheelPng(field.areas, values, field.max, field.variant ?? "wheel");
         if (dataUrl) {
           const image = await doc.embedPng(dataUrl);
           const side = Math.min(CONTENT_WIDTH, 380);

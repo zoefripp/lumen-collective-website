@@ -44,6 +44,9 @@ export type NoteField = {
   type: "note"; // coaching prompt shown on screen only, never in the PDF
   label: string;
   text: string;
+  // An information panel instead: always shown and printed in the PDF
+  // (for example crisis numbers on a safety plan).
+  print?: boolean;
 };
 
 export type WheelField = {
@@ -53,6 +56,11 @@ export type WheelField = {
   help?: string;
   areas: { id: string; label: string }[];
   max: number;
+  // "bullseye": ACT values target. The centre ring is the highest value
+  // (living fully by that value) and a marker shows where they placed it.
+  variant?: "wheel" | "bullseye";
+  minLabel?: string; // meaning of the lowest value, shown on screen
+  maxLabel?: string; // meaning of the highest value
 };
 
 export type Field = TextField | ChoiceField | MultiField | ScaleField | NoteField | WheelField;
