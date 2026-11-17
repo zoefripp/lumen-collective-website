@@ -1,25 +1,41 @@
-// Passcode gate for the hidden /tools section.
-// The passcode lives in the TOOLS_PASSCODE environment variable (never in code).
-// After a correct passcode, the browser holds a cookie containing a hash of it.
+// Device lock for emailing completed forms.
+//
+// The forms themselves are open (they are blank templates), but only devices
+// that have opened the one-off setup link can email PDFs. That stops anyone
+// who finds the page from sending email through the website.
+//
+// The key lives in the TOOLS_DEVICE_KEY environment variable, never in code.
+// The setup link is /api/tools/setup?key=<that value>. Opening it stores a
+// cookie holding a hash of the key, valid for a year. Changing the key in
+// Vercel signs every device out.
 
-// Passcode gate switch. Turned off at the owner's request while the section
-// holds only blank forms and automatic email is not connected. Turn back on
-// (or replace with another lock) before the email route is configured.
-export const TOOLS_GATE_ENABLED = false;
-
-export const TOOLS_COOKIE = "lc_tools";
+export const TOOLS_COOKIE = "lc_tools_device";
 export const TOOLS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // one year
 
-export async function passcodeToken(passcode: string): Promise<string> {
-  const data = new TextEncoder().encode(`lumen-tools|${passcode}`);
+export function deviceKey(): string | undefined {
+  return process.env.TOOLS_DEVICE_KEY?.trim() || undefined;
+}
+
+export async function deviceToken(key: string): Promise<string> {
+  const data = new TextEncoder().encode(`lumen-tools-device|${key}`);
   const digest = await crypto.subtle.digest("SHA-256", data);
   return Array.from(new Uint8Array(digest))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
 
-export async function isValidToolsCookie(value: string | undefined): Promise<boolean> {
-  const passcode = process.env.TOOLS_PASSCODE?.trim();
-  if (!passcode || !value) return false;
-  return value === (await passcodeToken(passcode));
+export async function isSetUpDevice(cookie: string | undefined): Promise<boolean> {
+  const key = deviceKey();
+  if (!key || !cookie) return false;
+  return cookie === (await deviceToken(key));
+}
+
+export function mailConfigured(): boolean {
+  return Boolean(
+    process.env.MS_TENANT_ID &&
+      process.env.MS_CLIENT_ID &&
+      process.env.MS_CLIENT_SECRET &&
+      process.env.TOOLS_MAIL_FROM &&
+      process.env.TOOLS_MAIL_TO
+  );
 }

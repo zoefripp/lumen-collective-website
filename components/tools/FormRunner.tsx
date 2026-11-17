@@ -15,7 +15,9 @@ const inputClass =
 
 const failureMessages: Record<string, string> = {
   not_configured: "Automatic email isn't set up yet.",
-  unauthorised: "The passcode has expired on this device.",
+  device_not_set_up: "This device isn't set up to email forms yet. Open your setup link on this device once, then come back and finish again.",
+  mail_auth_failed: "Microsoft 365 didn't accept the website's sign-in details.",
+  mail_send_failed: "Microsoft 365 couldn't send the email.",
   too_large: "The PDF was too large to email.",
   offline: "There's no internet connection right now.",
 };

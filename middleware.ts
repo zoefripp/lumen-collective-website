@@ -1,25 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { TOOLS_COOKIE, TOOLS_GATE_ENABLED, isValidToolsCookie } from "@/lib/tools/auth";
+import { TOOLS_COOKIE, isSetUpDevice } from "@/lib/tools/auth";
 
-// Everything under /tools and /api/tools needs the passcode cookie,
-// except the login page and the login endpoint themselves.
+// Only a device that has opened the setup link can email PDFs.
+// The forms themselves stay open (see lib/tools/auth.ts).
 export async function middleware(request: NextRequest) {
-  if (!TOOLS_GATE_ENABLED) return NextResponse.next();
-
-  const { pathname } = request.nextUrl;
-  if (pathname === "/tools/login" || pathname === "/api/tools/login") {
+  if (await isSetUpDevice(request.cookies.get(TOOLS_COOKIE)?.value)) {
     return NextResponse.next();
   }
-
-  const ok = await isValidToolsCookie(request.cookies.get(TOOLS_COOKIE)?.value);
-  if (ok) return NextResponse.next();
-
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.json({ error: "unauthorised" }, { status: 401 });
-  }
-  return NextResponse.redirect(new URL("/tools/login", request.url));
+  return NextResponse.json({ error: "device_not_set_up" }, { status: 401 });
 }
 
 export const config = {
-  matcher: ["/tools/:path*", "/api/tools/:path*"],
+  matcher: ["/api/tools/send"],
 };
