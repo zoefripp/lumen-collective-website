@@ -3,7 +3,7 @@
 // After a correct passcode, the browser holds a cookie containing a hash of it.
 
 export const TOOLS_COOKIE = "lc_tools";
-export const TOOLS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+export const TOOLS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // one year
 
 export async function passcodeToken(passcode: string): Promise<string> {
   const data = new TextEncoder().encode(`lumen-tools|${passcode}`);
