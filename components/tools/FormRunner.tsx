@@ -214,7 +214,13 @@ export default function FormRunner({ slug }: { slug: string }) {
           {!sent && (
             <button
               type="button"
-              onClick={() => setStatus("editing")}
+              onClick={() => {
+                // The signature pads are redrawn empty, so clear the stored
+                // signatures too and ask for them again.
+                setSignatures({});
+                setRun((value) => value + 1);
+                setStatus("editing");
+              }}
               className="rounded-xl border-2 border-teal px-6 py-4 text-lg font-semibold text-teal"
             >
               Back to the form
@@ -388,8 +394,9 @@ export default function FormRunner({ slug }: { slug: string }) {
 
       {missing.length > 0 && (
         <p role="alert" className="mb-4 rounded-xl bg-red-50 px-5 py-4 font-medium text-red-700">
-          {missing.length === 1 ? "One item still needs" : `${missing.length} items still need`} to be
-          completed. They are outlined in red.
+          {missing.length === 1
+            ? "One item still needs to be completed. It is outlined in red."
+            : `${missing.length} items still need to be completed. They are outlined in red.`}
         </p>
       )}
 

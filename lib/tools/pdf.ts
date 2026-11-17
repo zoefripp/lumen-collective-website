@@ -189,6 +189,295 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
   });
   y = detailsBottom - 6;
 
+  // ---- Signatures (drawn by either layout) -------------------------------
+  const drawSignatures = async (title: string) => {
+    if (!form.signatures.length) return;
+    heading(title, 140);
+    const gap = 24;
+    const boxWidth = (CONTENT_WIDTH - gap) / 2;
+    const imageHeight = 64;
+    for (let index = 0; index < form.signatures.length; index += 2) {
+      const row = form.signatures.slice(index, index + 2);
+      ensureSpace(imageHeight + 44);
+      const top = y;
+      for (let column = 0; column < row.length; column++) {
+        const def = row[column];
+        const x = MARGIN + column * (boxWidth + gap);
+        const dataUrl = signatures[def.id];
+        if (dataUrl) {
+          const image = await doc.embedPng(dataUrl);
+          const scale = Math.min(boxWidth / image.width, imageHeight / image.height);
+          page.drawImage(image, {
+            x,
+            y: top - imageHeight + (imageHeight - image.height * scale) / 2,
+            width: image.width * scale,
+            height: image.height * scale,
+          });
+        }
+        const lineY = top - imageHeight - 4;
+        page.drawLine({
+          start: { x, y: lineY },
+          end: { x: x + boxWidth, y: lineY },
+          thickness: 0.75,
+          color: MUTED,
+        });
+        page.drawText(clean(def.label), { x, y: lineY - 13, size: 9.5, font: bold, color: CHARCOAL });
+        const name = def.id === "participant" ? details.participant : def.id === "coach" ? details.coach : "";
+        const caption = [name, dataUrl ? `Signed ${formatDate(details.date)}` : "Not signed"]
+          .filter(Boolean)
+          .join(" - ");
+        page.drawText(clean(caption), { x, y: lineY - 25, size: 8.5, font: regular, color: MUTED });
+      }
+      y = top - imageHeight - 44;
+    }
+  };
+
+  // ---- Goal map layout (SMART and GROW) ----------------------------------
+  // A designed page meant to be shared with the participant: empty answers
+  // are left out and the goal, SMART letters and GROW plan are laid out
+  // visually rather than as a list of questions.
+  const drawGoalMap = async () => {
+    const str = (id: string) => {
+      const value = answers[id];
+      return typeof value === "string" ? value.trim() : "";
+    };
+    const num = (id: string) => {
+      const value = answers[id];
+      return typeof value === "number" ? value : null;
+    };
+    const LINE = 10.5 * 1.4;
+    const indent = 34;
+    const textWidth = CONTENT_WIDTH - indent;
+    const estimate = (text: string, size = 10.5, width = textWidth) =>
+      wrap(text, regular, size, width).length * size * 1.4;
+
+    const badge = (letter: string, top: number) => {
+      page.drawCircle({ x: MARGIN + 12, y: top - 12, size: 12, color: TEAL });
+      const w = bold.widthOfTextAtSize(letter, 12);
+      page.drawText(letter, { x: MARGIN + 12 - w / 2, y: top - 16.2, size: 12, font: bold, color: rgb(1, 1, 1) });
+    };
+
+    // A lettered block: badge, title and body text indented beside it.
+    const lettered = (letter: string, title: string, body: string[], extra?: () => void) => {
+      const parts = body.filter(Boolean);
+      if (!parts.length && !extra) return;
+      const needed = 34 + parts.reduce((total, part) => total + estimate(part) + 4, 0);
+      // Keep the badge and title with at least the start of what follows.
+      ensureSpace(Math.max(extra ? 110 : 0, Math.min(needed, 220)));
+      const top = y;
+      const startPage = page;
+      badge(letter, top);
+      page.drawText(clean(title), { x: MARGIN + indent, y: top - 15, size: 11, font: bold, color: TEAL });
+      y = top - 20;
+      for (const part of parts) drawText(part, { x: MARGIN + indent, width: textWidth, gap: 4 });
+      if (extra) extra();
+      y = (page === startPage ? Math.min(y, top - 30) : y) - 10;
+    };
+
+    const labelled = (label: string, value: string) => {
+      if (!value) return;
+      ensureSpace(LINE * 2 + 6);
+      drawText(label, { x: MARGIN + indent, width: textWidth, font: bold, size: 9, color: MUTED });
+      drawText(value, { x: MARGIN + indent, width: textWidth, gap: 5 });
+    };
+
+    const bar = (label: string, value: number | null, max = 10) => {
+      if (value === null) return;
+      ensureSpace(24);
+      const x = MARGIN + indent;
+      const barX = x + 210;
+      const barWidth = CONTENT_WIDTH - indent - 210 - 50;
+      const baseline = y - 13;
+      page.drawText(clean(label), { x, y: baseline, size: 10, font: regular, color: CHARCOAL });
+      page.drawRectangle({ x: barX, y: baseline - 1, width: barWidth, height: 9, color: rgb(0.88, 0.92, 0.92) });
+      page.drawRectangle({ x: barX, y: baseline - 1, width: (barWidth * value) / max, height: 9, color: TEAL });
+      const text = `${value}/${max}`;
+      page.drawText(text, {
+        x: PAGE_WIDTH - MARGIN - bold.widthOfTextAtSize(text, 10.5),
+        y: baseline,
+        size: 10.5,
+        font: bold,
+        color: CHARCOAL,
+      });
+      y -= 22;
+    };
+
+    // The goal, large, in a panel.
+    const goal = str("smart_goal") || str("goal_raw");
+    if (goal) {
+      const goalLines = wrap(goal, bold, 15, CONTENT_WIDTH - 36);
+      const meta = [
+        str("target_date") && `By ${formatDate(str("target_date"))}`,
+        str("area"),
+      ]
+        .filter(Boolean)
+        .join("   |   ");
+      const height = 34 + goalLines.length * 21 + (meta ? 22 : 0) + 12;
+      ensureSpace(height + 14);
+      page.drawRectangle({ x: MARGIN, y: y - height, width: CONTENT_WIDTH, height, color: PANEL });
+      page.drawRectangle({ x: MARGIN, y: y - height, width: 4, height, color: TEAL });
+      page.drawText(str("smart_goal") ? "MY SMART GOAL" : "MY GOAL", {
+        x: MARGIN + 18,
+        y: y - 22,
+        size: 8.5,
+        font: bold,
+        color: TEAL,
+      });
+      goalLines.forEach((line, index) => {
+        page.drawText(line, { x: MARGIN + 18, y: y - 46 - index * 21, size: 15, font: bold, color: CHARCOAL });
+      });
+      if (meta) {
+        page.drawText(clean(meta), {
+          x: MARGIN + 18,
+          y: y - 46 - goalLines.length * 21 - 4,
+          size: 10,
+          font: regular,
+          color: MUTED,
+        });
+      }
+      y -= height + 16;
+    }
+
+    // SMART.
+    const achievableRating = num("achievable_rating");
+    const smartRows: [string, string, string][] = [
+      ["S", "Specific", str("specific")],
+      ["M", "Measurable", str("measurable")],
+      [
+        "A",
+        "Achievable",
+        [str("achievable"), achievableRating !== null ? `Feels ${achievableRating}/10 achievable.` : ""]
+          .filter(Boolean)
+          .join(" "),
+      ],
+      ["R", "Relevant", str("relevant")],
+      ["T", "Time-bound", str("target_date") ? `By ${formatDate(str("target_date"))}` : ""],
+    ];
+    if (smartRows.some(([, , text]) => text)) {
+      heading("Making it SMART", 90);
+      y -= 4;
+      for (const [letter, title, text] of smartRows) lettered(letter, title, [text]);
+    }
+
+    // Signed under the goal, so page 1 reads as the agreed goal.
+    y -= 6;
+    await drawSignatures("Agreed together");
+
+    // GROW.
+    const steps = Array.from({ length: 3 }, (_, index) => ({
+      what: str(`step_${index + 1}`),
+      when: str(`step_${index + 1}_when`),
+      who: str(`step_${index + 1}_who`),
+    })).filter((step) => step.what);
+    const options = str("options")
+      .split("\n")
+      .map((line) => line.replace(/^[-*•\s]+/, "").trim())
+      .filter(Boolean);
+
+    // Start the GROW plan on a fresh page unless most of it fits here.
+    if (y - (MARGIN + FOOTER_SPACE) < 420) newPage();
+    heading("My GROW plan", 90);
+    y -= 4;
+    lettered("G", "Goal: what I want", [str("goal_raw")]);
+    lettered(
+      "R",
+      "Reality: where things are now",
+      [],
+      () => {
+        labelled("What's happening now", str("reality_now"));
+        labelled("What I've tried, and what helped", str("reality_tried"));
+        labelled("What gets in the way", str("reality_barriers"));
+        bar("Where I am now with this goal", num("reality_rating"));
+      }
+    );
+    lettered("O", "Options: what I could do", [], () => {
+      for (const option of options) {
+        drawText(`•  ${option}`, { x: MARGIN + indent, width: textWidth, gap: 2 });
+      }
+      if (options.length) y -= 4;
+      labelled("Starting with", str("option_choice"));
+    });
+    lettered("W", "Way forward: my action plan", [], () => {
+      if (steps.length) {
+        // Steps table.
+        const colNumber = 18;
+        const colWhen = 78;
+        const colWho = 130;
+        const colWhat = textWidth - colNumber - colWhen - colWho;
+        const x0 = MARGIN + indent;
+        ensureSpace(40);
+        const headerY = y - 12;
+        page.drawText("STEP", { x: x0 + colNumber, y: headerY, size: 8, font: bold, color: MUTED });
+        page.drawText("BY WHEN", { x: x0 + colNumber + colWhat + 8, y: headerY, size: 8, font: bold, color: MUTED });
+        page.drawText("WHO CAN HELP", {
+          x: x0 + colNumber + colWhat + colWhen + 8,
+          y: headerY,
+          size: 8,
+          font: bold,
+          color: MUTED,
+        });
+        y -= 18;
+        steps.forEach((step, index) => {
+          const whatLines = wrap(step.what, regular, 10.5, colWhat - 4);
+          const whoLines = wrap(step.who || "-", regular, 10, colWho - 8);
+          const rowHeight = Math.max(whatLines.length, whoLines.length) * 14.7 + 10;
+          ensureSpace(rowHeight + 4);
+          page.drawLine({
+            start: { x: x0, y },
+            end: { x: PAGE_WIDTH - MARGIN, y },
+            thickness: 0.5,
+            color: RULE,
+          });
+          const first = y - 15;
+          page.drawText(`${index + 1}`, { x: x0 + 2, y: first, size: 10.5, font: bold, color: TEAL });
+          whatLines.forEach((line, lineIndex) => {
+            page.drawText(line, { x: x0 + colNumber, y: first - lineIndex * 14.7, size: 10.5, font: regular, color: CHARCOAL });
+          });
+          page.drawText(step.when ? formatDate(step.when) : "-", {
+            x: x0 + colNumber + colWhat + 8,
+            y: first,
+            size: 10,
+            font: regular,
+            color: CHARCOAL,
+          });
+          whoLines.forEach((line, lineIndex) => {
+            page.drawText(line, {
+              x: x0 + colNumber + colWhat + colWhen + 8,
+              y: first - lineIndex * 14.7,
+              size: 10,
+              font: regular,
+              color: CHARCOAL,
+            });
+          });
+          y -= rowHeight;
+        });
+        page.drawLine({ start: { x: x0, y }, end: { x: PAGE_WIDTH - MARGIN, y }, thickness: 0.5, color: RULE });
+        y -= 10;
+      }
+      labelled("If it gets hard, I will", str("if_hard"));
+      labelled("People and supports who can help me", str("supports"));
+      bar("How confident I feel about the first step", num("confidence"));
+    });
+
+    const review = str("review_date");
+    if (review) {
+      ensureSpace(40);
+      const height = 30;
+      page.drawRectangle({ x: MARGIN, y: y - height, width: CONTENT_WIDTH, height, color: PANEL });
+      page.drawText(clean(`We'll look at this goal together again on ${formatDate(review)}.`), {
+        x: MARGIN + 14,
+        y: y - 19,
+        size: 10.5,
+        font: bold,
+        color: TEAL,
+      });
+      y -= height + 8;
+    }
+  };
+
+  if (form.layout === "goalMap") {
+    await drawGoalMap();
+  } else {
   // ---- Answers -----------------------------------------------------------
   for (const section of form.sections) {
     const printable = section.fields.filter((field) => field.type !== "note" || field.print);
@@ -342,47 +631,11 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     }
   }
 
+  } // end of standard layout
+
   // ---- Signatures --------------------------------------------------------
-  if (form.signatures.length) {
-    heading("Signatures");
-    const gap = 24;
-    const boxWidth = (CONTENT_WIDTH - gap) / 2;
-    const imageHeight = 64;
-    for (let index = 0; index < form.signatures.length; index += 2) {
-      const row = form.signatures.slice(index, index + 2);
-      ensureSpace(imageHeight + 44);
-      const top = y;
-      for (let column = 0; column < row.length; column++) {
-        const def = row[column];
-        const x = MARGIN + column * (boxWidth + gap);
-        const dataUrl = signatures[def.id];
-        if (dataUrl) {
-          const image = await doc.embedPng(dataUrl);
-          const scale = Math.min(boxWidth / image.width, imageHeight / image.height);
-          page.drawImage(image, {
-            x,
-            y: top - imageHeight + (imageHeight - image.height * scale) / 2,
-            width: image.width * scale,
-            height: image.height * scale,
-          });
-        }
-        const lineY = top - imageHeight - 4;
-        page.drawLine({
-          start: { x, y: lineY },
-          end: { x: x + boxWidth, y: lineY },
-          thickness: 0.75,
-          color: MUTED,
-        });
-        page.drawText(clean(def.label), { x, y: lineY - 13, size: 9.5, font: bold, color: CHARCOAL });
-        const name = def.id === "participant" ? details.participant : def.id === "coach" ? details.coach : "";
-        const caption = [name, dataUrl ? `Signed ${formatDate(details.date)}` : "Not signed"]
-          .filter(Boolean)
-          .join(" - ");
-        page.drawText(clean(caption), { x, y: lineY - 25, size: 8.5, font: regular, color: MUTED });
-      }
-      y = top - imageHeight - 44;
-    }
-  }
+  // The goal map draws its signatures itself, under the goal on page 1.
+  if (form.layout !== "goalMap") await drawSignatures("Signatures");
 
   // ---- Footers -----------------------------------------------------------
   const pages = doc.getPages();

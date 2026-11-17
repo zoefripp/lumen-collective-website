@@ -4,6 +4,7 @@ import { checkOut } from "./check-out";
 import { goalsActionPlan } from "./goals-action-plan";
 import { headsAssessment } from "./heads-assessment";
 import { safetyWellnessPlan } from "./safety-wellness-plan";
+import { smartGrow } from "./smart-grow";
 import { thoughtRecord } from "./thought-record";
 import { valuesBullseye } from "./values-bullseye";
 import { wheelOfLife } from "./wheel-of-life";
@@ -16,6 +17,7 @@ export const forms: FormDef[] = [
   wheelOfLife,
   valuesBullseye,
   goalsActionPlan,
+  smartGrow,
   safetyWellnessPlan,
   thoughtRecord,
 ];
