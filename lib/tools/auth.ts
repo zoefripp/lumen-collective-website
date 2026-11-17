@@ -31,11 +31,7 @@ export async function isSetUpDevice(cookie: string | undefined): Promise<boolean
 }
 
 export function mailConfigured(): boolean {
-  return Boolean(
-    process.env.MS_TENANT_ID &&
-      process.env.MS_CLIENT_ID &&
-      process.env.MS_CLIENT_SECRET &&
-      process.env.TOOLS_MAIL_FROM &&
-      process.env.TOOLS_MAIL_TO
+  return ["MS_TENANT_ID", "MS_CLIENT_ID", "MS_CLIENT_SECRET", "TOOLS_MAIL_FROM", "TOOLS_MAIL_TO"].every(
+    (name) => Boolean(process.env[name]?.trim())
   );
 }

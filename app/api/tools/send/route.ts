@@ -15,11 +15,12 @@ type SendBody = {
 };
 
 function mailConfig() {
-  const tenant = process.env.MS_TENANT_ID;
-  const clientId = process.env.MS_CLIENT_ID;
-  const clientSecret = process.env.MS_CLIENT_SECRET;
-  const from = process.env.TOOLS_MAIL_FROM;
-  const to = process.env.TOOLS_MAIL_TO;
+  // Trimmed, because copied values often pick up stray spaces.
+  const tenant = process.env.MS_TENANT_ID?.trim();
+  const clientId = process.env.MS_CLIENT_ID?.trim();
+  const clientSecret = process.env.MS_CLIENT_SECRET?.trim();
+  const from = process.env.TOOLS_MAIL_FROM?.trim();
+  const to = process.env.TOOLS_MAIL_TO?.trim();
   if (!tenant || !clientId || !clientSecret || !from || !to) return null;
   return { tenant, clientId, clientSecret, from, to };
 }
