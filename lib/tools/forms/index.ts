@@ -1,5 +1,6 @@
 import type { FormDef } from "../types";
 import { checkIn } from "./check-in";
+import { checkOut } from "./check-out";
 import { goalsActionPlan } from "./goals-action-plan";
 import { headsAssessment } from "./heads-assessment";
 import { safetyWellnessPlan } from "./safety-wellness-plan";
@@ -11,6 +12,7 @@ import { wheelOfLife } from "./wheel-of-life";
 export const forms: FormDef[] = [
   headsAssessment,
   checkIn,
+  checkOut,
   wheelOfLife,
   valuesBullseye,
   goalsActionPlan,
