@@ -12,7 +12,7 @@ const SAFE = ["Yes", "Mostly", "Not right now", "I'd rather talk about it"];
 export const checkOut: FormDef = {
   slug: "check-out",
   title: "Check-out",
-  description: "A short close to each session: how they're leaving, one takeaway, one next step.",
+  description: "For the end of a session: how they're leaving, safety, one takeaway and one next step.",
   sections: [
     {
       title: "Before you go",
@@ -32,6 +32,15 @@ export const checkOut: FormDef = {
         },
         { id: "takeaway", type: "textarea", label: "One thing I'm taking away from today" },
         { id: "next_step", type: "textarea", label: "My next step before we meet again" },
+        {
+          id: "confidence",
+          type: "scale",
+          label: "How confident do you feel about that step?",
+          min: 0,
+          max: 10,
+          minLabel: "Not at all",
+          maxLabel: "Very confident",
+        },
         {
           id: "okay_to_leave",
           type: "choice",
@@ -76,7 +85,8 @@ export const checkOut: FormDef = {
     const takeaway = text("takeaway");
     if (takeaway) lines.push(`Taking away: ${sentence(takeaway)}`);
     const step = text("next_step");
-    if (step) lines.push(`Next step: ${sentence(step)}`);
+    const confidence = number("confidence");
+    if (step) lines.push(`Next step: ${sentence(step)}${confidence !== null ? ` Confidence ${confidence}/10.` : ""}`);
     const next = text("next_session");
     if (next) lines.push(`Next catch-up: ${formatDate(next)}.`);
     return lines;

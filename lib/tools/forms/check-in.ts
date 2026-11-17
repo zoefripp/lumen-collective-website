@@ -1,15 +1,13 @@
 import type { FormDef, ScaleField } from "../types";
 
-// Check-in for Psychosocial Recovery Coaching sessions.
+// Check-in for the start of Psychosocial Recovery Coaching sessions. The
+// end of the session (next step, how they're leaving) is the Check-out form.
 //
 // Built on three approaches:
 // - Trauma-informed practice: safety and choice first, every question can be
-//   skipped, the participant decides how the check-in runs, and it closes by
-//   checking how they are leaving.
-// - CBT: situation, thoughts, feelings and actions, and a confidence rating
-//   for the next step.
-// - ACT: noticing thoughts without being hooked by them, values, and a small
-//   committed action.
+//   skipped, and the participant decides how the check-in runs.
+// - CBT: situation, thoughts, feelings and actions.
+// - ACT: noticing thoughts without being hooked by them, and values.
 //
 // The scores are a conversation aid for tracking change over time. They are
 // not a validated clinical measure.
@@ -42,7 +40,7 @@ export const checkIn: FormDef = {
   slug: "check-in",
   title: "Check-in",
   description:
-    "A session check-in drawing on ACT, CBT and trauma-informed practice. Covers wellbeing, thoughts and feelings, values and a next step.",
+    "For the start of a session, drawing on ACT, CBT and trauma-informed practice: wellbeing, thoughts and feelings, values, coping and safety.",
   sections: [
     {
       title: "Getting started",
@@ -245,54 +243,11 @@ export const checkIn: FormDef = {
           label: "Is there any support you need that you're not getting?",
         },
         { id: "notes_safety", type: "textarea", label: "Notes", help: "Optional." },
-      ],
-    },
-    {
-      title: "Next steps",
-      fields: [
         {
-          id: "next_step",
-          type: "textarea",
-          label: "One small step before we next meet",
-          help: "Something that moves you towards what matters to you.",
-        },
-        {
-          id: "confidence",
-          type: "scale",
-          label: "How confident do you feel about that step?",
-          min: 0,
-          max: 10,
-          minLabel: "Not at all",
-          maxLabel: "Very confident",
-        },
-        {
-          id: "if_hard",
-          type: "textarea",
-          label: "What could help if it gets hard?",
-        },
-        {
-          id: "next_meeting",
-          type: "date",
-          label: "Next catch-up",
-        },
-        {
-          id: "leaving",
-          type: "choice",
-          label: "How are you feeling now, compared with when we started?",
-          options: ["Better", "About the same", "Worse", "Not sure"],
-        },
-        {
-          id: "note_close",
+          id: "note_to_checkout",
           type: "note",
           label: "Coach prompt",
-          text:
-            "If they're leaving feeling worse, take a few minutes to ground before finishing, and agree what they'll do for the rest of the day.",
-        },
-        {
-          id: "coach_notes",
-          type: "textarea",
-          label: "Notes",
-          help: "Optional.",
+          text: "Agree next steps and close the session with the Check-out form.",
         },
       ],
     },
@@ -384,22 +339,8 @@ export const checkIn: FormDef = {
     const coping = list("coping");
     if (coping.length) lines.push(`What helped: ${listText(coping)}.`);
 
-    const step = text("next_step");
-    const confidence = number("confidence");
-    if (step) {
-      lines.push(
-        `Next step: ${step.replace(/[.\s]+$/, "")}.${confidence !== null ? ` Confidence ${confidence}/10.` : ""}`
-      );
-    }
-
     const arrival = number("arrival");
-    const leaving = text("leaving");
-    if (arrival !== null || leaving) {
-      const parts: string[] = [];
-      if (arrival !== null) parts.push(`Settled at the start: ${arrival}/10.`);
-      if (leaving) parts.push(`Feeling at the end compared with the start: ${leaving.toLowerCase()}.`);
-      lines.push(parts.join(" "));
-    }
+    if (arrival !== null) lines.push(`Settled at the start of the session: ${arrival}/10.`);
 
     return lines;
   },
