@@ -7,6 +7,7 @@ import { formatDate } from "../scoring";
 // isn't okay to leave so it can't be missed.
 
 const OKAY_TO_LEAVE = ["Yes, I'm okay", "I'd like a few minutes first", "Not really"];
+const SAFE = ["Yes", "Mostly", "Not right now", "I'd rather talk about it"];
 
 export const checkOut: FormDef = {
   slug: "check-out",
@@ -38,9 +39,16 @@ export const checkOut: FormDef = {
           options: OKAY_TO_LEAVE,
           required: true,
         },
+        {
+          id: "safe",
+          type: "choice",
+          label: "Are you feeling safe right now?",
+          options: SAFE,
+          required: true,
+        },
         prompt(
           "p_not_okay",
-          "If it's anything other than \"Yes\", stay with them. Agree what they'll do for the rest of the day and who they'll be with, and follow your risk and safety procedures if you're worried about their safety."
+          "If either answer is anything other than \"Yes\", stay with them. Agree what they'll do for the rest of the day and who they'll be with, check their safety plan and crisis contacts, and follow your risk and safety procedures."
         ),
         { id: "next_session", type: "date", label: "Next catch-up" },
         notes("notes_checkout"),
@@ -52,6 +60,13 @@ export const checkOut: FormDef = {
     const name = participant || "The participant";
     const lines: string[] = [];
 
+    // Safety first, so it can't be missed.
+    const safe = text("safe");
+    if (safe && safe !== SAFE[0]) {
+      lines.push(
+        `Safety: ${name} answered "${safe}" when asked if they felt safe at the end of the session. Follow up under your risk and safety procedures.`
+      );
+    }
     const okay = text("okay_to_leave");
     if (okay && okay !== OKAY_TO_LEAVE[0]) {
       lines.push(`Follow up: ${name} answered "${okay}" when asked if they felt okay to leave.`);
