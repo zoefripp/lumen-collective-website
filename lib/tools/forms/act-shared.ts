@@ -3,7 +3,7 @@ import { prompt } from "./shared";
 
 // Building blocks shared by the ACT session plans.
 
-export const ACT_GROUP = "ACT sessions";
+export const ACT_GROUP = "Session plans";
 
 // Questions for the coach to ask aloud. Shown on screen only, like coach
 // prompts, so a part of the session can be pure conversation.
