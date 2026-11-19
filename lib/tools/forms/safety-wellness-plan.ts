@@ -7,7 +7,7 @@ import { formatDate } from "../scoring";
 // to do and who to contact when things get harder. Crisis numbers match the
 // Support in a Crisis page on the Lumen Collective website.
 
-const crisisNumbers = [
+export const crisisNumbers = [
   "Emergency: 000",
   "Mental Health Line (NSW, 24/7): 1800 011 511",
   "Lifeline (24/7): 13 11 14, or text 0477 13 11 14",
