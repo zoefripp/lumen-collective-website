@@ -554,7 +554,10 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       form.hideEmpty ? isAnswered(field) : field.type !== "note" || field.print
     );
     if (!printable.length) continue; // a section of coach prompts only, or nothing answered
-    heading(section.title, printable[0].type === "wheel" || printable[0].type === "values" ? 440 : 60);
+    heading(
+      section.minutes ? `${section.title} (${section.minutes[0]}–${section.minutes[1]} min)` : section.title,
+      printable[0].type === "wheel" || printable[0].type === "values" ? 440 : 60
+    );
     for (const field of printable) {
       if (field.type === "note") {
         if (!field.print) continue; // coach prompts stay on screen only

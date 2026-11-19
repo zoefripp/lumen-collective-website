@@ -5,6 +5,7 @@ import SignaturePad from "./SignaturePad";
 import WheelInput from "./WheelInput";
 import ValuesPicker from "./ValuesPicker";
 import PairsInput from "./PairsInput";
+import SessionTimer from "./SessionTimer";
 import { getForm } from "@/lib/tools/forms";
 import { computeScores, todayIso } from "@/lib/tools/scoring";
 import { buildPdf, pdfFilename, toBase64 } from "@/lib/tools/pdf";
@@ -44,18 +45,20 @@ export default function FormRunner({ slug }: { slug: string }) {
   }, []);
 
   // Coach prompts can be hidden while the participant is looking at the
-  // screen. The choice is remembered on this device.
+  // screen. The choice is remembered on this device, separately for each form.
+  const promptsKey = `lc_tools_prompts_${slug}`;
   useEffect(() => {
     try {
-      if (localStorage.getItem("lc_tools_prompts") === "hidden") setShowPrompts(false);
+      localStorage.removeItem("lc_tools_prompts"); // old device-wide setting
+      setShowPrompts(localStorage.getItem(promptsKey) !== "hidden");
     } catch {
       // storage unavailable: prompts stay visible
     }
-  }, []);
+  }, [promptsKey]);
   const togglePrompts = () => {
     setShowPrompts((current) => {
       try {
-        localStorage.setItem("lc_tools_prompts", current ? "hidden" : "shown");
+        localStorage.setItem(promptsKey, current ? "hidden" : "shown");
       } catch {
         // ignore
       }
@@ -269,6 +272,8 @@ export default function FormRunner({ slug }: { slug: string }) {
       </div>
       <p className="text-muted mb-8">{form.description}</p>
 
+      {form.sessionMinutes && <SessionTimer total={form.sessionMinutes} sections={form.sections} />}
+
       <Card title="Details">
         <div className="grid gap-5 sm:grid-cols-2">
           <Labelled id="q_detail_participant" label="Participant name" invalid={isMissing("detail_participant")}>
@@ -299,7 +304,7 @@ export default function FormRunner({ slug }: { slug: string }) {
       </Card>
 
       {form.sections.map((section) => (
-        <Card key={section.title} title={section.title} intro={section.intro}>
+        <Card key={section.title} title={section.title} intro={section.intro} minutes={section.minutes}>
           <div className="flex flex-col gap-7">
             {section.fields.map((field) =>
               field.type === "note" ? (
@@ -418,10 +423,27 @@ export default function FormRunner({ slug }: { slug: string }) {
   );
 }
 
-function Card({ title, intro, children }: { title: string; intro?: string; children: React.ReactNode }) {
+function Card({
+  title,
+  intro,
+  minutes,
+  children,
+}: {
+  title: string;
+  intro?: string;
+  minutes?: [number, number];
+  children: React.ReactNode;
+}) {
   return (
     <section className="mb-6 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-      <h2 className="text-xl font-semibold text-teal">{title}</h2>
+      <div className="flex items-start justify-between gap-3">
+        <h2 className="text-xl font-semibold text-teal">{title}</h2>
+        {minutes && (
+          <span className="mt-0.5 shrink-0 rounded-full bg-teal/10 px-3 py-1 text-sm font-semibold text-teal">
+            {minutes[0]}–{minutes[1]} min
+          </span>
+        )}
+      </div>
       {intro && <p className="mt-1 text-muted">{intro}</p>}
       <div className="mt-6">{children}</div>
     </section>

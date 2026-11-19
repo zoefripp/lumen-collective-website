@@ -95,6 +95,8 @@ export type Field =
 export type Section = {
   title: string;
   intro?: string;
+  // For session plans: when this part runs, in minutes from the start.
+  minutes?: [number, number];
   fields: Field[];
 };
 
@@ -156,6 +158,10 @@ export type FormDef = {
   // Leave unanswered questions out of the PDF (for worksheets the
   // participant keeps).
   hideEmpty?: boolean;
+  // Heading the form is listed under on the forms menu.
+  group?: string;
+  // Session plans show a session timer and each part's time window.
+  sessionMinutes?: number;
 };
 
 // Details collected at the top of every form.
