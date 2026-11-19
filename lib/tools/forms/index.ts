@@ -1,6 +1,10 @@
 import type { FormDef } from "../types";
 import { act1GettingUnstuck } from "./act-1-getting-unstuck";
 import { act2DroppingAnchor } from "./act-2-dropping-anchor";
+import { act3Unhooking } from "./act-3-unhooking";
+import { act4MakingRoom } from "./act-4-making-room";
+import { act5NoticingSelf } from "./act-5-noticing-self";
+import { act6ValuesAction } from "./act-6-values-action";
 import { checkIn } from "./check-in";
 import { checkOut } from "./check-out";
 import { goalsActionPlan } from "./goals-action-plan";
@@ -18,7 +22,7 @@ const menu: [string, FormDef[]][] = [
   ["Every session", [checkIn, checkOut]],
   ["Goals and planning", [goalsActionPlan, smartGrow, safetyWellnessPlan]],
   ["Tools and worksheets", [wheelOfLife, valuesBullseye, lifeAuditValues, thoughtRecord]],
-  ["ACT sessions", [act1GettingUnstuck, act2DroppingAnchor]],
+  ["ACT sessions", [act1GettingUnstuck, act2DroppingAnchor, act3Unhooking, act4MakingRoom, act5NoticingSelf, act6ValuesAction]],
 ];
 
 export const forms: FormDef[] = menu.flatMap(([group, items]) =>
