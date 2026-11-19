@@ -82,7 +82,27 @@ export type PairsField = {
   rows: number;
 };
 
+export type FunnelField = {
+  id: string;
+  type: "funnel"; // choose about 20, then narrow down stage by stage (e.g. 10, 5, 3)
+  label: string;
+  help?: string;
+  groups: { label?: string; items: string[] }[];
+  stages: number[]; // e.g. [20, 10, 5, 3]
+  allowCustom?: boolean; // let them add their own at the first stage
+  noun: string; // "values", "beliefs"
+  // Optional sorting step after a stage, e.g. intrinsic or extrinsic.
+  classify?: {
+    afterStage: number; // index into stages
+    title: string;
+    question: string;
+    choices: [string, string];
+    short: [string, string]; // for the PDF and summary
+  };
+};
+
 export type Field =
+  | FunnelField
   | TextField
   | ChoiceField
   | MultiField

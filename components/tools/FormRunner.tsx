@@ -6,6 +6,7 @@ import WheelInput from "./WheelInput";
 import ValuesPicker from "./ValuesPicker";
 import PairsInput from "./PairsInput";
 import SessionTimer from "./SessionTimer";
+import FunnelPicker from "./FunnelPicker";
 import { getForm } from "@/lib/tools/forms";
 import { computeScores, todayIso } from "@/lib/tools/scoring";
 import { buildPdf, pdfFilename, toBase64 } from "@/lib/tools/pdf";
@@ -331,6 +332,8 @@ export default function FormRunner({ slug }: { slug: string }) {
                   <WheelInput field={field} answers={answers} onChange={setAnswer} />
                 ) : field.type === "values" ? (
                   <ValuesPicker field={field} answers={answers} onChange={setAnswer} />
+                ) : field.type === "funnel" ? (
+                  <FunnelPicker field={field} answers={answers} onChange={setAnswer} />
                 ) : field.type === "pairs" ? (
                   <PairsInput field={field} answers={answers} onChange={setAnswer} />
                 ) : (
@@ -548,6 +551,7 @@ function FieldInput({
     case "wheel":
     case "values":
     case "pairs":
+    case "funnel":
       return null;
     case "scale": {
       const steps = Array.from({ length: field.max - field.min + 1 }, (_, index) => field.min + index);

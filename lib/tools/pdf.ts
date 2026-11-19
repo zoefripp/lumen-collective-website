@@ -4,6 +4,7 @@ import { formatDate } from "./scoring";
 import { wheelPng } from "./wheel";
 import { segmentCounts, valuesWheelPng } from "./values-wheel";
 import { GROW_MEANING, SMART_MEANING } from "./forms/smart-grow";
+import { chosenAt, funnelAnswered, kinds as funnelKinds } from "./funnel";
 
 // Builds the completed-form PDF entirely in the browser.
 
@@ -535,6 +536,7 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
   const isAnswered = (field: FormDef["sections"][number]["fields"][number]): boolean => {
     if (field.type === "note") return Boolean(field.print);
     if (field.type === "wheel") return field.areas.some((area) => typeof answers[area.id] === "number");
+    if (field.type === "funnel") return funnelAnswered(answers, field);
     if (field.type === "pairs") {
       return Array.from({ length: field.rows }, (_, row) => row).some((row) =>
         [0, 1].some((column) => {
@@ -639,6 +641,80 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
           drawText(picked.join(", "), { size: 10.5, gap: 6 });
         });
         y -= 4;
+        continue;
+      }
+
+      if (field.type === "funnel") {
+        const last = field.stages.length - 1;
+        const kindMap = funnelKinds(answers, field);
+        const tag = (item: string) =>
+          field.classify && kindMap[item] !== undefined ? ` (${field.classify.short[kindMap[item]]})` : "";
+        // Deepest stage reached is shown as the numbered "top" list.
+        let topStage = last;
+        while (topStage > 0 && !chosenAt(answers, field, topStage).length) topStage--;
+        const top = chosenAt(answers, field, topStage);
+        if (!top.length) {
+          drawText(`No ${field.noun} chosen.`, { color: MUTED, gap: 6 });
+          continue;
+        }
+        const height = 30 + top.length * 24;
+        ensureSpace(height + 10);
+        page.drawRectangle({ x: MARGIN, y: y - height, width: CONTENT_WIDTH, height, color: PANEL });
+        page.drawText(clean(`MY TOP ${top.length} ${field.noun.toUpperCase()}`), {
+          x: MARGIN + 16,
+          y: y - 20,
+          size: 8.5,
+          font: bold,
+          color: TEAL,
+        });
+        top.forEach((item, index) => {
+          const rowY = y - 44 - index * 24;
+          page.drawCircle({ x: MARGIN + 26, y: rowY + 4, size: 9, color: TEAL });
+          const number = String(index + 1);
+          page.drawText(number, {
+            x: MARGIN + 26 - bold.widthOfTextAtSize(number, 10) / 2,
+            y: rowY + 0.5,
+            size: 10,
+            font: bold,
+            color: rgb(1, 1, 1),
+          });
+          page.drawText(clean(item), { x: MARGIN + 44, y: rowY, size: 13, font: bold, color: CHARCOAL });
+          const extra = tag(item);
+          if (extra) {
+            page.drawText(clean(extra), {
+              x: MARGIN + 44 + bold.widthOfTextAtSize(clean(item), 13) + 4,
+              y: rowY,
+              size: 10,
+              font: regular,
+              color: MUTED,
+            });
+          }
+        });
+        y -= height + 12;
+        for (let stage = topStage - 1; stage >= 0; stage--) {
+          const items = chosenAt(answers, field, stage);
+          if (!items.length) continue;
+          ensureSpace(36);
+          drawText(stage === 0 ? "First choices" : `Top ${field.stages[stage]}`, {
+            font: bold,
+            size: 9.5,
+            color: MUTED,
+          });
+          drawText(items.map((item) => `${item}${field.classify && field.classify.afterStage === stage ? tag(item) : ""}`).join(", "), {
+            size: 10.5,
+            gap: 7,
+          });
+        }
+        if (field.classify) {
+          const sorted = chosenAt(answers, field, field.classify.afterStage).filter((item) => kindMap[item] !== undefined);
+          if (sorted.length) {
+            const counts = [0, 1].map((choice) => sorted.filter((item) => kindMap[item] === choice).length);
+            drawText(
+              `When sorted: ${counts[0]} ${field.classify.short[0]}, ${counts[1]} ${field.classify.short[1]}.`,
+              { size: 10, color: TEAL, font: bold, gap: 8 }
+            );
+          }
+        }
         continue;
       }
 
