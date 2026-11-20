@@ -117,17 +117,45 @@ export default function BlogPostPage({ params }: Props) {
         </article>
 
         {/* Footer CTA */}
-        <div className="mt-16 pt-8 border-t border-sage-soft">
-          <p className="text-[15px] text-brown/85 leading-relaxed mb-5">
-            Have questions about your NDIS plan or support coordination?
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-peach text-brown font-semibold rounded-full px-6 py-2.5 hover:bg-peach/90 transition-colors text-sm"
-          >
-            Get in touch
-          </Link>
-        </div>
+        {post.tags?.includes("Counselling") ? (
+          <div className="mt-16 -mx-6 bg-peach-tint px-6 py-12 md:py-14">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-sage mb-4">
+              Counselling
+            </p>
+            <h2 className="text-2xl font-semibold text-brown mb-4">
+              Ready to get started?
+            </h2>
+            <p className="text-[15px] text-brown/85 leading-relaxed mb-6 max-w-md">
+              The first step is a free, no-pressure intro call to see if we are a good fit.
+            </p>
+            <div className="flex flex-wrap gap-4 items-center">
+              <Link
+                href="/contact?topic=intro-call"
+                className="inline-block bg-peach text-brown font-semibold rounded-full px-6 py-2.5 hover:bg-peach/90 transition-colors text-sm"
+              >
+                Book a free intro call
+              </Link>
+              <Link
+                href="/counselling"
+                className="text-sm text-brown/85 font-medium underline underline-offset-4 hover:text-brown transition-colors"
+              >
+                More about counselling
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-16 pt-8 border-t border-sage-soft">
+            <p className="text-[15px] text-brown/85 leading-relaxed mb-5">
+              Have questions about your NDIS plan or support coordination?
+            </p>
+            <Link
+              href="/contact"
+              className="inline-block bg-peach text-brown font-semibold rounded-full px-6 py-2.5 hover:bg-peach/90 transition-colors text-sm"
+            >
+              Get in touch
+            </Link>
+          </div>
+        )}
 
       </div>
     </div>
