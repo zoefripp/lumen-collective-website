@@ -25,8 +25,9 @@ export default function ContactPage({
           </h1>
           <p className="text-lg text-brown/85 leading-relaxed mb-4">
             Whether you are ready to start or just have questions, I would love
-            to hear from you. I am available Monday to Friday, 9am to 5pm, and
-            reply within one business day.
+            to hear from you. I am available Monday and Tuesday, 9am to 4pm,
+            and Wednesday to Saturday, 8:30am to 6:30pm. I reply within one
+            business day.
           </p>
           <a
             href="mailto:admin@lumencollective.com.au"
