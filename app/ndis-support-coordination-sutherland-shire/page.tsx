@@ -58,14 +58,14 @@ export default function SutherlandShirePage() {
           <h1 className="text-4xl md:text-5xl font-semibold text-brown mb-5 leading-tight">
             NDIS Support Coordination in the Sutherland Shire
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed mb-4">
+          <p className="text-lg text-brown/85 leading-relaxed mb-4">
             Finding the right support coordinator matters, especially when you
             want someone who actually knows your community. I provide NDIS
             Support Coordination across the Sutherland Shire, working with
             participants in Cronulla, Miranda, Caringbah, Sutherland, Gymea,
             Engadine, Menai, Kirrawee and surrounding suburbs.
           </p>
-          <p className="text-lg text-brown/70 leading-relaxed">
+          <p className="text-lg text-brown/85 leading-relaxed">
             Lumen is small on purpose. When you work with us, you are working
             directly with your coordinator, the same person, every time.
           </p>
@@ -82,7 +82,7 @@ export default function SutherlandShirePage() {
             {services.map(({ title, body }) => (
               <div key={title} className="py-7">
                 <h3 className="text-lg font-semibold text-brown mb-3">{title}</h3>
-                <p className="text-[17px] text-brown/70 leading-relaxed">{body}</p>
+                <p className="text-[17px] text-brown/85 leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -97,7 +97,7 @@ export default function SutherlandShirePage() {
           </h2>
           <ul className="divide-y divide-sage-soft">
             {checkItems.map((item) => (
-              <li key={item} className="py-3.5 text-[17px] text-brown/70 leading-relaxed">
+              <li key={item} className="py-3.5 text-[17px] text-brown/85 leading-relaxed">
                 {item}
               </li>
             ))}
@@ -111,12 +111,12 @@ export default function SutherlandShirePage() {
           <h2 className="text-2xl font-semibold text-brown mb-4">
             Suburbs across the Sutherland Shire
           </h2>
-          <p className="text-[17px] text-brown/70 leading-relaxed">
+          <p className="text-[17px] text-brown/85 leading-relaxed">
             I support participants in-person across the Sutherland Shire,
             including Cronulla, Miranda, Caringbah, Sutherland, Gymea, Gymea
             Bay, Engadine, Menai, Kirrawee, Jannali, Como, Oyster Bay, Loftus,
             Heathcote and surrounding areas. Not sure if I cover your suburb?{" "}
-            <Link href="/contact" className="text-brown underline underline-offset-4 hover:text-brown/70 transition-colors">
+            <Link href="/contact" className="text-brown underline underline-offset-4 hover:text-brown/85 transition-colors">
               Get in touch
             </Link>{" "}
             and I would love to help.
@@ -130,7 +130,7 @@ export default function SutherlandShirePage() {
           <h2 className="text-2xl md:text-3xl font-semibold text-brown mb-4">
             Ready to get started?
           </h2>
-          <p className="text-[17px] text-brown/70 leading-relaxed mb-8 max-w-xl">
+          <p className="text-[17px] text-brown/85 leading-relaxed mb-8 max-w-xl">
             I would love to hear about your situation and see how I can help.
             Reach out for a no-obligation conversation and we will take it from
             there.
@@ -144,7 +144,7 @@ export default function SutherlandShirePage() {
             </Link>
             <Link
               href="/referral"
-              className="text-brown/70 font-medium hover:text-brown transition-colors underline underline-offset-4"
+              className="text-brown/85 font-medium hover:text-brown transition-colors underline underline-offset-4"
             >
               Make a referral
             </Link>

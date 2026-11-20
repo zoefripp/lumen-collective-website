@@ -19,7 +19,7 @@ export default function FeedbackAndComplaintsPage() {
           <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
             Feedback &amp; Complaints
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed">
+          <p className="text-lg text-brown/85 leading-relaxed">
             Your feedback helps us improve. If something has not met your
             expectations, please let us know — we take all feedback seriously
             and will respond as soon as possible.

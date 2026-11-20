@@ -96,7 +96,7 @@ export default function BlogPostPage({ params }: Props) {
           <h1 className="mt-3 text-3xl md:text-[2.25rem] font-semibold text-brown leading-tight">
             {post.title}
           </h1>
-          <p className="mt-4 text-[17px] text-brown/70 leading-relaxed">
+          <p className="mt-4 text-[17px] text-brown/85 leading-relaxed">
             {post.excerpt}
           </p>
         </header>
@@ -118,7 +118,7 @@ export default function BlogPostPage({ params }: Props) {
 
         {/* Footer CTA */}
         <div className="mt-16 pt-8 border-t border-sage-soft">
-          <p className="text-[15px] text-brown/70 leading-relaxed mb-5">
+          <p className="text-[15px] text-brown/85 leading-relaxed mb-5">
             Have questions about your NDIS plan or support coordination?
           </p>
           <Link

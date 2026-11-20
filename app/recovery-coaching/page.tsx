@@ -36,7 +36,7 @@ export default function RecoveryCoachingPage() {
 
       {/* Body */}
       <section className="py-12 md:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-[17px] text-brown/70 leading-relaxed">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-[17px] text-brown/85 leading-relaxed">
           <p>
             For NDIS participants living with psychosocial disability. Together
             we work on your goals, build skills and confidence, strengthen your
@@ -61,7 +61,7 @@ export default function RecoveryCoachingPage() {
             {faqs.map(({ q, a }) => (
               <div key={q} className="py-6">
                 <p className="font-semibold text-brown mb-2">{q}</p>
-                <p className="text-[17px] text-brown/70 leading-relaxed">{a}</p>
+                <p className="text-[17px] text-brown/85 leading-relaxed">{a}</p>
               </div>
             ))}
           </div>
@@ -80,7 +80,7 @@ export default function RecoveryCoachingPage() {
             </Link>
             <Link
               href="/referral"
-              className="text-brown/70 font-medium hover:text-brown transition-colors underline underline-offset-4"
+              className="text-brown/85 font-medium hover:text-brown transition-colors underline underline-offset-4"
             >
               Make a referral
             </Link>

@@ -58,14 +58,14 @@ export default function IllawarraPage() {
           <h1 className="text-4xl md:text-5xl font-semibold text-brown mb-5 leading-tight">
             NDIS Support Coordination in the Illawarra
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed mb-4">
+          <p className="text-lg text-brown/85 leading-relaxed mb-4">
             The Illawarra has a strong community, and navigating the NDIS within
             it should not feel isolating. I provide NDIS Support Coordination
             across the Illawarra region, supporting participants in Wollongong,
             Shellharbour, Dapto, Kiama, Albion Park, Warrawong, Figtree and
             surrounding areas.
           </p>
-          <p className="text-lg text-brown/70 leading-relaxed">
+          <p className="text-lg text-brown/85 leading-relaxed">
             I know the local provider network and bring a calm, organised approach
             to even the most complex support situations.
           </p>
@@ -82,7 +82,7 @@ export default function IllawarraPage() {
             {services.map(({ title, body }) => (
               <div key={title} className="py-7">
                 <h3 className="text-lg font-semibold text-brown mb-3">{title}</h3>
-                <p className="text-[17px] text-brown/70 leading-relaxed">{body}</p>
+                <p className="text-[17px] text-brown/85 leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -97,7 +97,7 @@ export default function IllawarraPage() {
           </h2>
           <ul className="divide-y divide-sage-soft">
             {checkItems.map((item) => (
-              <li key={item} className="py-3.5 text-[17px] text-brown/70 leading-relaxed">
+              <li key={item} className="py-3.5 text-[17px] text-brown/85 leading-relaxed">
                 {item}
               </li>
             ))}
@@ -111,7 +111,7 @@ export default function IllawarraPage() {
           <h2 className="text-2xl font-semibold text-brown mb-4">
             Suburbs across the Illawarra
           </h2>
-          <p className="text-[17px] text-brown/70 leading-relaxed">
+          <p className="text-[17px] text-brown/85 leading-relaxed">
             I provide in-person NDIS Support Coordination across the Illawarra,
             including Wollongong, North Wollongong, Thirroul, Figtree, Keiraville,
             Shellharbour, Warilla, Albion Park, Dapto, Kiama, Gerringong,
@@ -126,7 +126,7 @@ export default function IllawarraPage() {
           <h2 className="text-2xl md:text-3xl font-semibold text-brown mb-4">
             Ready to get started?
           </h2>
-          <p className="text-[17px] text-brown/70 leading-relaxed mb-8 max-w-xl">
+          <p className="text-[17px] text-brown/85 leading-relaxed mb-8 max-w-xl">
             I would love to hear about your situation and see how I can help.
             There is no obligation, just a conversation to see if I am the right
             fit.
@@ -140,7 +140,7 @@ export default function IllawarraPage() {
             </Link>
             <Link
               href="/referral"
-              className="text-brown/70 font-medium hover:text-brown transition-colors underline underline-offset-4"
+              className="text-brown/85 font-medium hover:text-brown transition-colors underline underline-offset-4"
             >
               Make a referral
             </Link>

@@ -34,7 +34,7 @@ export default function BlogPage() {
           <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4 leading-tight">
             Blog
           </h1>
-          <p className="text-base text-brown/70 leading-relaxed">
+          <p className="text-base text-brown/85 leading-relaxed">
             Practical guides and insights about the NDIS, support coordination,
             and getting the most from your plan.
           </p>
@@ -45,7 +45,7 @@ export default function BlogPage() {
       <section className="py-14 md:py-20">
         <div className="max-w-2xl mx-auto px-6 lg:px-8">
           {posts.length === 0 ? (
-            <p className="text-brown/70">No posts yet — check back soon.</p>
+            <p className="text-brown/85">No posts yet — check back soon.</p>
           ) : (
             <div className="divide-y divide-sage-soft">
               {posts.map((post) => (
@@ -61,7 +61,7 @@ export default function BlogPage() {
                       {post.title}
                     </Link>
                   </h2>
-                  <p className="text-[15px] text-brown/70 leading-relaxed mb-5">
+                  <p className="text-[15px] text-brown/85 leading-relaxed mb-5">
                     {post.excerpt}
                   </p>
                   <Link

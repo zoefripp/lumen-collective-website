@@ -67,7 +67,7 @@ export default function Home() {
               <h1 className="text-5xl md:text-[4.25rem] font-semibold text-brown leading-[1.1] mb-6">
                 Support that meets you where you are.
               </h1>
-              <p className="text-lg text-brown/70 leading-relaxed mb-8">
+              <p className="text-lg text-brown/85 leading-relaxed mb-8">
                 I&apos;m Zoe. I offer support coordination, psychosocial recovery
                 coaching and counselling, so you can work with one person who
                 already knows your story.
@@ -81,7 +81,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/referral"
-                  className="text-brown/70 font-medium hover:text-brown transition-colors underline underline-offset-4"
+                  className="text-brown/85 font-medium hover:text-brown transition-colors underline underline-offset-4"
                 >
                   Make a referral
                 </Link>
@@ -157,7 +157,7 @@ export default function Home() {
                     <h3 className="text-xl font-semibold text-brown">Support Coordination</h3>
                     <span className="text-xs font-semibold uppercase tracking-[0.1em] text-sage">NDIS funded</span>
                   </div>
-                  <p className="text-brown/70 leading-relaxed text-[17px]">
+                  <p className="text-brown/85 leading-relaxed text-[17px]">
                     Help to understand and use your NDIS plan, find the right
                     providers and keep everything working together. Level 2 and
                     Specialist (Level 3).
@@ -181,7 +181,7 @@ export default function Home() {
                     <h3 className="text-xl font-semibold text-brown">Psychosocial Recovery Coaching</h3>
                     <span className="text-xs font-semibold uppercase tracking-[0.1em] text-sage">NDIS funded</span>
                   </div>
-                  <p className="text-brown/70 leading-relaxed text-[17px]">
+                  <p className="text-brown/85 leading-relaxed text-[17px]">
                     Practical, strengths-based coaching for people living with
                     psychosocial disability. Goals, routines, coping and
                     connection, at your pace.
@@ -205,7 +205,7 @@ export default function Home() {
                     <h3 className="text-xl font-semibold text-brown">Counselling</h3>
                     <span className="text-xs text-brown/80">$120 · 50 minutes · in person or online</span>
                   </div>
-                  <p className="text-brown/70 leading-relaxed text-[17px]">
+                  <p className="text-brown/85 leading-relaxed text-[17px]">
                     A calm, private space to talk things through. Open to private
                     clients and NDIS participants. No referral needed.
                   </p>
@@ -228,7 +228,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-[2.75rem] font-semibold text-brown leading-[1.15] mb-5">
                 Start with a free, no-pressure chat.
               </h2>
-              <p className="text-lg text-brown/70 leading-relaxed mb-8">
+              <p className="text-lg text-brown/85 leading-relaxed mb-8">
                 A short intro call to see if we are a good fit and answer your
                 questions. If it feels right, we book your first session.
               </p>
@@ -250,7 +250,7 @@ export default function Home() {
               ].map(([dt, dd]) => (
                 <div key={dt as string} className="flex gap-4">
                   <dt className="text-sm font-semibold text-brown min-w-[80px]">{dt}</dt>
-                  <dd className="text-sm text-brown/70">{dd}</dd>
+                  <dd className="text-sm text-brown/85">{dd}</dd>
                 </div>
               ))}
             </dl>
@@ -265,7 +265,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-[2.75rem] font-semibold text-brown leading-[1.15]">
               Where I work
             </h2>
-            <div className="space-y-4 text-[17px] text-brown/70 leading-relaxed">
+            <div className="space-y-4 text-[17px] text-brown/85 leading-relaxed">
               <p>
                 Support coordination and coaching in person across the Illawarra
                 and Greater Sydney, including the Sutherland Shire, and remotely
@@ -280,7 +280,7 @@ export default function Home() {
                 welcome.{" "}
                 <Link
                   href="/referral"
-                  className="text-brown/70 hover:text-brown transition-colors underline underline-offset-4"
+                  className="text-brown/85 hover:text-brown transition-colors underline underline-offset-4"
                 >
                   Make a referral
                 </Link>

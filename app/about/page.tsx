@@ -19,7 +19,7 @@ export default function AboutPage() {
           <h1 className="text-5xl md:text-[4.25rem] font-semibold text-brown leading-[1.1] mb-6">
             About Lumen
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed max-w-2xl">
+          <p className="text-lg text-brown/85 leading-relaxed max-w-2xl">
             I started Lumen Collective to offer a service that is responsive,
             effective and reliable. Too often people are left waiting for
             call-backs, passed between workers or handed a plan that looks good
@@ -36,7 +36,7 @@ export default function AboutPage() {
           <h2 className="text-3xl md:text-[2.75rem] font-semibold text-brown leading-[1.15] mb-6">
             Meet Zoe
           </h2>
-          <div className="space-y-4 text-[17px] text-brown/70 leading-relaxed mb-6">
+          <div className="space-y-4 text-[17px] text-brown/85 leading-relaxed mb-6">
             <p>
               I&apos;m Zoe. I have more than 12 years&apos; experience in the disability
               and community sector, with a background in youth and community
@@ -74,7 +74,7 @@ export default function AboutPage() {
                 <span className="text-sm font-semibold text-sage-soft w-8 flex-shrink-0 pt-1">{n}</span>
                 <div>
                   <h3 className="text-lg font-semibold text-brown mb-3">{heading}</h3>
-                  <p className="text-[17px] text-brown/70 leading-relaxed">{body}</p>
+                  <p className="text-[17px] text-brown/85 leading-relaxed">{body}</p>
                 </div>
               </div>
             ))}
@@ -86,7 +86,7 @@ export default function AboutPage() {
       <section className="bg-peach-tint py-14 md:py-18">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-semibold text-brown mb-4">Ready to talk?</h2>
-          <p className="text-[17px] text-brown/70 leading-relaxed mb-8 max-w-xl">
+          <p className="text-[17px] text-brown/85 leading-relaxed mb-8 max-w-xl">
             Get in touch and we will work out together whether Lumen is the right
             fit. Referrals from allied health, hospitals and families are always
             welcome.
@@ -100,7 +100,7 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/referral"
-              className="text-brown/70 font-medium hover:text-brown transition-colors underline underline-offset-4"
+              className="text-brown/85 font-medium hover:text-brown transition-colors underline underline-offset-4"
             >
               Make a referral
             </Link>

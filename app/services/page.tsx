@@ -16,7 +16,7 @@ export default function ServicesPage() {
       <section className="py-16 md:py-20 border-b border-sage-soft">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-5xl md:text-[4.25rem] font-semibold text-brown leading-[1.1] mb-6">Services</h1>
-          <p className="text-lg text-brown/70 leading-relaxed max-w-2xl">
+          <p className="text-lg text-brown/85 leading-relaxed max-w-2xl">
             Three services, one point of contact. All delivered by me, Zoe, so
             the person you speak to is always the person doing the work.
           </p>
@@ -56,7 +56,7 @@ export default function ServicesPage() {
                     <h2 className="text-xl font-semibold text-brown">{title}</h2>
                     <span className="text-xs font-semibold uppercase tracking-[0.1em] text-sage">{label}</span>
                   </div>
-                  <p className="text-[17px] text-brown/70 leading-relaxed">{body}</p>
+                  <p className="text-[17px] text-brown/85 leading-relaxed">{body}</p>
                 </div>
                 <svg className="w-5 h-5 text-sage-soft group-hover:text-sage transition-colors flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />

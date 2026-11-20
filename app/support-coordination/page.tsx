@@ -43,13 +43,13 @@ export default function SupportCoordinationPage() {
               <h2 className="text-2xl md:text-3xl font-semibold text-brown mb-5">
                 Support Coordination
               </h2>
-              <p className="text-[17px] text-brown/70 leading-relaxed mb-4">
+              <p className="text-[17px] text-brown/85 leading-relaxed mb-4">
                 For NDIS participants who want help to understand and use their
                 plan. I help you make sense of your funding, find and connect
                 with providers, set up service agreements and keep your supports
                 working together through the life of your plan.
               </p>
-              <p className="text-[17px] text-brown/70 leading-relaxed">
+              <p className="text-[17px] text-brown/85 leading-relaxed">
                 I handle the administrative complexity so you can focus on what
                 matters. That includes reaching out to providers, tracking
                 service agreements, preparing for plan reviews and acting as a
@@ -62,13 +62,13 @@ export default function SupportCoordinationPage() {
               <h2 className="text-2xl md:text-3xl font-semibold text-brown mb-5">
                 Specialist Support Coordination
               </h2>
-              <p className="text-[17px] text-brown/70 leading-relaxed mb-4">
+              <p className="text-[17px] text-brown/85 leading-relaxed mb-4">
                 For situations with high complexity, such as psychosocial
                 disability, multiple systems involved, hospital discharge,
                 housing changes or risk to your supports. I bring clarity to
                 complexity and make sure nothing falls through the gaps.
               </p>
-              <p className="text-[17px] text-brown/70 leading-relaxed">
+              <p className="text-[17px] text-brown/85 leading-relaxed">
                 Specialist Support Coordination is funded under Capacity
                 Building in your NDIS plan. It requires NDIA approval and is
                 not available to all participants.
@@ -86,7 +86,7 @@ export default function SupportCoordinationPage() {
             {faqs.map(({ q, a }) => (
               <div key={q} className="py-6">
                 <p className="font-semibold text-brown mb-2">{q}</p>
-                <p className="text-[17px] text-brown/70 leading-relaxed">{a}</p>
+                <p className="text-[17px] text-brown/85 leading-relaxed">{a}</p>
               </div>
             ))}
           </div>
@@ -105,7 +105,7 @@ export default function SupportCoordinationPage() {
             </Link>
             <Link
               href="/referral"
-              className="text-brown/70 font-medium hover:text-brown transition-colors underline underline-offset-4"
+              className="text-brown/85 font-medium hover:text-brown transition-colors underline underline-offset-4"
             >
               Make a referral
             </Link>

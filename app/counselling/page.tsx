@@ -61,11 +61,11 @@ export default function CounsellingPage() {
           <h1 className="text-5xl md:text-[4.25rem] font-semibold text-brown leading-[1.1] mb-6">
             Counselling
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed max-w-2xl mb-3">
+          <p className="text-lg text-brown/85 leading-relaxed max-w-2xl mb-3">
             A calm, private space to talk things through and work out what comes
             next. Open to private clients and NDIS participants.
           </p>
-          <p className="text-lg text-brown/70 leading-relaxed max-w-2xl">
+          <p className="text-lg text-brown/85 leading-relaxed max-w-2xl">
             I draw on approaches such as CBT and ACT where they help. The focus
             is always on what is most useful for you.
           </p>
@@ -75,7 +75,7 @@ export default function CounsellingPage() {
       {/* Pricing + CTA */}
       <section className="py-12 md:py-16 border-b border-sage-soft">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ul className="border-l-2 border-peach pl-6 space-y-2.5 text-[17px] text-brown/70 mb-8">
+          <ul className="border-l-2 border-peach pl-6 space-y-2.5 text-[17px] text-brown/85 mb-8">
             <li>$120 per 50-minute session</li>
             <li>Free intro call before you book</li>
             <li>No referral needed</li>
@@ -102,7 +102,7 @@ export default function CounsellingPage() {
                 <span className="text-sm font-semibold text-sage-soft w-6 flex-shrink-0 pt-0.5">{n}.</span>
                 <div>
                   <p className="font-semibold text-brown mb-1">{heading}</p>
-                  <p className="text-[17px] text-brown/70 leading-relaxed">{body}</p>
+                  <p className="text-[17px] text-brown/85 leading-relaxed">{body}</p>
                 </div>
               </div>
             ))}
@@ -118,7 +118,7 @@ export default function CounsellingPage() {
             {faqs.map(({ q, a }) => (
               <div key={q} className="py-6">
                 <p className="font-semibold text-brown mb-2">{q}</p>
-                <p className="text-[17px] text-brown/70 leading-relaxed">{a}</p>
+                <p className="text-[17px] text-brown/85 leading-relaxed">{a}</p>
               </div>
             ))}
           </div>

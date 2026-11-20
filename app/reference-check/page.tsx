@@ -52,7 +52,7 @@ export default function ReferenceCheckPage({
             <h1 className="text-2xl md:text-3xl font-semibold text-brown mb-4">
               Thank you
             </h1>
-            <p className="text-brown/70 text-lg leading-relaxed">
+            <p className="text-brown/85 text-lg leading-relaxed">
               Your reference has been received. We appreciate you taking the
               time to complete this.
             </p>
@@ -70,18 +70,18 @@ export default function ReferenceCheckPage({
           <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
             Reference check — Disability Support Worker
           </h1>
-          <p className="text-brown/70 leading-relaxed mb-2">
+          <p className="text-brown/85 leading-relaxed mb-2">
             Thank you for taking the time to complete this. The person named
             below has applied for a Disability Support Worker role with Lumen
             Collective and has given us your details as a referee.
           </p>
-          <p className="text-brown/70 leading-relaxed mb-2">
+          <p className="text-brown/85 leading-relaxed mb-2">
             We support NDIS participants in their homes and in the community, so
             we ask about reliability, communication and professional boundaries
             as well as the work itself. Answer what you can and leave anything
             you are not able to comment on.
           </p>
-          <p className="text-brown/70 leading-relaxed">
+          <p className="text-brown/85 leading-relaxed">
             Your answers go to Lumen Collective only. We use them to decide
             about this application, we keep them with the applicant&apos;s
             recruitment file, and we do not share them with the applicant unless

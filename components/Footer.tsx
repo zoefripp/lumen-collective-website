@@ -18,7 +18,7 @@ export default function Footer() {
 
           {/* Col 2: Site pages */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-brown/70 mb-4">Pages</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-brown/85 mb-4">Pages</p>
             <ul className="space-y-2.5">
               {[
                 { href: "/about", label: "About" },
@@ -38,7 +38,7 @@ export default function Footer() {
 
           {/* Col 3: Contact + utilities */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-brown/70 mb-4">Contact</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-brown/85 mb-4">Contact</p>
             <ul className="space-y-2.5">
               {[
                 { href: "/referral", label: "Make a referral" },
@@ -69,7 +69,7 @@ export default function Footer() {
             Support coordination, psychosocial recovery coaching and counselling
             across the Illawarra and Greater Sydney, and online.
           </p>
-          <p className="text-xs text-brown/70 mt-2">
+          <p className="text-xs text-brown/85 mt-2">
             &copy; {new Date().getFullYear()} Lumen Collective. All rights reserved.
           </p>
         </div>

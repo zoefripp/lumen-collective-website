@@ -35,7 +35,7 @@ export default function Navbar() {
                 className={`text-sm font-medium transition-colors duration-150 ${
                   pathname === link.href || pathname.startsWith(link.href + "/")
                     ? "text-brown underline underline-offset-4 decoration-sage"
-                    : "text-brown/70 hover:text-brown"
+                    : "text-brown/85 hover:text-brown"
                 }`}
               >
                 {link.label}
@@ -51,7 +51,7 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden p-2 rounded-md text-brown hover:text-brown/70"
+            className="lg:hidden p-2 rounded-md text-brown hover:text-brown/85"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
@@ -80,7 +80,7 @@ export default function Navbar() {
                   className={`px-3 py-2.5 text-sm font-medium rounded-xl transition-colors duration-150 ${
                     pathname === link.href
                       ? "bg-sage-tint text-brown"
-                      : "text-brown/70 hover:text-brown hover:bg-sage-tint/60"
+                      : "text-brown/85 hover:text-brown hover:bg-sage-tint/60"
                   }`}
                 >
                   {link.label}

@@ -23,14 +23,14 @@ export default function ContactPage({
           <h1 className="text-5xl md:text-[4.25rem] font-semibold text-brown leading-[1.1] mb-6">
             Get in touch
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed mb-4">
+          <p className="text-lg text-brown/85 leading-relaxed mb-4">
             Whether you are ready to start or just have questions, I would love
             to hear from you. I am available Monday to Friday, 9am to 5pm, and
             reply within one business day.
           </p>
           <a
             href="mailto:admin@lumencollective.com.au"
-            className="text-brown font-medium hover:text-brown/70 transition-colors underline underline-offset-4"
+            className="text-brown font-medium hover:text-brown/85 transition-colors underline underline-offset-4"
           >
             admin@lumencollective.com.au
           </a>
@@ -40,7 +40,7 @@ export default function ContactPage({
       <section className="py-12 md:py-16">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <ContactForm initialTopic={searchParams.topic ?? ""} />
-          <p className="mt-8 text-sm text-brown/70 leading-relaxed border-t border-sage-soft pt-6">
+          <p className="mt-8 text-sm text-brown/85 leading-relaxed border-t border-sage-soft pt-6">
             If you or someone else is in immediate danger, call 000. For other
             urgent support, see the{" "}
             <Link href="/support-in-a-crisis" className="underline underline-offset-4 hover:text-brown transition-colors">

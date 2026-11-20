@@ -161,7 +161,7 @@ export default function ReferralForm() {
     return (
       <div className="bg-sage-tint border border-sage-soft rounded-2xl p-10 text-center">
         <p className="text-brown font-semibold text-xl mb-2">Referral received.</p>
-        <p className="text-brown/70">We will be in touch shortly to follow up.</p>
+        <p className="text-brown/85">We will be in touch shortly to follow up.</p>
       </div>
     );
   }

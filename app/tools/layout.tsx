@@ -17,7 +17,7 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/lumen-brand-files/lumen-logo-main.svg" alt="Lumen Collective" className="h-8 w-auto" />
           </Link>
-          <Link href="/tools" className="text-sm font-medium text-brown/70 hover:text-brown px-3 py-3 -mr-3 transition-colors">
+          <Link href="/tools" className="text-sm font-medium text-brown/85 hover:text-brown px-3 py-3 -mr-3 transition-colors">
             All forms
           </Link>
         </div>

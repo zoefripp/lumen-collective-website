@@ -260,7 +260,7 @@ export default function SupportInACrisisPage() {
           <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
             Support in a Crisis
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed">
+          <p className="text-lg text-brown/85 leading-relaxed">
             Whether you or someone you care about is experiencing a mental health
             crisis, family violence, an NDIS concern, or another difficult
             situation — help is available. Below is a directory of trusted
@@ -350,7 +350,7 @@ export default function SupportInACrisisPage() {
                     <p className="text-xs font-medium text-sage mb-2">
                       {service.hours}
                     </p>
-                    <p className="text-sm text-brown/70 leading-relaxed">
+                    <p className="text-sm text-brown/85 leading-relaxed">
                       {service.description}
                     </p>
                   </div>

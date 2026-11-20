@@ -18,12 +18,12 @@ export default function ReferralPage() {
           <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
             Make a referral
           </h1>
-          <p className="text-brown/70 leading-relaxed mb-2">
+          <p className="text-brown/85 leading-relaxed mb-2">
             Whether you are looking for support for yourself or for someone you
             care about, this form is the first step. Fill in what you can and we
             will come back to you within 24 hours.
           </p>
-          <p className="text-brown/70 leading-relaxed">
+          <p className="text-brown/85 leading-relaxed">
             You do not need your plan in front of you. Anything you are unsure
             about, leave blank and we will work it out together when we talk.
           </p>
