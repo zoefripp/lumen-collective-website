@@ -51,7 +51,7 @@ const serviceCards = [
   {
     title: "Counselling",
     description:
-      "A calm, private space to talk things through. Open to private clients and NDIS participants. $120 per 50-minute session, no referral needed. In person in Fairy Meadow or online.",
+      "A calm, private space to talk things through. Open to private clients and NDIS participants. $120 · 50 minutes · in person or online.",
     href: "/services#counselling",
   },
 ];
@@ -67,23 +67,45 @@ export default function Home() {
       {/* Hero — sage background */}
       <section className="bg-sage py-20 md:py-28">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center mb-12">
-            <Logo variant="sage" className="h-16 w-auto" />
-          </div>
-          <div className="max-w-2xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-semibold text-cream leading-tight mb-6">
-              Support that makes the complex feel manageable
-            </h1>
-            <p className="text-lg text-cream/85 mb-8 leading-relaxed">
-              Support coordination, psychosocial recovery coaching and counselling
-              across Sydney, the Sutherland Shire and the Illawarra, and online.
-            </p>
-            <Link
-              href="/contact?topic=intro-call"
-              className="inline-block bg-peach text-brown font-semibold rounded-full px-8 py-3.5 hover:bg-peach/90 transition-colors"
-            >
-              Book a free intro call
-            </Link>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: text */}
+            <div>
+              <p className="text-sm font-semibold text-cream/70 uppercase tracking-widest mb-6">
+                Illawarra · Greater Sydney · Remote and online
+              </p>
+              <h1 className="text-4xl md:text-5xl font-semibold text-cream leading-tight mb-6">
+                Support that makes the complex feel manageable
+              </h1>
+              <p className="text-lg text-cream/85 mb-8 leading-relaxed">
+                Support coordination, psychosocial recovery coaching and counselling
+                across the Illawarra and Greater Sydney, and online.
+              </p>
+              <div className="flex flex-wrap gap-5 items-center">
+                <Link
+                  href="/contact"
+                  className="inline-block bg-peach text-brown font-semibold rounded-full px-8 py-3.5 hover:bg-peach/90 transition-colors"
+                >
+                  Get in touch
+                </Link>
+                <Link
+                  href="/referral"
+                  className="text-cream/85 font-medium hover:text-cream transition-colors underline underline-offset-2"
+                >
+                  Make a referral
+                </Link>
+              </div>
+            </div>
+            {/* Right: stacked logo on sage-tint panel */}
+            <div className="flex justify-center">
+              <div className="bg-sage-tint rounded-lg p-10 flex items-center justify-center w-full max-w-sm">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/lumen-brand-files/lumen-logo-stacked.svg"
+                  alt="Lumen Collective"
+                  className="h-52 w-auto"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

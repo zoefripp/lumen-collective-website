@@ -93,16 +93,18 @@ export default function AboutPage() {
               at the centre of it all.
             </p>
             <p>
-              Zoe also offers counselling for private clients and NDIS participants. Sessions
-              are available in person in Fairy Meadow and online.
+              Support coordination and coaching in person across the Illawarra and Greater
+              Sydney, including the Sutherland Shire, and remotely across NSW, QLD and VIC.
+              Counselling in person in the Illawarra and Greater Sydney, or online wherever
+              you are.
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              href="/contact?topic=intro-call"
+              href="/contact"
               className="inline-block bg-peach text-brown font-semibold rounded-full px-7 py-3 hover:bg-peach/90 transition-colors"
             >
-              Book a free intro call
+              Get in touch
             </Link>
             <Link
               href="/referral"

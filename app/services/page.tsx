@@ -43,7 +43,7 @@ const faqCounselling = [
   },
   {
     q: "Where are sessions held?",
-    a: "In person in Fairy Meadow, or online via video call.",
+    a: "In person in the Illawarra and Greater Sydney, or online via video call.",
   },
 ];
 
@@ -224,7 +224,7 @@ export default function ServicesPage() {
             <ul className="space-y-2 text-sm text-brown/70">
               <li>$120 per 50-minute session</li>
               <li>No referral needed</li>
-              <li>In person in Fairy Meadow or online</li>
+              <li>Illawarra, Greater Sydney or online</li>
               <li>NDIS participants who are self-managed or plan-managed can use their plan funding</li>
             </ul>
             <div className="mt-6">

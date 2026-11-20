@@ -41,7 +41,7 @@ export default function Footer() {
         <div className="mt-6 pt-6 border-t border-sage-soft">
           <p className="text-xs text-brown/60">
             Support coordination, psychosocial recovery coaching and counselling
-            across Sydney, the Sutherland Shire and the Illawarra, and online.
+            across the Illawarra and Greater Sydney, and online.
           </p>
           <p className="text-xs text-brown/60 mt-1">
             ABN: 59 407 161 672 &nbsp;|&nbsp; NDIS Provider Number: 4050174532

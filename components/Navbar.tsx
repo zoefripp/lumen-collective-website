@@ -44,10 +44,10 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="/contact?topic=intro-call"
+              href="/contact"
               className="bg-peach text-brown text-sm font-semibold rounded-full px-5 py-2 hover:bg-peach/90 transition-colors duration-150"
             >
-              Book a free intro call
+              Contact us
             </Link>
           </div>
 
@@ -89,11 +89,11 @@ export default function Navbar() {
                 </Link>
               ))}
               <Link
-                href="/contact?topic=intro-call"
+                href="/contact"
                 onClick={() => setMenuOpen(false)}
                 className="mt-2 bg-peach text-brown text-sm font-semibold rounded-full px-5 py-2.5 text-center hover:bg-peach/90 transition-colors duration-150"
               >
-                Book a free intro call
+                Contact us
               </Link>
             </div>
           </div>
