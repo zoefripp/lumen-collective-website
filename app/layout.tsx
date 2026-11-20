@@ -52,6 +52,15 @@ export const metadata: Metadata = {
   },
 };
 
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Lumen Collective",
+  url: "https://www.lumencollective.com.au",
+  logo: "https://www.lumencollective.com.au/lumen-brand-files/icon-512.png",
+  email: "admin@lumencollective.com.au",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,6 +68,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={poppins.variable}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+      </head>
       <body className="font-poppins antialiased bg-cream text-brown">
         <Navbar />
         <main>{children}</main>
