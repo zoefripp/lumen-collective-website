@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Reference Check | Lumen Collective",
+  title: "Reference Check",
   description: "Reference check form for Disability Support Worker applicants at Lumen Collective.",
 };
 

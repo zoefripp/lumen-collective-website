@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "NDIS Support Coordination Sutherland Shire | Lumen Collective",
+  title: "NDIS Support Coordination Sutherland Shire",
   description:
     "Looking for NDIS Support Coordination in the Sutherland Shire? Lumen Collective offers personalised Level 2, Level 3 and Psychosocial Recovery Coaching across Cronulla, Miranda, Caringbah and surrounding suburbs.",
   alternates: {

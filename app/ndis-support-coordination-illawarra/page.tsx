@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "NDIS Support Coordination Illawarra | Lumen Collective",
+  title: "NDIS Support Coordination Illawarra",
   description:
     "Lumen Collective provides NDIS Support Coordination across the Illawarra — including Wollongong, Shellharbour, Kiama and the surrounding region. Level 2, Level 3 and Psychosocial Recovery Coaching available.",
   alternates: {
