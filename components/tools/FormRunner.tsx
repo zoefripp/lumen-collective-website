@@ -384,7 +384,7 @@ export default function FormRunner({ slug }: { slug: string }) {
       )}
 
       {form.signatures.length > 0 && (
-        <Card title="Signatures">
+        <Card title={form.signaturesTitle ?? "Signatures"}>
           <div className="grid gap-6 sm:grid-cols-2">
             {form.signatures.map((signature) => (
               <div key={`${signature.id}_${run}`} id={`q_signature_${signature.id}`}>

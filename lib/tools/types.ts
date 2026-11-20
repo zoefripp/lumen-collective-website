@@ -172,6 +172,8 @@ export type FormDef = {
   // Returns the paragraphs of the automatic summary.
   summary?: (context: SummaryContext) => string[];
   signatures: SignatureDef[];
+  // Heading over the signatures, e.g. "Signing The Deal". Defaults to "Signatures".
+  signaturesTitle?: string;
   // PDF layout. "goalMap" is a designed, participant-ready page for the
   // SMART and GROW form instead of the question-and-answer list.
   layout?: "standard" | "goalMap";

@@ -7,6 +7,9 @@ import { act5NoticingSelf } from "./act-5-noticing-self";
 import { act6ValuesAction } from "./act-6-values-action";
 import { aboutMe } from "./about-me";
 import { checkIn } from "./check-in";
+import { firstSession } from "./first-session";
+import { introAct } from "./intro-act";
+import { introCbt } from "./intro-cbt";
 import { ocdSupportPlan } from "./ocd-support-plan";
 import { predictableSession } from "./predictable-session";
 import { checkOut } from "./check-out";
@@ -22,11 +25,11 @@ import { wheelOfLife } from "./wheel-of-life";
 
 // The forms menu, in order, under these headings.
 const menu: [string, FormDef[]][] = [
-  ["Getting started", [headsAssessment, aboutMe]],
+  ["Getting started", [firstSession, headsAssessment, aboutMe]],
   ["Every session", [checkIn, checkOut]],
   ["Goals and planning", [goalsActionPlan, smartGrow, safetyWellnessPlan, ocdSupportPlan]],
   ["Tools and worksheets", [wheelOfLife, valuesBullseye, lifeAuditValues, thoughtRecord]],
-  ["Session plans", [act1GettingUnstuck, act2DroppingAnchor, act3Unhooking, act4MakingRoom, act5NoticingSelf, act6ValuesAction, valuesBeliefsSession, predictableSession]],
+  ["Session plans", [introAct, act1GettingUnstuck, act2DroppingAnchor, act3Unhooking, act4MakingRoom, act5NoticingSelf, act6ValuesAction, introCbt, valuesBeliefsSession, predictableSession]],
 ];
 
 export const forms: FormDef[] = menu.flatMap(([group, items]) =>

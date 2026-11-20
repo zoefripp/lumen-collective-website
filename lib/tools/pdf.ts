@@ -861,7 +861,7 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
 
   // ---- Signatures --------------------------------------------------------
   // The goal map draws its signatures itself, under the goal on page 1.
-  if (form.layout !== "goalMap") await drawSignatures("Signatures");
+  if (form.layout !== "goalMap") await drawSignatures(form.signaturesTitle ?? "Signatures");
 
   // ---- Footers -----------------------------------------------------------
   const pages = doc.getPages();
