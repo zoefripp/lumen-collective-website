@@ -253,14 +253,14 @@ const categories: Category[] = [
 
 export default function SupportInACrisisPage() {
   return (
-    <div className="bg-[#faf8f5] min-h-screen">
+    <div className="bg-cream min-h-screen">
       {/* Header */}
-      <section className="py-16 md:py-20 bg-white border-b border-gray-100">
+      <section className="py-16 md:py-20 border-b border-sage-soft">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-semibold text-[#1a1a1a] mb-4">
+          <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
             Support in a Crisis
           </h1>
-          <p className="text-lg text-[#555555] leading-relaxed">
+          <p className="text-lg text-brown/70 leading-relaxed">
             Whether you or someone you care about is experiencing a mental health
             crisis, family violence, an NDIS concern, or another difficult
             situation — help is available. Below is a directory of trusted
@@ -287,24 +287,24 @@ export default function SupportInACrisisPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
           {categories.map((category) => (
             <div key={category.title}>
-              <h2 className="text-xl font-semibold text-[#1a1a1a] mb-5 pb-2 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-brown mb-5 pb-2 border-b border-sage-soft">
                 {category.title}
               </h2>
               <div className="space-y-4">
                 {category.services.map((service) => (
                   <div
                     key={service.name}
-                    className="bg-white rounded-lg border border-gray-200 p-5"
+                    className="bg-white rounded-xl border border-sage-soft p-5"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
-                      <h3 className="font-semibold text-[#1a1a1a] text-base">
+                      <h3 className="font-semibold text-brown text-base">
                         {service.name}
                       </h3>
                       <div className="flex flex-wrap gap-2 shrink-0">
                         {service.phone && (
                           <a
                             href={`tel:${service.phone.replace(/\s/g, "")}`}
-                            className="inline-flex items-center gap-1.5 bg-[#1a6b6b] hover:bg-[#154f4f] text-white text-sm font-medium px-3 py-1.5 rounded-md transition-colors duration-150 whitespace-nowrap"
+                            className="inline-flex items-center gap-1.5 bg-sage hover:bg-sage/90 text-cream text-sm font-medium px-3 py-1.5 rounded-full transition-colors duration-150 whitespace-nowrap"
                           >
                             <svg
                               className="w-3.5 h-3.5"
@@ -327,7 +327,7 @@ export default function SupportInACrisisPage() {
                             href={`https://${service.website}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 border border-[#1a6b6b] text-[#1a6b6b] hover:bg-[#1a6b6b] hover:text-white text-sm font-medium px-3 py-1.5 rounded-md transition-colors duration-150 whitespace-nowrap"
+                            className="inline-flex items-center gap-1.5 border border-sage text-brown hover:bg-sage-tint text-sm font-medium px-3 py-1.5 rounded-full transition-colors duration-150 whitespace-nowrap"
                           >
                             <svg
                               className="w-3.5 h-3.5"
@@ -347,10 +347,10 @@ export default function SupportInACrisisPage() {
                         )}
                       </div>
                     </div>
-                    <p className="text-xs font-medium text-[#1a6b6b] mb-2">
+                    <p className="text-xs font-medium text-sage mb-2">
                       {service.hours}
                     </p>
-                    <p className="text-sm text-[#555555] leading-relaxed">
+                    <p className="text-sm text-brown/70 leading-relaxed">
                       {service.description}
                     </p>
                   </div>
@@ -364,7 +364,7 @@ export default function SupportInACrisisPage() {
       {/* Disclaimer */}
       <section className="pb-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs text-[#555555] border-t border-gray-200 pt-8">
+          <p className="text-xs text-brown/60 border-t border-sage-soft pt-8">
             Service details are correct to the best of our knowledge. Hours and
             contact information may change — please verify directly with each
             service if you are unsure. This page is a resource guide only and is

@@ -61,7 +61,7 @@ export default function BlogPostPage({ params }: Props) {
   };
 
   return (
-    <div className="bg-offwhite min-h-screen">
+    <div className="bg-cream min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -71,7 +71,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* Back link */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-[#1a6b6b] transition-colors duration-150 mb-10"
+          className="inline-flex items-center gap-1.5 text-sm text-brown/60 hover:text-sage transition-colors duration-150 mb-10"
         >
           <svg
             className="w-3.5 h-3.5"
@@ -86,17 +86,17 @@ export default function BlogPostPage({ params }: Props) {
         </Link>
 
         {/* Post header */}
-        <header className="mb-10 pb-8 border-b border-gray-200">
+        <header className="mb-10 pb-8 border-b border-sage-soft">
           <time
             dateTime={post.date}
-            className="text-xs font-medium text-muted uppercase tracking-widest"
+            className="text-xs font-medium text-brown/50 uppercase tracking-widest"
           >
             {formatDate(post.date)}
           </time>
-          <h1 className="mt-3 text-3xl md:text-[2.25rem] font-semibold text-charcoal leading-tight">
+          <h1 className="mt-3 text-3xl md:text-[2.25rem] font-semibold text-brown leading-tight">
             {post.title}
           </h1>
-          <p className="mt-4 text-[17px] text-muted leading-relaxed">
+          <p className="mt-4 text-[17px] text-brown/70 leading-relaxed">
             {post.excerpt}
           </p>
         </header>
@@ -104,28 +104,28 @@ export default function BlogPostPage({ params }: Props) {
         {/* MDX content */}
         <article className="
           prose prose-base max-w-none
-          prose-headings:font-semibold prose-headings:text-[#1a6b6b] prose-headings:leading-snug
+          prose-headings:font-semibold prose-headings:text-brown prose-headings:leading-snug
           prose-h2:text-[1.4rem] prose-h2:mt-10 prose-h2:mb-4
           prose-h3:text-[1.15rem] prose-h3:mt-8 prose-h3:mb-3
-          prose-p:text-[#1a1a1a] prose-p:leading-[1.8] prose-p:my-5 prose-p:text-[15px]
-          prose-li:text-[#1a1a1a] prose-li:leading-[1.8] prose-li:text-[15px]
+          prose-p:text-brown prose-p:leading-[1.8] prose-p:my-5 prose-p:text-[15px]
+          prose-li:text-brown prose-li:leading-[1.8] prose-li:text-[15px]
           prose-ul:my-5 prose-ul:space-y-2
-          prose-strong:text-[#1a1a1a] prose-strong:font-semibold
-          prose-a:text-[#1a6b6b] prose-a:no-underline prose-a:font-medium hover:prose-a:underline
+          prose-strong:text-brown prose-strong:font-semibold
+          prose-a:text-sage prose-a:no-underline prose-a:font-medium hover:prose-a:underline
         ">
           <MDXRemote source={post.content} />
         </article>
 
         {/* Footer CTA */}
-        <div className="mt-16 pt-8 border-t border-gray-200">
-          <p className="text-[15px] text-muted leading-relaxed mb-5">
+        <div className="mt-16 pt-8 border-t border-sage-soft">
+          <p className="text-[15px] text-brown/70 leading-relaxed mb-5">
             Have questions about your NDIS plan or support coordination?
           </p>
           <Link
             href="/contact"
-            className="inline-block bg-[#1a6b6b] hover:bg-[#154f4f] text-white font-medium px-5 py-2.5 rounded-md transition-colors duration-150 text-sm"
+            className="inline-block bg-peach text-brown font-semibold rounded-full px-6 py-2.5 hover:bg-peach/90 transition-colors text-sm"
           >
-            Get in Touch
+            Get in touch
           </Link>
         </div>
 
