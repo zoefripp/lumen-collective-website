@@ -69,3 +69,10 @@ export function todayIso(): string {
   const day = String(now.getDate()).padStart(2, "0");
   return `${now.getFullYear()}-${month}-${day}`;
 }
+
+// Sections with a showIf only appear once the linked choice has a matching answer.
+export function sectionVisible(section: { showIf?: { field: string; anyOf: string[] } }, answers: Answers): boolean {
+  if (!section.showIf) return true;
+  const value = answers[section.showIf.field];
+  return typeof value === "string" && section.showIf.anyOf.includes(value);
+}

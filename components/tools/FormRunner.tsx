@@ -7,8 +7,9 @@ import ValuesPicker from "./ValuesPicker";
 import PairsInput from "./PairsInput";
 import SessionTimer from "./SessionTimer";
 import FunnelPicker from "./FunnelPicker";
+import CirclesInput from "./CirclesInput";
 import { getForm } from "@/lib/tools/forms";
-import { computeScores, todayIso } from "@/lib/tools/scoring";
+import { computeScores, sectionVisible, todayIso } from "@/lib/tools/scoring";
 import { buildPdf, pdfFilename, toBase64 } from "@/lib/tools/pdf";
 import type { Answers, AnswerValue, Details, Field, Signatures } from "@/lib/tools/types";
 
@@ -100,7 +101,7 @@ export default function FormRunner({ slug }: { slug: string }) {
     if (!details.participant.trim()) list.push("detail_participant");
     if (!details.coach.trim()) list.push("detail_coach");
     if (!details.date) list.push("detail_date");
-    for (const section of form.sections) {
+    for (const section of form.sections.filter((item) => sectionVisible(item, answers))) {
       for (const field of section.fields) {
         if (!("required" in field) || !field.required) continue;
         const value = answers[field.id];
@@ -304,7 +305,7 @@ export default function FormRunner({ slug }: { slug: string }) {
         </div>
       </Card>
 
-      {form.sections.map((section) => (
+      {form.sections.filter((section) => sectionVisible(section, answers)).map((section) => (
         <Card key={section.title} title={section.title} intro={section.intro} minutes={section.minutes}>
           <div className="flex flex-col gap-7">
             {section.fields.map((field) =>
@@ -332,6 +333,8 @@ export default function FormRunner({ slug }: { slug: string }) {
                   <WheelInput field={field} answers={answers} onChange={setAnswer} />
                 ) : field.type === "values" ? (
                   <ValuesPicker field={field} answers={answers} onChange={setAnswer} />
+                ) : field.type === "circles" ? (
+                  <CirclesInput field={field} answers={answers} onChange={setAnswer} />
                 ) : field.type === "funnel" ? (
                   <FunnelPicker field={field} answers={answers} onChange={setAnswer} />
                 ) : field.type === "pairs" ? (
@@ -552,6 +555,7 @@ function FieldInput({
     case "values":
     case "pairs":
     case "funnel":
+    case "circles":
       return null;
     case "scale": {
       const steps = Array.from({ length: field.max - field.min + 1 }, (_, index) => field.min + index);

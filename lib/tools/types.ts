@@ -78,8 +78,17 @@ export type PairsField = {
   type: "pairs"; // a two-column table, e.g. "My value" and "Why I value it"
   label: string;
   help?: string;
-  columns: [string, string];
+  columns: string[]; // two or more columns
+  widths?: number[]; // relative column widths, e.g. [2, 3]
   rows: number;
+};
+
+export type CirclesField = {
+  id: string;
+  type: "circles"; // circles of support: names in rings around "Me", drawn as a diagram
+  label: string;
+  help?: string;
+  rings: { label: string; help?: string }[]; // closest first
 };
 
 export type FunnelField = {
@@ -102,6 +111,7 @@ export type FunnelField = {
 };
 
 export type Field =
+  | CirclesField
   | FunnelField
   | TextField
   | ChoiceField
@@ -117,6 +127,8 @@ export type Section = {
   intro?: string;
   // For session plans: when this part runs, in minutes from the start.
   minutes?: [number, number];
+  // Only show this section when a choice question has one of these answers.
+  showIf?: { field: string; anyOf: string[] };
   fields: Field[];
 };
 

@@ -7,45 +7,56 @@ type Props = {
   onChange: (id: string, value: string) => void;
 };
 
-export const pairId = (field: { id: string }, row: number, column: 0 | 1) => `${field.id}_${row + 1}_${column}`;
+export const pairId = (field: { id: string }, row: number, column: number) => `${field.id}_${row + 1}_${column}`;
 
-// Two-column table, one row per entry (e.g. "My value" / "Why I value it").
+// A table with one row per entry. Two columns (e.g. "My value" / "Why I value
+// it") get a short box and a longer one; wider tables use short boxes.
 export default function PairsInput({ field, answers, onChange }: Props) {
   const value = (id: string) => {
     const answer = answers[id];
     return typeof answer === "string" ? answer : "";
   };
+  const widths = field.widths ?? (field.columns.length === 2 ? [2, 3] : field.columns.map(() => 1));
+  const template = widths.map((width) => `minmax(0,${width}fr)`).join(" ");
   const inputClass =
-    "w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base text-charcoal focus:border-teal focus:outline-none";
+    "w-full rounded-xl border-2 border-gray-300 bg-white px-3 py-3 text-base text-charcoal focus:border-teal focus:outline-none";
+  const twoColumns = field.columns.length === 2;
 
   return (
     <div>
-      <div className="mb-2 hidden grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-3 sm:grid">
+      <div className="mb-2 hidden gap-2 sm:grid" style={{ gridTemplateColumns: template }}>
         {field.columns.map((column) => (
-          <div key={column} className="text-center text-sm font-semibold uppercase tracking-wide text-[#41647a]">
+          <div key={column} className="text-center text-xs font-semibold uppercase tracking-wide text-[#41647a]">
             {column}
           </div>
         ))}
       </div>
       <div className="flex flex-col gap-3">
         {Array.from({ length: field.rows }, (_, row) => (
-          <div key={row} className="grid gap-2 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:gap-3">
-            <input
-              aria-label={`${field.columns[0]} ${row + 1}`}
-              placeholder={field.columns[0]}
-              className={inputClass}
-              value={value(pairId(field, row, 0))}
-              onChange={(event) => onChange(pairId(field, row, 0), event.target.value)}
-              autoComplete="off"
-            />
-            <textarea
-              aria-label={`${field.columns[1]} ${row + 1}`}
-              placeholder={field.columns[1]}
-              rows={1}
-              className={`${inputClass} min-h-[3.25rem] resize-y`}
-              value={value(pairId(field, row, 1))}
-              onChange={(event) => onChange(pairId(field, row, 1), event.target.value)}
-            />
+          <div key={row} className="grid gap-2 max-sm:!grid-cols-1" style={{ gridTemplateColumns: template }}>
+            {field.columns.map((column, columnIndex) =>
+              twoColumns && columnIndex === 1 ? (
+                <textarea
+                  key={column}
+                  aria-label={`${column} ${row + 1}`}
+                  placeholder={column}
+                  rows={1}
+                  className={`${inputClass} min-h-[3.25rem] resize-y`}
+                  value={value(pairId(field, row, columnIndex))}
+                  onChange={(event) => onChange(pairId(field, row, columnIndex), event.target.value)}
+                />
+              ) : (
+                <input
+                  key={column}
+                  aria-label={`${column} ${row + 1}`}
+                  placeholder={column}
+                  className={inputClass}
+                  value={value(pairId(field, row, columnIndex))}
+                  onChange={(event) => onChange(pairId(field, row, columnIndex), event.target.value)}
+                  autoComplete="off"
+                />
+              )
+            )}
           </div>
         ))}
       </div>

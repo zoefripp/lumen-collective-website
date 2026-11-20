@@ -6,7 +6,13 @@ import { act4MakingRoom } from "./act-4-making-room";
 import { act5NoticingSelf } from "./act-5-noticing-self";
 import { act6ValuesAction } from "./act-6-values-action";
 import { aboutMe } from "./about-me";
+import { activityMood } from "./activity-mood";
 import { checkIn } from "./check-in";
+import { circlesOfSupport } from "./circles-of-support";
+import { copingToolbox } from "./coping-toolbox";
+import { dailyRoutine } from "./daily-routine";
+import { problemSolving } from "./problem-solving";
+import { worryTree } from "./worry-tree";
 import { firstSession } from "./first-session";
 import { introAct } from "./intro-act";
 import { introCbt } from "./intro-cbt";
@@ -28,7 +34,7 @@ const menu: [string, FormDef[]][] = [
   ["Getting started", [firstSession, headsAssessment, aboutMe]],
   ["Every session", [checkIn, checkOut]],
   ["Goals and planning", [goalsActionPlan, smartGrow, safetyWellnessPlan, ocdSupportPlan]],
-  ["Tools and worksheets", [wheelOfLife, valuesBullseye, lifeAuditValues, thoughtRecord]],
+  ["Tools and worksheets", [wheelOfLife, valuesBullseye, lifeAuditValues, thoughtRecord, activityMood, worryTree, problemSolving, copingToolbox, circlesOfSupport, dailyRoutine]],
   ["Session plans", [introAct, act1GettingUnstuck, act2DroppingAnchor, act3Unhooking, act4MakingRoom, act5NoticingSelf, act6ValuesAction, introCbt, valuesBeliefsSession, predictableSession]],
 ];
 

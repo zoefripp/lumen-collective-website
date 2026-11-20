@@ -5,6 +5,8 @@ import { wheelPng } from "./wheel";
 import { segmentCounts, valuesWheelPng } from "./values-wheel";
 import { GROW_MEANING, SMART_MEANING } from "./forms/smart-grow";
 import { chosenAt, funnelAnswered, kinds as funnelKinds } from "./funnel";
+import { circlesPng, namesFrom } from "./circles";
+import { sectionVisible } from "./scoring";
 
 // Builds the completed-form PDF entirely in the browser.
 
@@ -537,9 +539,10 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     if (field.type === "note") return Boolean(field.print);
     if (field.type === "wheel") return field.areas.some((area) => typeof answers[area.id] === "number");
     if (field.type === "funnel") return funnelAnswered(answers, field);
+    if (field.type === "circles") return field.rings.some((_, index) => namesFrom(answers[`${field.id}_${index}`]).length > 0);
     if (field.type === "pairs") {
       return Array.from({ length: field.rows }, (_, row) => row).some((row) =>
-        [0, 1].some((column) => {
+        field.columns.some((_, column) => {
           const value = answers[pairKey(field.id, row, column)];
           return typeof value === "string" && value.trim() !== "";
         })
@@ -551,14 +554,14 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     return typeof value === "string" && value.trim() !== "";
   };
 
-  for (const section of form.sections) {
+  for (const section of form.sections.filter((item) => sectionVisible(item, answers))) {
     const printable = section.fields.filter((field) =>
       form.hideEmpty ? isAnswered(field) : field.type !== "note" || field.print
     );
     if (!printable.length) continue; // a section of coach prompts only, or nothing answered
     heading(
       section.minutes ? `${section.title} (${section.minutes[0]}–${section.minutes[1]} min)` : section.title,
-      printable[0].type === "wheel" || printable[0].type === "values" ? 440 : 60
+      printable[0].type === "wheel" || printable[0].type === "values" || printable[0].type === "circles" ? 440 : 60
     );
     for (const field of printable) {
       if (field.type === "note") {
@@ -718,38 +721,71 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
         continue;
       }
 
+      if (field.type === "circles") {
+        const names = field.rings.map((_, index) => namesFrom(answers[`${field.id}_${index}`]));
+        const dataUrl = circlesPng(field.rings, names);
+        if (dataUrl) {
+          const image = await doc.embedPng(dataUrl);
+          const side = Math.min(CONTENT_WIDTH, 400);
+          ensureSpace(side + 8);
+          page.drawImage(image, { x: MARGIN + (CONTENT_WIDTH - side) / 2, y: y - side, width: side, height: side });
+          y -= side + 12;
+        }
+        field.rings.forEach((ring, index) => {
+          if (!names[index].length) return;
+          ensureSpace(34);
+          drawText(ring.label, { font: bold, size: 9.5, color: MUTED });
+          drawText(names[index].join(", "), { size: 10.5, gap: 6 });
+        });
+        continue;
+      }
+
       if (field.type === "pairs") {
-        const rows = Array.from({ length: field.rows }, (_, row) => {
-          const cell = (column: number) => {
+        const columnCount = field.columns.length;
+        const rows = Array.from({ length: field.rows }, (_, row) =>
+          field.columns.map((_, column) => {
             const value = answers[pairKey(field.id, row, column)];
             return typeof value === "string" ? value.trim() : "";
-          };
-          return [cell(0), cell(1)] as const;
-        }).filter(([a, b]) => a || b);
+          })
+        ).filter((cells) => cells.some(Boolean));
         ensureSpace(48);
         drawText(field.label, { font: bold, size: 9.5, color: MUTED, gap: 4 });
         if (!rows.length) {
           drawText("Not answered", { color: MUTED, gap: 7 });
           continue;
         }
-        const leftWidth = CONTENT_WIDTH * 0.36;
-        const rightX = MARGIN + leftWidth + 12;
-        const rightWidth = CONTENT_WIDTH - leftWidth - 12;
-        ensureSpace(20);
-        page.drawText(clean(field.columns[0].toUpperCase()), { x: MARGIN, y: y - 11, size: 8, font: bold, color: TEAL });
-        page.drawText(clean(field.columns[1].toUpperCase()), { x: rightX, y: y - 11, size: 8, font: bold, color: TEAL });
-        y -= 16;
-        for (const [left, right] of rows) {
-          const leftLines = wrap(left || "-", bold, 10.5, leftWidth - 6);
-          const rightLines = wrap(right || "-", regular, 10.5, rightWidth);
-          const rowHeight = Math.max(leftLines.length, rightLines.length) * 14.7 + 10;
+        const weights = field.widths ?? (columnCount === 2 ? [36, 64] : field.columns.map(() => 1));
+        const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+        const gap = 10;
+        const usable = CONTENT_WIDTH - gap * (columnCount - 1);
+        const widths = weights.map((weight) => (usable * weight) / totalWeight);
+        const xs = widths.map((_, index) => MARGIN + widths.slice(0, index).reduce((sum, width) => sum + width, 0) + gap * index);
+        const size = columnCount > 3 ? 9.5 : 10.5;
+        const lineHeight = size * 1.4;
+        const headers = field.columns.map((column, index) => wrap(column.toUpperCase(), bold, 7.5, widths[index]).slice(0, 2));
+        const headerLines = Math.max(...headers.map((lines) => lines.length));
+        ensureSpace(12 + headerLines * 9);
+        headers.forEach((lines, index) => {
+          lines.forEach((line, lineIndex) => {
+            page.drawText(line, { x: xs[index], y: y - 11 - lineIndex * 9, size: 7.5, font: bold, color: TEAL });
+          });
+        });
+        y -= 7 + headerLines * 9;
+        for (const cells of rows) {
+          const lines = cells.map((cell, index) => wrap(cell || "-", index === 0 ? bold : regular, size, widths[index]));
+          const rowHeight = Math.max(...lines.map((cellLines) => cellLines.length)) * lineHeight + 10;
           ensureSpace(rowHeight + 2);
           page.drawLine({ start: { x: MARGIN, y }, end: { x: PAGE_WIDTH - MARGIN, y }, thickness: 0.5, color: RULE });
-          leftLines.forEach((line, index) => {
-            page.drawText(line, { x: MARGIN, y: y - 15 - index * 14.7, size: 10.5, font: bold, color: CHARCOAL });
-          });
-          rightLines.forEach((line, index) => {
-            page.drawText(line, { x: rightX, y: y - 15 - index * 14.7, size: 10.5, font: regular, color: CHARCOAL });
+          lines.forEach((cellLines, index) => {
+            cellLines.forEach((line, lineIndex) => {
+              page.drawText(line, {
+                x: xs[index],
+                y: y - 15 - lineIndex * lineHeight,
+                size,
+                font: index === 0 ? bold : regular,
+                color: CHARCOAL,
+              });
+            });
           });
           y -= rowHeight;
         }
