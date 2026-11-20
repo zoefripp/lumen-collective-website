@@ -5,13 +5,11 @@ import { useState } from "react";
 import Logo from "./Logo";
 
 const navLinks = [
-  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
+  { href: "/support-coordination", label: "Support Coordination" },
+  { href: "/recovery-coaching", label: "Recovery Coaching" },
+  { href: "/counselling", label: "Counselling" },
   { href: "/blog", label: "Blog" },
-  { href: "/support-in-a-crisis", label: "Crisis Support" },
-  { href: "/referral", label: "Make a Referral" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -35,7 +33,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors duration-150 ${
-                  pathname === link.href
+                  pathname === link.href || pathname.startsWith(link.href + "/")
                     ? "text-brown underline underline-offset-4 decoration-sage"
                     : "text-brown/70 hover:text-brown"
                 }`}

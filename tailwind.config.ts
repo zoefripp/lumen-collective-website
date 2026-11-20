@@ -25,7 +25,12 @@ const config: Config = {
         muted: "#555555",
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+        sans: ["var(--font-poppins)", "sans-serif"],
+        poppins: ["var(--font-poppins)", "sans-serif"],
+      },
+      fontSize: {
+        display: ["4.25rem", { lineHeight: "1.1" }],
+        heading: ["2.75rem", { lineHeight: "1.15" }],
       },
     },
   },

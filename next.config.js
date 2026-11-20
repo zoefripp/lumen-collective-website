@@ -9,6 +9,21 @@ module.exports = withMDX({
         destination: '/about#meet-zoe',
         permanent: true,
       },
+      {
+        source: '/services/support-coordination',
+        destination: '/support-coordination',
+        permanent: true,
+      },
+      {
+        source: '/services/recovery-coaching',
+        destination: '/recovery-coaching',
+        permanent: true,
+      },
+      {
+        source: '/services/counselling',
+        destination: '/counselling',
+        permanent: true,
+      },
     ];
   },
 })

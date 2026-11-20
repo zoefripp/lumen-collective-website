@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Lumen Collective is a small, independent support coordination practice offering support coordination, psychosocial recovery coaching and counselling across Sydney, the Sutherland Shire and the Illawarra.",
+    "Lumen Collective is a small, independent support coordination practice offering support coordination, psychosocial recovery coaching and counselling across the Illawarra and Greater Sydney.",
   alternates: {
     canonical: "https://www.lumencollective.com.au/about",
   },
@@ -16,119 +16,95 @@ export default function AboutPage() {
       {/* Header */}
       <section className="py-16 md:py-20 border-b border-sage-soft">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
-            About Lumen Collective
+          <h1 className="text-5xl md:text-[4.25rem] font-semibold text-brown leading-[1.1] mb-6">
+            About Lumen
           </h1>
-          <p className="text-lg text-brown/70 leading-relaxed">
-            Support coordination, psychosocial recovery coaching and counselling
-            across Sydney, the Sutherland Shire and the Illawarra, and online.
-          </p>
-        </div>
-      </section>
-
-      {/* About body */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 text-brown/80 leading-relaxed">
-          <p>
-            Lumen Collective is a small, independent support coordination practice
-            supporting participants across Sydney, the Sutherland Shire and the
-            Illawarra, and online throughout New South Wales.
-          </p>
-          <p>
-            We were established in response to a clear need within the sector.
-            While the NDIS offers significant opportunity, navigating it can feel
-            complex and overwhelming, particularly when supports span multiple
-            providers, health systems and life stages. Participants and families
-            are often managing complexity at the very time they need steadiness
-            and coordination the most.
-          </p>
-          <p>
-            We provide Level 2 and Level 3 Support Coordination, Psychosocial
-            Recovery Coaching, and Counselling. Our work is grounded in
-            structured, practical implementation. We focus on ensuring plans are
-            not only approved, but actively working in a cohesive and sustainable
-            way.
-          </p>
-          <p>
-            We are particularly experienced in supporting participants navigating
-            psychosocial disability, complex care needs and periods of significant
-            transition. Whether working alongside families of young children,
-            supporting young people building independence, coordinating layered
-            supports for older participants, or assisting people navigating
-            health-related complexity, we bring a calm, organised and responsive
-            approach.
-          </p>
-          <p>
-            As a small collective, participants work directly with their
-            coordinator. No handoffs. No inconsistency. Just continuity,
-            accountability and consistent oversight of your supports.
+          <p className="text-lg text-brown/70 leading-relaxed max-w-2xl">
+            I started Lumen Collective to offer a service that is responsive,
+            effective and reliable. Too often people are left waiting for
+            call-backs, passed between workers or handed a plan that looks good
+            on paper and does not work in real life. Lumen is small on purpose,
+            so the person you speak to is the person doing the work.
           </p>
         </div>
       </section>
 
       {/* Meet Zoe */}
-      <section id="meet-zoe" className="py-14 md:py-18 bg-sage-tint border-y border-sage-soft">
+      <section id="meet-zoe" className="py-14 md:py-20 border-b border-sage-soft">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold uppercase tracking-widest text-sage mb-3">Meet the team</p>
-          <h2 className="text-2xl md:text-3xl font-semibold text-brown mb-6">Zoe Fripp</h2>
-          <p className="text-sm font-semibold text-sage mb-5">Specialist Support Coordinator and Counsellor</p>
-          <div className="space-y-4 text-brown/70 leading-relaxed text-[0.9375rem]">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-sage mb-5">Meet the team</p>
+          <h2 className="text-3xl md:text-[2.75rem] font-semibold text-brown leading-[1.15] mb-6">
+            Meet Zoe
+          </h2>
+          <div className="space-y-4 text-[17px] text-brown/70 leading-relaxed mb-6">
             <p>
-              Zoe brings warmth, genuine care, and a real talent for making people feel at ease
-              from the very first conversation. With a background in youth and community services,
-              she has a deep understanding of how overwhelming it can feel to navigate complex
-              systems, and a genuine drive to make that experience simpler, clearer and less
-              daunting for the people she works with.
-            </p>
-            <p>
-              As a Specialist Support Coordinator, Zoe&apos;s strengths lie in coordinating
-              multidisciplinary teams across NDIS-funded, community and mainstream services. With
-              expansive knowledge of local non-government organisations, she is able to connect
-              participants with supports that go well beyond their NDIS plan.
-            </p>
-            <p>
-              Whether it is maximising every dollar of your funding, navigating a reassessment, or
-              building a strong and consistent support network around you, Zoe has it handled. She
-              is meticulous about the detail that matters without ever losing sight of the person
-              at the centre of it all.
-            </p>
-            <p>
-              Support coordination and coaching in person across the Illawarra and Greater
-              Sydney, including the Sutherland Shire, and remotely across NSW, QLD and VIC.
-              Counselling in person in the Illawarra and Greater Sydney, or online wherever
-              you are.
+              I&apos;m Zoe. I have more than 12 years&apos; experience in the disability
+              and community sector, with a background in youth and community
+              development work, counselling and support coordination. I have
+              supported people through every stage of life, from young people
+              finding their feet to older people managing layered and complex
+              care needs.
             </p>
           </div>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <p className="text-sm text-brown/50 mb-10">
+            Bachelor of Social Science &middot; Diploma of Youth Work &middot; Diploma of
+            Counselling &middot; Mental Health First Aid
+          </p>
+
+          {/* Three numbered rows */}
+          <div className="divide-y divide-sage-soft">
+            {[
+              {
+                n: "01",
+                heading: "As your Support Coordinator",
+                body: "I am organised, efficient and easy to reach. I have worked across complex care needs and psychosocial disability, coordinating multidisciplinary teams, linking people with local services and supporting plan reassessments. My job is to make the system simpler for you, not the other way around.",
+              },
+              {
+                n: "02",
+                heading: "As your Counsellor",
+                body: "I offer a compassionate, non-judgemental space where you can say what is really going on. I work with people at all stages of life, whether you are dealing with stress, a big change, relationships or just feeling stuck. Sessions are paced around you, and I draw on approaches such as CBT and ACT where they help.",
+              },
+              {
+                n: "03",
+                heading: "As your Recovery Coach",
+                body: "Recovery coaching is about building a life that works for you. I use a strengths-based approach and practical tools for goals, routines, coping and values, so progress is something you can see. My background in youth work and Mental Health First Aid means I understand that recovery is rarely a straight line.",
+              },
+            ].map(({ n, heading, body }) => (
+              <div key={n} className="flex gap-6 md:gap-10 py-8">
+                <span className="text-sm font-semibold text-sage-soft w-8 flex-shrink-0 pt-1">{n}</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-brown mb-3">{heading}</h3>
+                  <p className="text-[17px] text-brown/70 leading-relaxed">{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA: peach tint band */}
+      <section className="bg-peach-tint py-14 md:py-18">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-semibold text-brown mb-4">Ready to talk?</h2>
+          <p className="text-[17px] text-brown/70 leading-relaxed mb-8 max-w-xl">
+            Get in touch and we will work out together whether Lumen is the right
+            fit. Referrals from allied health, hospitals and families are always
+            welcome.
+          </p>
+          <div className="flex flex-wrap gap-5 items-center">
             <Link
               href="/contact"
-              className="inline-block bg-peach text-brown font-semibold rounded-full px-7 py-3 hover:bg-peach/90 transition-colors"
+              className="inline-block bg-peach text-brown font-semibold rounded-full px-8 py-3.5 hover:bg-peach/90 transition-colors"
             >
               Get in touch
             </Link>
             <Link
               href="/referral"
-              className="inline-block border border-sage text-brown font-semibold rounded-full px-7 py-3 hover:bg-cream transition-colors"
+              className="text-brown/70 font-medium hover:text-brown transition-colors underline underline-offset-4"
             >
               Make a referral
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-12 md:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-xl font-semibold text-brown mb-3">Ready to work with us?</h2>
-          <p className="text-brown/70 mb-6">
-            We would love to hear about your situation and see how we can help.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-peach text-brown font-semibold rounded-full px-7 py-3 hover:bg-peach/90 transition-colors"
-          >
-            Get in touch
-          </Link>
         </div>
       </section>
     </div>
