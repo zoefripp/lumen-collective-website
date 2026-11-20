@@ -15,7 +15,30 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(node generate-pass.js)",
-      "Bash(python3 -c \"import zipfile, json; z=zipfile.ZipFile\\(''zoe-fripp.pkpass''\\); print\\(''Files:'', z.namelist\\(\\)\\); p=json.loads\\(z.read\\(''pass.json''\\)\\); print\\(''Name:'', p[''generic''][''primaryFields''][0][''value'']\\); print\\(''BG:'', p[''backgroundColor'']\\)\")"
+      "Bash(python3 -c \"import zipfile, json; z=zipfile.ZipFile\\(''zoe-fripp.pkpass''\\); print\\(''Files:'', z.namelist\\(\\)\\); p=json.loads\\(z.read\\(''pass.json''\\)\\); print\\(''Name:'', p[''generic''][''primaryFields''][0][''value'']\\); print\\(''BG:'', p[''backgroundColor'']\\)\")",
+      "Bash(python3 -c \"import reportlab; print\\('reportlab ok'\\)\")",
+      "Bash(pip3 install *)",
+      "Bash(python3 -c \"import weasyprint\")",
+      "Bash(python3 -c \"import reportlab\")",
+      "Bash(python3 -c \"import markdown; print\\('ok'\\)\")",
+      "Bash(python3 generate_pdfs.py)",
+      "Bash(brew install *)",
+      "Bash(/opt/homebrew/bin/brew --version)",
+      "Bash(/usr/local/bin/brew --version)",
+      "Bash(npm --version)",
+      "Bash(node generate_pdfs.js)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3)",
+      "Bash(mdfind \"kMDItemCFBundleIdentifier == 'com.microsoft.Word'\")",
+      "Bash(python3 -c \"import docx2pdf; print\\('docx2pdf ok'\\)\")",
+      "Bash(python3 -)",
+      "mcp__Astalty__astalty_session_status",
+      "mcp__Astalty__astalty_find_worker",
+      "mcp__Astalty__astalty_find_participant",
+      "Bash(python3 -c \"import reportlab; print\\('ok'\\)\")",
+      "Bash(python3 -c \"from docx import Document; print\\('docx ok'\\)\")",
+      "Bash(python3 gen_separation_cert.py)",
+      "Bash(python3 gen_rcti_oct2026b.py)"
     ]
   }
 }

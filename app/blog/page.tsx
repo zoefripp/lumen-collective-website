@@ -24,17 +24,17 @@ export default function BlogPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="bg-offwhite min-h-screen">
+    <div className="bg-cream min-h-screen">
       {/* Header */}
-      <section className="py-16 md:py-20 bg-white border-b border-gray-100">
+      <section className="py-16 md:py-20 border-b border-sage-soft">
         <div className="max-w-2xl mx-auto px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#1a6b6b] mb-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-sage mb-3">
             Resources
           </p>
-          <h1 className="text-3xl md:text-4xl font-semibold text-charcoal mb-4 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4 leading-tight">
             Blog
           </h1>
-          <p className="text-base text-muted leading-relaxed">
+          <p className="text-base text-brown/85 leading-relaxed">
             Practical guides and insights about the NDIS, support coordination,
             and getting the most from your plan.
           </p>
@@ -45,28 +45,28 @@ export default function BlogPage() {
       <section className="py-14 md:py-20">
         <div className="max-w-2xl mx-auto px-6 lg:px-8">
           {posts.length === 0 ? (
-            <p className="text-muted">No posts yet — check back soon.</p>
+            <p className="text-brown/85">No posts yet — check back soon.</p>
           ) : (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-sage-soft">
               {posts.map((post) => (
                 <article key={post.slug} className="py-10 first:pt-0 last:pb-0 group">
                   <time
                     dateTime={post.date}
-                    className="text-xs font-medium text-muted uppercase tracking-widest"
+                    className="text-xs font-medium text-brown/50 uppercase tracking-widest"
                   >
                     {formatDate(post.date)}
                   </time>
-                  <h2 className="mt-3 mb-3 text-xl md:text-2xl font-semibold text-charcoal leading-snug group-hover:text-[#1a6b6b] transition-colors duration-150">
+                  <h2 className="mt-3 mb-3 text-xl md:text-2xl font-semibold text-brown leading-snug group-hover:text-sage transition-colors duration-150">
                     <Link href={`/blog/${post.slug}`}>
                       {post.title}
                     </Link>
                   </h2>
-                  <p className="text-[15px] text-muted leading-relaxed mb-5">
+                  <p className="text-[15px] text-brown/85 leading-relaxed mb-5">
                     {post.excerpt}
                   </p>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-[#1a6b6b] hover:text-[#154f4f] transition-colors duration-150"
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-sage hover:text-sage/80 transition-colors duration-150"
                   >
                     Read more
                     <span aria-hidden="true" className="text-base leading-none">→</span>

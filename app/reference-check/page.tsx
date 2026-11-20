@@ -6,13 +6,13 @@ export const metadata: Metadata = {
 };
 
 const inputCls =
-  "w-full px-3 py-2.5 border border-gray-200 rounded-md text-sm text-charcoal bg-white focus:outline-none focus:ring-2 focus:ring-[#1a6b6b] focus:border-[#1a6b6b]";
-const labelCls = "block text-sm font-semibold text-charcoal mb-1.5";
-const hintCls = "block font-normal text-xs text-muted mt-0.5";
-const cardCls = "bg-white border border-gray-200 rounded-xl p-6 mb-5";
+  "w-full px-4 py-2.5 rounded-xl border border-sage-soft bg-white text-brown text-sm placeholder:text-brown/40 focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage/50 transition-colors";
+const labelCls = "block text-sm font-semibold text-brown mb-1.5";
+const hintCls = "block font-normal text-xs text-brown/60 mt-0.5";
+const cardCls = "bg-white border border-sage-soft rounded-2xl p-6 mb-5";
 const legendCls =
-  "text-xs font-bold uppercase tracking-widest text-[#1a6b6b] mb-1";
-const subCls = "text-xs text-muted mb-5";
+  "text-xs font-bold uppercase tracking-widest text-sage mb-1";
+const subCls = "text-xs text-brown/60 mb-5";
 
 const ratingOptions = [
   "Excellent",
@@ -31,12 +31,12 @@ export default function ReferenceCheckPage({
 
   if (submitted) {
     return (
-      <div className="bg-offwhite min-h-screen">
+      <div className="bg-cream min-h-screen">
         <section className="py-24 md:py-32">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#eef4f4] mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage-tint mb-6">
               <svg
-                className="w-8 h-8 text-[#1a6b6b]"
+                className="w-8 h-8 text-sage"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -49,10 +49,10 @@ export default function ReferenceCheckPage({
                 />
               </svg>
             </div>
-            <h1 className="text-2xl md:text-3xl font-semibold text-charcoal mb-4">
+            <h1 className="text-2xl md:text-3xl font-semibold text-brown mb-4">
               Thank you
             </h1>
-            <p className="text-muted text-lg leading-relaxed">
+            <p className="text-brown/85 text-lg leading-relaxed">
               Your reference has been received. We appreciate you taking the
               time to complete this.
             </p>
@@ -63,25 +63,25 @@ export default function ReferenceCheckPage({
   }
 
   return (
-    <div className="bg-offwhite min-h-screen">
+    <div className="bg-cream min-h-screen">
       {/* Header */}
-      <section className="py-14 md:py-18 bg-white border-b border-gray-100">
+      <section className="py-14 md:py-18 border-b border-sage-soft">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-semibold text-charcoal mb-4">
+          <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
             Reference check — Disability Support Worker
           </h1>
-          <p className="text-muted leading-relaxed mb-2">
+          <p className="text-brown/85 leading-relaxed mb-2">
             Thank you for taking the time to complete this. The person named
             below has applied for a Disability Support Worker role with Lumen
             Collective and has given us your details as a referee.
           </p>
-          <p className="text-muted leading-relaxed mb-2">
+          <p className="text-brown/85 leading-relaxed mb-2">
             We support NDIS participants in their homes and in the community, so
             we ask about reliability, communication and professional boundaries
             as well as the work itself. Answer what you can and leave anything
             you are not able to comment on.
           </p>
-          <p className="text-muted leading-relaxed">
+          <p className="text-brown/85 leading-relaxed">
             Your answers go to Lumen Collective only. We use them to decide
             about this application, we keep them with the applicant&apos;s
             recruitment file, and we do not share them with the applicant unless
@@ -363,7 +363,7 @@ export default function ReferenceCheckPage({
                     {ratingOptions.map((opt) => (
                       <label
                         key={opt}
-                        className="flex items-center gap-1.5 text-sm text-charcoal border border-gray-200 rounded-md px-3 py-1.5 bg-white cursor-pointer"
+                        className="flex items-center gap-1.5 text-sm text-brown border border-sage-soft rounded-full px-3 py-1.5 bg-white cursor-pointer"
                       >
                         <input
                           type="radio"
@@ -421,7 +421,7 @@ export default function ReferenceCheckPage({
                   {["No", "Yes", "I am not able to disclose this"].map((opt) => (
                     <label
                       key={opt}
-                      className="flex items-start gap-2.5 text-sm text-charcoal cursor-pointer"
+                      className="flex items-start gap-2.5 text-sm text-brown cursor-pointer"
                     >
                       <input
                         type="radio"
@@ -462,7 +462,7 @@ export default function ReferenceCheckPage({
                   {["No", "Yes", "I am not able to disclose this"].map((opt) => (
                     <label
                       key={opt}
-                      className="flex items-start gap-2.5 text-sm text-charcoal cursor-pointer"
+                      className="flex items-start gap-2.5 text-sm text-brown cursor-pointer"
                     >
                       <input
                         type="radio"
@@ -508,7 +508,7 @@ export default function ReferenceCheckPage({
                   ].map((opt) => (
                     <label
                       key={opt}
-                      className="flex items-start gap-2.5 text-sm text-charcoal cursor-pointer"
+                      className="flex items-start gap-2.5 text-sm text-brown cursor-pointer"
                     >
                       <input
                         type="radio"
@@ -537,8 +537,8 @@ export default function ReferenceCheckPage({
             </div>
 
             {/* Declaration */}
-            <div className="bg-[#eef4f4] border border-[#cfdcdc] rounded-xl p-5 mb-6">
-              <label className="flex items-start gap-3 text-sm text-charcoal cursor-pointer">
+            <div className="bg-sage-tint border border-sage-soft rounded-2xl p-5 mb-6">
+              <label className="flex items-start gap-3 text-sm text-brown cursor-pointer">
                 <input
                   type="checkbox"
                   name="Declaration"
@@ -569,16 +569,16 @@ export default function ReferenceCheckPage({
 
             <button
               type="submit"
-              className="w-full sm:w-auto bg-[#1a6b6b] hover:bg-[#154f4f] text-white font-semibold px-8 py-3 rounded-md transition-colors duration-150"
+              className="w-full sm:w-auto bg-peach text-brown font-semibold rounded-full px-8 py-3 hover:bg-peach/90 transition-colors"
             >
               Submit reference
             </button>
 
-            <p className="text-xs text-muted mt-4">
+            <p className="text-xs text-brown/60 mt-4">
               Questions about this form:{" "}
               <a
                 href="mailto:admin@lumencollective.com.au"
-                className="underline hover:text-charcoal"
+                className="underline hover:text-brown"
               >
                 admin@lumencollective.com.au
               </a>

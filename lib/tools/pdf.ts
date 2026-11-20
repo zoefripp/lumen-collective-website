@@ -16,11 +16,11 @@ const MARGIN = 48;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
 const FOOTER_SPACE = 44;
 
-const TEAL = rgb(0.102, 0.42, 0.42);
-const CHARCOAL = rgb(0.1, 0.1, 0.1);
-const MUTED = rgb(0.38, 0.38, 0.38);
-const RULE = rgb(0.85, 0.85, 0.85);
-const PANEL = rgb(0.95, 0.97, 0.97);
+const TEAL = rgb(0.494, 0.604, 0.518); // sage #7E9A84
+const CHARCOAL = rgb(0.294, 0.251, 0.22); // brown #4B4038
+const MUTED = rgb(0.47, 0.42, 0.38); // brown/70
+const RULE = rgb(0.725, 0.796, 0.518); // sage-soft approx
+const PANEL = rgb(0.914, 0.937, 0.902); // sage-tint approx
 
 export type PdfInput = {
   form: FormDef;
@@ -130,16 +130,19 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
 
   // ---- Header band -------------------------------------------------------
   const bandHeight = 64;
+  const CREAM = rgb(0.98, 0.969, 0.945);
   page.drawRectangle({
     x: 0,
     y: PAGE_HEIGHT - bandHeight,
     width: PAGE_WIDTH,
     height: bandHeight,
-    color: TEAL,
+    color: CREAM,
   });
+  // bottom border line
+  page.drawRectangle({ x: 0, y: PAGE_HEIGHT - bandHeight, width: PAGE_WIDTH, height: 1, color: RULE });
   let logoDrawn = false;
   try {
-    const response = await fetch("/logo-trimmed.png");
+    const response = await fetch("/lumen-brand-files/lumen-logo-main.png");
     if (response.ok) {
       const logo = await doc.embedPng(await response.arrayBuffer());
       const height = 30;
@@ -161,7 +164,7 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
       y: PAGE_HEIGHT - bandHeight / 2 - 6,
       size: 16,
       font: bold,
-      color: rgb(1, 1, 1),
+      color: CHARCOAL,
     });
   }
   const tag = "Psychosocial Recovery Coaching";
@@ -170,7 +173,7 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     y: PAGE_HEIGHT - bandHeight / 2 - 3,
     size: 9.5,
     font: regular,
-    color: rgb(1, 1, 1),
+    color: MUTED,
   });
   y = PAGE_HEIGHT - bandHeight - 18;
 

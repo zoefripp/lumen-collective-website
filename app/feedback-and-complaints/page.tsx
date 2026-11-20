@@ -12,15 +12,15 @@ export const metadata: Metadata = {
 
 export default function FeedbackAndComplaintsPage() {
   return (
-    <div className="bg-offwhite min-h-screen">
+    <div className="bg-cream min-h-screen">
       {/* Header */}
-      <section className="py-16 md:py-20 bg-white border-b border-gray-100">
+      <section className="py-16 md:py-20 border-b border-sage-soft">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-semibold text-charcoal mb-4">
+          <h1 className="text-3xl md:text-4xl font-semibold text-brown mb-4">
             Feedback &amp; Complaints
           </h1>
-          <p className="text-lg text-muted leading-relaxed">
-            Your feedback helps us improve. If something hasn&apos;t met your
+          <p className="text-lg text-brown/85 leading-relaxed">
+            Your feedback helps us improve. If something has not met your
             expectations, please let us know — we take all feedback seriously
             and will respond as soon as possible.
           </p>
