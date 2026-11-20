@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
           {/* Col 1: Logo + legal */}
           <div>
-            <Logo variant="main" className="h-9 w-auto mb-4" />
+            <Logo variant="main" className="h-11 w-auto mb-4" />
             <p className="text-xs text-brown/60 leading-relaxed">
               ABN 59 407 161 672
               <br />
