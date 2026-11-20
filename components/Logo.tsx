@@ -2,7 +2,7 @@ type Variant = "main" | "sage" | "white";
 
 // Cropped viewBox removes outer whitespace so "Collective" renders at a readable size.
 // Inline SVG avoids img-tag rasterisation which blurs sub-pixel paths at small sizes.
-const VIEWBOX = "40 42 513 146";
+const VIEWBOX = "40 42 513 134";
 
 const COLORS: Record<Variant, { text: string; dot: string; iconFill: string; arcInner: string; arcOuter: string }> = {
   main:  { text: "#4B4038", dot: "#4B4038", iconFill: "#EE9A72", arcInner: "#7E9A84",  arcOuter: "#B9CBB4" },
