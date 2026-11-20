@@ -58,9 +58,9 @@ export default function ContactForm({ initialTopic = "" }: Props) {
 
   if (status === "success") {
     return (
-      <div className="bg-sage-tint border border-sage-soft rounded-2xl p-8 text-center">
+      <div className="bg-sage-tint rounded p-8">
         <p className="text-brown font-semibold text-lg mb-1">Message received.</p>
-        <p className="text-brown/70 text-sm">We will be in touch with you shortly.</p>
+        <p className="text-brown/80 text-sm">Thanks for getting in touch. I will reply within one business day.</p>
       </div>
     );
   }

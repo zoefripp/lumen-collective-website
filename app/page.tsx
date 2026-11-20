@@ -91,8 +91,7 @@ export default function Home() {
             {/* Right: stacked logo on sage-tint panel */}
             <div className="flex justify-center md:justify-end">
               <div
-                className="bg-sage-tint rounded flex items-center justify-center w-full max-w-sm"
-                style={{ minHeight: "520px" }}
+                className="bg-sage-tint rounded flex items-center justify-center w-full max-w-sm min-h-[300px] md:min-h-[520px]"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -139,7 +138,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-[2.75rem] font-semibold text-brown leading-[1.15]">
               What I do
             </h2>
-            <p className="text-sm text-brown/50 max-w-xs text-right leading-relaxed">
+            <p className="text-sm text-brown max-w-xs text-right leading-relaxed">
               Three services, one point of contact. Pick what fits now and change
               as you go.
             </p>
@@ -204,7 +203,7 @@ export default function Home() {
                 <div>
                   <div className="flex items-center gap-4 mb-2 flex-wrap">
                     <h3 className="text-xl font-semibold text-brown">Counselling</h3>
-                    <span className="text-xs text-brown/50">$120 · 50 minutes · in person or online</span>
+                    <span className="text-xs text-brown/80">$120 · 50 minutes · in person or online</span>
                   </div>
                   <p className="text-brown/70 leading-relaxed text-[17px]">
                     A calm, private space to talk things through. Open to private
@@ -276,7 +275,7 @@ export default function Home() {
                 Counselling in person in the Illawarra and Greater Sydney, or
                 online wherever you are.
               </p>
-              <p className="text-sm text-brown/50">
+              <p className="text-sm text-brown">
                 Referrals from allied health, hospitals and families are always
                 welcome.{" "}
                 <Link

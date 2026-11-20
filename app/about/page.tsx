@@ -32,7 +32,7 @@ export default function AboutPage() {
       {/* Meet Zoe */}
       <section id="meet-zoe" className="py-14 md:py-20 border-b border-sage-soft">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-sage mb-5">Meet the team</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-sage mb-5">About me</p>
           <h2 className="text-3xl md:text-[2.75rem] font-semibold text-brown leading-[1.15] mb-6">
             Meet Zoe
           </h2>
@@ -46,7 +46,7 @@ export default function AboutPage() {
               care needs.
             </p>
           </div>
-          <p className="text-sm text-brown/50 mb-10">
+          <p className="text-sm text-brown mb-10">
             Bachelor of Social Science &middot; Diploma of Youth Work &middot; Diploma of
             Counselling &middot; Mental Health First Aid
           </p>
