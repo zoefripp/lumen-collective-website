@@ -1,91 +1,59 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Logo from "./Logo";
 
 const navLinks = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/our-team", label: "Team" },
+  { href: "/services", label: "Services" },
   { href: "/blog", label: "Blog" },
   { href: "/support-in-a-crisis", label: "Crisis Support" },
-  { href: "/referral", label: "Make a Referral", cta: true },
+  { href: "/referral", label: "Make a Referral" },
   { href: "/contact", label: "Contact" },
 ];
-
-// SETUP: To use a logo image, drop your file into /public/ and update this
-// path to match the filename. e.g. "/logo.png" or "/Logo - Variant.png"
-const LOGO_SRC = "/logo-trimmed.png";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Default to text logo. After mount we probe whether the image file exists;
-  // if it loads successfully we switch to showing it. This avoids any
-  // SSR/hydration mismatch that would occur if we tried to render the image
-  // server-side when the file may not be present.
-  const [logoSrc, setLogoSrc] = useState<string | null>(null);
-
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => setLogoSrc(LOGO_SRC);
-    img.onerror = () => setLogoSrc(null);
-    img.src = LOGO_SRC;
-  }, []);
-
-  // The hidden staff tools section has its own header.
   if (pathname.startsWith("/tools")) return null;
 
   return (
-    <nav className="bg-[#1a6b6b] sticky top-0 z-50">
+    <nav className="bg-cream sticky top-0 z-50 border-b border-sage-soft">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo — shows image if LOGO_SRC loads; otherwise renders "lumen." text */}
-          <Link href="/" className="flex items-center" aria-label="Lumen Collective home">
-            {logoSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={logoSrc}
-                alt="Lumen Collective"
-                className="h-12 w-auto max-w-[240px] object-contain"
-              />
-            ) : (
-              <span className="text-2xl font-semibold text-white font-poppins tracking-tight">
-                lumen.
-              </span>
-            )}
+          <Link href="/" aria-label="Lumen Collective home">
+            <Logo variant="main" className="h-10 w-auto" />
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) =>
-              link.cta ? (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="bg-white text-[#1a6b6b] px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-white/90 transition-colors duration-150"
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm font-medium transition-colors duration-150 ${
-                    pathname === link.href
-                      ? "text-white underline underline-offset-4"
-                      : "text-white/80 hover:text-white"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              )
-            )}
+          <div className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors duration-150 ${
+                  pathname === link.href
+                    ? "text-brown underline underline-offset-4 decoration-sage"
+                    : "text-brown/70 hover:text-brown"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/contact?topic=intro-call"
+              className="bg-peach text-brown text-sm font-semibold rounded-full px-5 py-2 hover:bg-peach/90 transition-colors duration-150"
+            >
+              Book a free intro call
+            </Link>
           </div>
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-md text-white hover:text-white/80 focus:outline-none"
+            className="lg:hidden p-2 rounded-md text-brown hover:text-brown/70"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
@@ -104,33 +72,29 @@ export default function Navbar() {
 
         {/* Mobile dropdown */}
         {menuOpen && (
-          <div className="md:hidden py-3 border-t border-white/20">
-            <div className="flex flex-col space-y-1">
-              {navLinks.map((link) =>
-                link.cta ? (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="px-2 py-2 text-sm font-semibold rounded-md bg-white text-[#1a6b6b] hover:bg-white/90 transition-colors duration-150"
-                  >
-                    {link.label}
-                  </Link>
-                ) : (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`px-2 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
-                      pathname === link.href
-                        ? "text-white bg-white/20"
-                        : "text-white/80 hover:text-white hover:bg-white/10"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                )
-              )}
+          <div className="lg:hidden py-4 border-t border-sage-soft">
+            <div className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`px-3 py-2.5 text-sm font-medium rounded-xl transition-colors duration-150 ${
+                    pathname === link.href
+                      ? "bg-sage-tint text-brown"
+                      : "text-brown/70 hover:text-brown hover:bg-sage-tint/60"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                href="/contact?topic=intro-call"
+                onClick={() => setMenuOpen(false)}
+                className="mt-2 bg-peach text-brown text-sm font-semibold rounded-full px-5 py-2.5 text-center hover:bg-peach/90 transition-colors duration-150"
+              >
+                Book a free intro call
+              </Link>
             </div>
           </div>
         )}

@@ -14,32 +14,40 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lumen Collective | NDIS Support Coordination",
+    default: "Lumen Collective | Support Coordination, Recovery Coaching and Counselling",
     template: "%s | Lumen Collective",
   },
   description:
-    "Lumen Collective is a small, independent NDIS Support Coordination collective supporting participants across Sydney and remotely throughout NSW, QLD, and VIC.",
+    "Support coordination, psychosocial recovery coaching and counselling across Sydney, the Sutherland Shire and the Illawarra, and online.",
   keywords: [
     "NDIS",
     "Support Coordination",
     "Specialist Support Coordination",
     "Psychosocial Recovery Coaching",
+    "Counselling",
     "Sydney",
     "NSW",
     "QLD",
     "VIC",
   ],
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/apple-icon.png",
+    other: { rel: "icon", url: "/icon-512.png", sizes: "512x512" },
+  },
   openGraph: {
     siteName: "Lumen Collective",
     type: "website",
     locale: "en_AU",
-    // TODO: Replace og-image.jpg with a real branded 1200×630px image in /public
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/lumen-brand-files/lumen-website-banner-sage.png",
         width: 1200,
         height: 630,
-        alt: "Lumen Collective — NDIS Support Coordination",
+        alt: "Lumen Collective",
       },
     ],
   },
@@ -52,7 +60,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={poppins.variable}>
-      <body className="font-poppins antialiased bg-offwhite text-charcoal">
+      <body className="font-poppins antialiased bg-cream text-brown">
         {/* Google Analytics 4 — Replace G-XXXXXXXXXX with your real GA4 Measurement ID from analytics.google.com */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"

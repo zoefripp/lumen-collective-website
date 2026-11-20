@@ -1,153 +1,145 @@
 "use client";
-
 import { useState } from "react";
 
-// SETUP: Replace YOUR_FORMSPREE_ENDPOINT with your Formspree form ID
-// e.g. https://formspree.io/f/xyzabcde
-// Sign in at formspree.io, create a form pointed to admin@lumencollective.com.au, and paste the ID here
-const FORMSPREE_URL = "https://formspree.io/f/mdawqpzv";
+const TOPICS = [
+  "Booking a free intro call",
+  "Counselling",
+  "Psychosocial Recovery Coaching",
+  "Support Coordination",
+  "Something else",
+] as const;
 
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+const TOPIC_PARAM_MAP: Record<string, string> = {
+  "intro-call": "Booking a free intro call",
+  counselling: "Counselling",
+  "psychosocial-recovery-coaching": "Psychosocial Recovery Coaching",
+  "support-coordination": "Support Coordination",
+};
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
+const inputCls =
+  "w-full px-4 py-2.5 rounded-xl border border-sage-soft bg-white text-brown text-sm placeholder:text-brown/40 focus:outline-none focus:border-sage focus:ring-1 focus:ring-sage/50 transition-colors";
+
+const labelCls = "block text-sm font-medium text-brown mb-1.5";
+
+type Props = { initialTopic?: string };
+type Status = "idle" | "submitting" | "success" | "error";
+
+export default function ContactForm({ initialTopic = "" }: Props) {
+  const resolvedTopic = TOPIC_PARAM_MAP[initialTopic] ?? initialTopic;
+  const [name, setName]       = useState("");
+  const [email, setEmail]     = useState("");
+  const [phone, setPhone]     = useState("");
+  const [topic, setTopic]     = useState(resolvedTopic);
+  const [message, setMessage] = useState("");
+  const [status, setStatus]   = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSubmitting(true);
-    setError("");
-
+    setStatus("submitting");
+    setErrorMsg("");
     try {
-      const response = await fetch(FORMSPREE_URL, {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-        }),
+        body: JSON.stringify({ name, email, phone, topic, message, website: "" }),
       });
-
-      if (response.ok) {
-        setSubmitted(true);
-        setFormData({ fullName: "", email: "", phone: "", message: "" });
+      if (res.ok) {
+        setStatus("success");
       } else {
-        setError("Something went wrong. Please try again or email us directly.");
+        setStatus("error");
+        setErrorMsg("Something went wrong. Please try again or email us directly.");
       }
     } catch {
-      setError("Something went wrong. Please try again or email us directly.");
-    } finally {
-      setSubmitting(false);
+      setStatus("error");
+      setErrorMsg("Something went wrong. Please try again or email us directly.");
     }
   }
 
+  if (status === "success") {
+    return (
+      <div className="bg-sage-tint border border-sage-soft rounded-2xl p-8 text-center">
+        <p className="text-brown font-semibold text-lg mb-1">Message received.</p>
+        <p className="text-brown/70 text-sm">We will be in touch with you shortly.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      {submitted ? (
-        <div className="bg-[#1a6b6b]/10 border border-[#1a6b6b]/20 rounded-lg p-6">
-          <p className="text-[#1a6b6b] font-medium text-lg">
-            Thanks for reaching out — we&apos;ll be in touch shortly.
-          </p>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Honeypot */}
+      <div className="sr-only" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+          <label htmlFor="cf-name" className={labelCls}>Name <span className="text-peach">*</span></label>
+          <input
+            id="cf-name" type="text" required autoComplete="name"
+            value={name} onChange={(e) => setName(e.target.value)}
+            placeholder="Your name" className={inputCls}
+          />
         </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="fullName" className="block text-sm font-medium text-charcoal mb-1.5">
-              Full Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              required
-              value={formData.fullName}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-charcoal placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a6b6b] focus:border-transparent transition-shadow text-sm"
-              placeholder="Your full name"
-            />
-          </div>
+        <div>
+          <label htmlFor="cf-email" className={labelCls}>Email <span className="text-peach">*</span></label>
+          <input
+            id="cf-email" type="email" required autoComplete="email"
+            value={email} onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com" className={inputCls}
+          />
+        </div>
+      </div>
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-charcoal mb-1.5">
-              Email <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-charcoal placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a6b6b] focus:border-transparent transition-shadow text-sm"
-              placeholder="you@example.com"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-charcoal mb-1.5">
-              Phone <span className="text-muted font-normal">(optional)</span>
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-charcoal placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a6b6b] focus:border-transparent transition-shadow text-sm"
-              placeholder="04xx xxx xxx"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-charcoal mb-1.5">
-              Message <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows={5}
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-charcoal placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a6b6b] focus:border-transparent transition-shadow text-sm resize-none"
-              placeholder="Tell us a bit about your situation and what you're looking for..."
-            />
-          </div>
-
-          {error && <p className="text-red-600 text-sm">{error}</p>}
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full sm:w-auto bg-[#1a6b6b] hover:bg-[#154f4f] disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium px-8 py-3 rounded-md transition-colors duration-150"
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+          <label htmlFor="cf-phone" className={labelCls}>Phone <span className="text-brown/50 font-normal">(optional)</span></label>
+          <input
+            id="cf-phone" type="tel" autoComplete="tel"
+            value={phone} onChange={(e) => setPhone(e.target.value)}
+            placeholder="04xx xxx xxx" className={inputCls}
+          />
+        </div>
+        <div>
+          <label htmlFor="cf-topic" className={labelCls}>What can I help with? <span className="text-peach">*</span></label>
+          <select
+            id="cf-topic" required
+            value={topic} onChange={(e) => setTopic(e.target.value)}
+            className={inputCls}
           >
-            {submitting ? "Sending..." : "Send Message"}
-          </button>
-        </form>
+            <option value="" disabled>Select a topic</option>
+            {TOPICS.map((t) => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor="cf-message" className={labelCls}>Message <span className="text-peach">*</span></label>
+        <textarea
+          id="cf-message" required rows={5}
+          value={message} onChange={(e) => setMessage(e.target.value)}
+          placeholder="Tell me a bit about what you are looking for..."
+          className={`${inputCls} resize-y`}
+        />
+      </div>
+
+      {status === "error" && (
+        <p className="text-sm text-brown bg-peach-tint border border-peach/30 rounded-xl px-4 py-3">
+          {errorMsg}{" "}
+          <a href="mailto:admin@lumencollective.com.au" className="underline font-medium">
+            admin@lumencollective.com.au
+          </a>
+        </p>
       )}
 
-      <div className="mt-10 pt-8 border-t border-gray-200">
-        <p className="text-sm text-muted">You can also reach us directly by email:</p>
-        <a
-          href="mailto:admin@lumencollective.com.au"
-          className="text-[#1a6b6b] font-medium hover:text-[#154f4f] transition-colors duration-150 text-sm mt-1 inline-block"
-        >
-          admin@lumencollective.com.au
-        </a>
-      </div>
-    </div>
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        className="bg-peach text-brown font-semibold rounded-full px-8 py-3 hover:bg-peach/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {status === "submitting" ? "Sending..." : "Send message"}
+      </button>
+    </form>
   );
 }
