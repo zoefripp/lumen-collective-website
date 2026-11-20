@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import FeedbackForm from "@/components/FeedbackForm";
 
 export const metadata: Metadata = {
-  title: "Feedback and complaints | Lumen Collective",
+  title: "Feedback and complaints",
   description:
     "Share a compliment, suggestion or complaint. Your feedback helps me improve and will never affect the support you receive.",
   alternates: {
