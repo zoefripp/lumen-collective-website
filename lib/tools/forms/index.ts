@@ -7,6 +7,17 @@ import { act5NoticingSelf } from "./act-5-noticing-self";
 import { act6ValuesAction } from "./act-6-values-action";
 import { aboutMe } from "./about-me";
 import { activityMood } from "./activity-mood";
+import { breathingSpace } from "./breathing-space";
+import { cognitiveDistortions } from "./cognitive-distortions";
+import { copingWheel } from "./coping-wheel";
+import { findingFlow } from "./finding-flow";
+import { goodEnough } from "./good-enough";
+import { journalling } from "./journalling";
+import { limitingBeliefs } from "./limiting-beliefs";
+import { myStrengths } from "./my-strengths";
+import { procrastination } from "./procrastination";
+import { selfCompassion } from "./self-compassion";
+import { windowOfTolerance } from "./window-of-tolerance";
 import { checkIn } from "./check-in";
 import { circlesOfSupport } from "./circles-of-support";
 import { copingToolbox } from "./coping-toolbox";
@@ -34,7 +45,10 @@ const menu: [string, FormDef[]][] = [
   ["Getting started", [firstSession, headsAssessment, aboutMe]],
   ["Every session", [checkIn, checkOut]],
   ["Goals and planning", [goalsActionPlan, smartGrow, safetyWellnessPlan, ocdSupportPlan]],
-  ["Tools and worksheets", [wheelOfLife, valuesBullseye, lifeAuditValues, thoughtRecord, activityMood, worryTree, problemSolving, copingToolbox, circlesOfSupport, dailyRoutine]],
+  ["Thoughts and feelings", [thoughtRecord, cognitiveDistortions, worryTree, journalling, windowOfTolerance, limitingBeliefs]],
+  ["Values and strengths", [wheelOfLife, valuesBullseye, lifeAuditValues, myStrengths, findingFlow]],
+  ["Everyday skills", [activityMood, problemSolving, procrastination, goodEnough, copingToolbox, copingWheel, dailyRoutine, circlesOfSupport]],
+  ["Mindfulness practices", [breathingSpace, selfCompassion]],
   ["Session plans", [introAct, act1GettingUnstuck, act2DroppingAnchor, act3Unhooking, act4MakingRoom, act5NoticingSelf, act6ValuesAction, introCbt, valuesBeliefsSession, predictableSession]],
 ];
 
