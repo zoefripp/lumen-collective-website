@@ -72,10 +72,16 @@ export default function Home() {
                 coaching and counselling, so you can work with one person who
                 already knows your story.
               </p>
-              <div className="flex flex-wrap gap-5 items-center">
+              <div className="flex flex-wrap gap-4 items-center">
+                <Link
+                  href="/book"
+                  className="inline-block bg-peach text-brown font-semibold rounded-full px-8 py-3.5 hover:bg-peach/90 transition-colors"
+                >
+                  Book now
+                </Link>
                 <Link
                   href="/contact"
-                  className="inline-block bg-peach text-brown font-semibold rounded-full px-8 py-3.5 hover:bg-peach/90 transition-colors"
+                  className="inline-block bg-sage-tint text-brown font-semibold rounded-full px-8 py-3.5 hover:bg-sage-soft/40 transition-colors"
                 >
                   Get in touch
                 </Link>
@@ -233,7 +239,7 @@ export default function Home() {
                 questions. If it feels right, we book your first session.
               </p>
               <Link
-                href="/contact?topic=intro-call"
+                href="/book"
                 className="inline-block bg-peach text-brown font-semibold rounded-full px-8 py-3.5 hover:bg-peach/90 transition-colors"
               >
                 Book a free intro call
