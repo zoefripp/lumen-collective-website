@@ -32,6 +32,7 @@ export default function Footer() {
                 { href: "/recovery-coaching", label: "Recovery Coaching" },
                 { href: "/counselling", label: "Counselling" },
                 { href: "/blog", label: "Blog" },
+                { href: "/book", label: "Book a session" },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <Link href={href} className="text-sm text-brown/60 hover:text-brown transition-colors duration-150">

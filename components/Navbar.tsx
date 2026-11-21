@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/recovery-coaching", label: "Recovery Coaching" },
   { href: "/counselling", label: "Counselling" },
   { href: "/blog", label: "Blog" },
+  { href: "/book", label: "Book" },
 ];
 
 export default function Navbar() {
