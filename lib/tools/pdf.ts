@@ -6,6 +6,7 @@ import { segmentCounts, valuesWheelPng } from "./values-wheel";
 import { GROW_MEANING, SMART_MEANING } from "./forms/smart-grow";
 import { chosenAt, funnelAnswered, kinds as funnelKinds } from "./funnel";
 import { circlesPng, namesFrom } from "./circles";
+import { highlightedSchemas, schemaResults, SCHEMA_DOMAINS } from "./forms/schema-shared";
 import { sectionVisible } from "./scoring";
 
 // Builds the completed-form PDF entirely in the browser.
@@ -542,6 +543,7 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     if (field.type === "note") return Boolean(field.print);
     if (field.type === "wheel") return field.areas.some((area) => typeof answers[area.id] === "number");
     if (field.type === "funnel") return funnelAnswered(answers, field);
+    if (field.type === "schemaResults") return schemaResults(answers).length > 0;
     if (field.type === "circles") return field.rings.some((_, index) => namesFrom(answers[`${field.id}_${index}`]).length > 0);
     if (field.type === "pairs") {
       return Array.from({ length: field.rows }, (_, row) => row).some((row) =>
@@ -564,7 +566,11 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
     if (!printable.length) continue; // a section of coach prompts only, or nothing answered
     heading(
       section.minutes ? `${section.title} (${section.minutes[0]}–${section.minutes[1]} min)` : section.title,
-      printable[0].type === "wheel" || printable[0].type === "values" || printable[0].type === "circles" ? 440 : 60
+      printable[0].type === "wheel" || printable[0].type === "values" || printable[0].type === "circles"
+        ? 440
+        : printable[0].type === "schemaResults"
+          ? 200
+          : 60
     );
     for (const field of printable) {
       if (field.type === "note") {
@@ -721,6 +727,124 @@ export async function buildPdf(input: PdfInput): Promise<Uint8Array> {
             );
           }
         }
+        continue;
+      }
+
+      if (field.type === "schemaResults") {
+        const results = schemaResults(answers);
+        const byId = new Map(results.map((item) => [item.schema.id, item]));
+        const bandColour = {
+          strong: rgb(0.082, 0.31, 0.31),
+          some: rgb(0.231, 0.561, 0.525),
+          low: rgb(0.722, 0.827, 0.816),
+        };
+        drawText("Each pattern scores from 2 to 10. Higher scores mean the pattern is more likely to show up in your life.", {
+          size: 9.5,
+          color: MUTED,
+          gap: 6,
+        });
+
+        // Legend.
+        ensureSpace(18);
+        let legendX = MARGIN;
+        for (const [band, label] of [
+          ["strong", "Strong pattern"],
+          ["some", "Shows up sometimes"],
+          ["low", "Less of a pattern"],
+        ] as const) {
+          page.drawRectangle({ x: legendX, y: y - 10, width: 9, height: 9, color: bandColour[band] });
+          page.drawText(label, { x: legendX + 13, y: y - 9, size: 8.5, font: regular, color: MUTED });
+          legendX += 13 + regular.widthOfTextAtSize(label, 8.5) + 18;
+        }
+        y -= 20;
+
+        // Bar chart, grouped by domain.
+        const labelWidth = 200;
+        const trackX = MARGIN + labelWidth;
+        const trackWidth = CONTENT_WIDTH - labelWidth - 30;
+        for (const domain of SCHEMA_DOMAINS) {
+          ensureSpace(30);
+          page.drawText(clean(domain.name.toUpperCase()), { x: MARGIN, y: y - 10, size: 7.5, font: bold, color: TEAL });
+          y -= 15;
+          for (const schema of domain.schemas) {
+            ensureSpace(15);
+            const result = byId.get(schema.id);
+            page.drawText(clean(schema.name), { x: MARGIN, y: y - 10, size: 9.5, font: regular, color: CHARCOAL });
+            page.drawRectangle({ x: trackX, y: y - 11, width: trackWidth, height: 9, color: rgb(0.93, 0.93, 0.93) });
+            if (result) {
+              page.drawRectangle({ x: trackX, y: y - 11, width: (trackWidth * result.score) / 10, height: 9, color: bandColour[result.band] });
+            }
+            const scoreText = result ? String(result.score) : "-";
+            page.drawText(scoreText, {
+              x: PAGE_WIDTH - MARGIN - bold.widthOfTextAtSize(scoreText, 9.5),
+              y: y - 10,
+              size: 9.5,
+              font: bold,
+              color: CHARCOAL,
+            });
+            y -= 14;
+          }
+          y -= 4;
+        }
+
+        // Belief cards.
+        const highlighted = highlightedSchemas(results);
+        if (highlighted.length) {
+          y -= 6;
+          ensureSpace(60);
+          drawText(highlighted.some((item) => item.band !== "low") ? "Your strongest patterns" : "Your highest scores", {
+            font: bold,
+            size: 12,
+            color: TEAL,
+            gap: 6,
+          });
+          const inner = CONTENT_WIDTH - 32;
+          for (const { schema, score, band } of highlighted) {
+            const meaning = wrap(schema.meaning, regular, 10, inner);
+            const beliefs = schema.beliefs.map((belief) => wrap(`\u2022  "${belief}"`, regular, 10, inner));
+            const balanced = wrap(`"${schema.balanced}"`, regular, 10, inner);
+            const beliefLines = beliefs.reduce((sum, lines) => sum + lines.length, 0);
+            const height = 16 + 16 + 13 + 6 + meaning.length * 14 + 8 + 12 + beliefLines * 14 + 8 + 12 + balanced.length * 14 + 14;
+            ensureSpace(height + 10);
+            page.drawRectangle({ x: MARGIN, y: y - height, width: CONTENT_WIDTH, height, color: PANEL });
+            page.drawRectangle({ x: MARGIN, y: y - height, width: 4, height, color: bandColour[band] });
+            let cy = y - 16 - 6;
+            page.drawText(clean(schema.name), { x: MARGIN + 16, y: cy, size: 12.5, font: bold, color: CHARCOAL });
+            const badge = `${score}/10`;
+            const badgeWidth = bold.widthOfTextAtSize(badge, 10) + 16;
+            page.drawRectangle({ x: PAGE_WIDTH - MARGIN - 12 - badgeWidth, y: cy - 5, width: badgeWidth, height: 17, color: bandColour[band] });
+            page.drawText(badge, { x: PAGE_WIDTH - MARGIN - 12 - badgeWidth + 8, y: cy, size: 10, font: bold, color: rgb(1, 1, 1) });
+            cy -= 15;
+            page.drawText(clean(schema.formal), { x: MARGIN + 16, y: cy, size: 9, font: regular, color: MUTED });
+            cy -= 19;
+            for (const line of meaning) {
+              page.drawText(line, { x: MARGIN + 16, y: cy, size: 10, font: regular, color: CHARCOAL });
+              cy -= 14;
+            }
+            cy -= 8;
+            page.drawText("COMMON BELIEFS", { x: MARGIN + 16, y: cy, size: 7.5, font: bold, color: TEAL });
+            cy -= 13;
+            for (const lines of beliefs) {
+              for (const line of lines) {
+                page.drawText(line, { x: MARGIN + 16, y: cy, size: 10, font: regular, color: CHARCOAL });
+                cy -= 14;
+              }
+            }
+            cy -= 8;
+            page.drawText("A MORE BALANCED THOUGHT TO TRY", { x: MARGIN + 16, y: cy, size: 7.5, font: bold, color: TEAL });
+            cy -= 13;
+            for (const line of balanced) {
+              page.drawText(line, { x: MARGIN + 16, y: cy, size: 10, font: bold, color: CHARCOAL });
+              cy -= 14;
+            }
+            y -= height + 10;
+          }
+        }
+        drawText("These results are a starting point for reflection, not a diagnosis. Patterns can change with time, support and practice.", {
+          size: 9,
+          color: MUTED,
+          gap: 6,
+        });
         continue;
       }
 

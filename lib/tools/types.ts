@@ -110,7 +110,15 @@ export type FunnelField = {
   };
 };
 
+export type SchemaResultsField = {
+  id: string;
+  type: "schemaResults"; // Schema Quiz results: chart, belief cards and a participant download
+  label: string;
+  help?: string;
+};
+
 export type Field =
+  | SchemaResultsField
   | CirclesField
   | FunnelField
   | TextField

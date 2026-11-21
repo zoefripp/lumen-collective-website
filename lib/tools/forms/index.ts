@@ -19,6 +19,10 @@ import { procrastination } from "./procrastination";
 import { selfCompassion } from "./self-compassion";
 import { windowOfTolerance } from "./window-of-tolerance";
 import { checkIn } from "./check-in";
+import { coreNeeds } from "./core-needs";
+import { schemaFlashcard } from "./schema-flashcard";
+import { schemaModes } from "./schema-modes";
+import { schemaQuiz } from "./schema-quiz";
 import { circlesOfSupport } from "./circles-of-support";
 import { copingToolbox } from "./coping-toolbox";
 import { dailyRoutine } from "./daily-routine";
@@ -46,6 +50,7 @@ const menu: [string, FormDef[]][] = [
   ["Every session", [checkIn, checkOut]],
   ["Goals and planning", [goalsActionPlan, smartGrow, safetyWellnessPlan, ocdSupportPlan]],
   ["Thoughts and feelings", [thoughtRecord, cognitiveDistortions, worryTree, journalling, windowOfTolerance, limitingBeliefs]],
+  ["Schemas", [schemaQuiz, coreNeeds, schemaFlashcard, schemaModes]],
   ["Values and strengths", [wheelOfLife, valuesBullseye, lifeAuditValues, myStrengths, findingFlow]],
   ["Everyday skills", [activityMood, problemSolving, procrastination, goodEnough, copingToolbox, copingWheel, dailyRoutine, circlesOfSupport]],
   ["Mindfulness practices", [breathingSpace, selfCompassion]],
